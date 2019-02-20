@@ -4,9 +4,26 @@ const User = require('../models/User');
 const baseURL = "http://localhost:3000";
 const jwt = require('jsonwebtoken');
 const config = require('../../config/database')
-const mongoose = require('mongoose');
 
 exports.create = function (req, res) {
+
+    if (req.user.role != 'superAdmin' && req.user.role != 'admin'){
+        return res.status(401).send({
+            messages: "Only a Super Admin or an Admin can create a user"
+        });
+    }
+
+    if(req.user.role != 'superAdmin' && req.body.role == 'admin'){
+        return res.status(401).send({
+            messages: "Only a Super Admin can create an Admin"
+        });
+    }
+
+    if (req.user.role == 'superAdmin' && req.body.role == 'superAdmin') {
+        return res.status(401).send({
+            messages: "Only one super admin allowed"
+        });
+    }
 
     let newUser = new User(req.body);
     User.getUserByEmail(newUser.email, (err, user) => {
