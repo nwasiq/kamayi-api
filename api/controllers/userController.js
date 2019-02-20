@@ -3,6 +3,7 @@
 const User = require('../models/User');
 const baseURL = "http://localhost:3000";
 const jwt = require('jsonwebtoken');
+const config = require('../../config/database')
 const mongoose = require('mongoose');
 
 exports.create = function (req, res) {
@@ -14,8 +15,8 @@ exports.create = function (req, res) {
                 message: "User with this email already exists"
             });
         }
-        newUser.save((err, user) => {
-            if(err){
+        User.saveUser(newUser, (err, user) => {
+            if(err) {
                 return res.status(500).send({
                     message: err.message || "Some error occurred while creating the User."
                 });
@@ -46,7 +47,14 @@ exports.update = function (req, res) {
                 message: "Error updating user with id " + req.params.userId
             });
         }
-        res.send(user);
+        User.updateUser(user, (err, updatedUser) => {
+            if (err) {
+                return res.status(500).send({
+                    message: "Error updating user with id " + req.params.userId
+                });
+            }
+            res.send(user);
+        })
     })
 
 }
@@ -93,4 +101,46 @@ exports.findAll = function (req, res) {
         }
         res.send(users);
     })
+}
+
+exports.login = function(req, res) {
+    let email = req.body.email;
+    let password = req.body.password;
+
+    User.getUserByEmail(email, (err, user) => {
+        if (!user || (err && err.kind === 'ObjectId')) {
+            return res.status(404).send({
+                message: "User not found with email " + email
+            });
+        }
+        if (err) {
+            return res.status(500).send({
+                message: "Error retrieving user with email " + email
+            });
+        }
+        User.comparePassword(user, password, user.password, (err, isMatch) => {
+            if (err) {
+                return res.status(500).send({
+                    message: "Error occured during password compare " + email
+                });
+            }
+            
+            if(isMatch) {
+                const token = jwt.sign(user.toJSON(), config.secret, {
+                    expiresIn: 604800 // 1 week
+                });
+                res.send({
+                    success: true,
+                    token: 'Bearer ' + token,
+                    user
+                });
+            }
+            else{
+                res.status(401).send({
+                    message: "Incorrect password"
+                });
+            }
+        })
+    })
+
 }
