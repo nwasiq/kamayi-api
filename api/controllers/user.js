@@ -65,7 +65,7 @@ exports.update = function (req, res) {
         phone: req.body.phone,
         role: req.body.role
     };
-    User.findOneAndUpdate(req.params.userId, updatedUser, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
+    User.findByIdAndUpdate(req.params.userId, updatedUser, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
         if (!user || (err && err.kind === 'ObjectId')) {
             return res.status(404).send({
                 message: "User not found with id " + req.params.userId
@@ -96,7 +96,7 @@ exports.delete = function (req, res) {
         });
     }
 
-    User.findOneAndDelete(req.params.userId, (err, user) => {
+    User.findByIdAndDelete(req.params.userId, (err, user) => {
         
         if (!user || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
             return res.status(404).send({

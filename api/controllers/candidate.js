@@ -1,7 +1,6 @@
 'use strict';
 
 const Candidate = require('../models/Candidate');
-const mongoose = require('mongoose');
 
 exports.create = function (req, res) {
 
@@ -37,7 +36,7 @@ exports.update = function (req, res) {
         location: req.body.location,
         employmentStatus: req.body.employmentStatus
     };
-    Candidate.findOneAndUpdate(req.params.candidateId, updatedCandidate, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, candidate) => {
+    Candidate.findByIdAndUpdate(req.params.candidateId, updatedCandidate, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, candidate) => {
         if (!candidate || (err && err.kind === 'ObjectId')) {
             return res.status(404).send({
                 message: "Candidate not found with id " + req.params.candidateId
@@ -54,7 +53,7 @@ exports.update = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-    Candidate.findOneAndDelete(req.params.candidateId, (err, candidate) => {
+    Candidate.findByIdAndDelete(req.params.candidateId, (err, candidate) => {
         if (!candidate || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
             return res.status(404).send({
                 message: "Candidate not found with id " + req.params.candidateId

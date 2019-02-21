@@ -4,7 +4,7 @@ const Employer = require('../models/Employer');
 const mongoose = require('mongoose');
 
 exports.create = function (req, res) {
-    
+
     let newEmployer = new Employer(req.body);
     newEmployer.placementOfficer = mongoose.Types.ObjectId(req.body.placementOfficer)
     Employer.getEmployerByEmail(newEmployer.email, (err, user) => {
@@ -39,7 +39,7 @@ exports.update = function (req, res) {
         location: req.body.location,
         placementOfficer: mongoose.Types.ObjectId(req.body.placementOfficer)
     };
-    Employer.findOneAndUpdate(req.params.employerId, updatedEmployer, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
+    Employer.findByIdAndUpdate(req.params.employerId, updatedEmployer, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
         if (!user || (err && err.kind === 'ObjectId')) {
             return res.status(404).send({
                 message: "Employer not found with id " + req.params.employerId
@@ -56,7 +56,7 @@ exports.update = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-    Employer.findOneAndDelete(req.params.employerId, (err, user) => {
+    Employer.findByIdAndDelete(req.params.employerId, (err, user) => {
         if (!user || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
             return res.status(404).send({
                 message: "Employer not found with id " + req.params.employerId
