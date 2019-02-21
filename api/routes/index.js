@@ -10,6 +10,7 @@ router.get('/authfailurejson', function (req, res) {
     });
 });
 
-router.use('/users', require('./userRoutes'));
+router.use('/users', require('./user'));
+router.use('/employers', require('./employer'));
 
 module.exports = router;

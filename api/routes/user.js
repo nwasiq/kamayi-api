@@ -5,7 +5,7 @@ const router = express.Router({});
 
 const passport = require('passport');
 
-let userController = require('../controllers/userController');
+let userController = require('../controllers/user');
 
 function denyAccessUnlessGranted() {
     return passport.authenticate('jwt', {
@@ -15,10 +15,10 @@ function denyAccessUnlessGranted() {
 }
 
 router.post('', denyAccessUnlessGranted(), userController.create);
-router.get('', userController.findAll);
-router.get('/:userId', userController.findOne);
-router.put('/:userId', userController.update);
-router.delete('/:userId', userController.delete);
+router.get('', denyAccessUnlessGranted(), userController.findAll);
+router.get('/:userId', denyAccessUnlessGranted(), userController.findOne);
+router.put('/:userId', denyAccessUnlessGranted(), userController.update);
+router.delete('/:userId', denyAccessUnlessGranted(), userController.delete);
 router.post('/login', userController.login);
 
 module.exports = router;

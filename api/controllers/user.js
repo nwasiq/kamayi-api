@@ -1,7 +1,6 @@
 'use strict';
 
 const User = require('../models/User');
-const baseURL = "http://localhost:3000";
 const jwt = require('jsonwebtoken');
 const config = require('../../config/database')
 
@@ -45,6 +44,19 @@ exports.create = function (req, res) {
 
 exports.update = function (req, res) {
 
+    if (req.user.role != 'superAdmin' && req.user.role != 'admin') {
+        return res.status(401).send({
+            messages: "Only a Super Admin or an Admin can update a user"
+        });
+    }
+
+    if (req.user.role == 'admin' && req.body.role == 'superAdmin') {
+        return res.status(401).send({
+            messages: "An Admin cannot update anyone to Super Admin"
+        });
+    }
+
+
     let updatedUser = {
         email: req.body.email,
         password: req.body.password,
@@ -77,7 +89,15 @@ exports.update = function (req, res) {
 }
 
 exports.delete = function (req, res) {
+
+    if (req.user.role != 'superAdmin' && req.user.role != 'admin') {
+        return res.status(401).send({
+            messages: "Only a Super Admin or an Admin can delete a user"
+        });
+    }
+
     User.findOneAndDelete(req.params.userId, (err, user) => {
+        
         if (!user || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
             return res.status(404).send({
                 message: "User not found with id " + req.params.userId

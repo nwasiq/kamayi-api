@@ -25,3 +25,11 @@ var EmployerSchema = new schema({
 });
 
 const employer = module.exports = mongoose.model('employer', EmployerSchema);
+
+module.exports.getEmployerByEmail = function (email, callback) {
+    const query = {
+        email: email
+    };
+
+    employer.findOne(query, callback);
+}
