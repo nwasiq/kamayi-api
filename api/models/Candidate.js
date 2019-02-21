@@ -6,11 +6,11 @@ var schema = mongoose.Schema;
 var CandidateSchema = new schema({
 
     fullName: String,
-    cnic: String,
+    cnic: Number,
     phone: String,
     dob: Date,
     skills: [String], //should be enum
-    education: [Number], //should be enum
+    education: Number, //should be enum
     training: String, //should be enum
     experience: Number, //years of expereince
     location: {
@@ -22,4 +22,12 @@ var CandidateSchema = new schema({
     employmentStatus: Boolean
 });
 
-const Candidate = module.exports = mongoose.model('candidate', CandidateSchema);
+const candidate = module.exports = mongoose.model('candidate', CandidateSchema);
+
+module.exports.getCandidateByCnic = function (cnic, callback) {
+    const query = {
+        cnic: cnic
+    };
+
+    candidate.findOne(query, callback);
+}

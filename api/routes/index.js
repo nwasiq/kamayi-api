@@ -12,5 +12,6 @@ router.get('/authfailurejson', function (req, res) {
 
 router.use('/users', require('./user'));
 router.use('/employers', require('./employer'));
+router.use('/candidates', require('./candidate'));
 
 module.exports = router;

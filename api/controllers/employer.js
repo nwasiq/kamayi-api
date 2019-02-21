@@ -4,25 +4,7 @@ const Employer = require('../models/Employer');
 const mongoose = require('mongoose');
 
 exports.create = function (req, res) {
-
-    // if (req.user.role != 'superAdmin' && req.user.role != 'admin') {
-    //     return res.status(401).send({
-    //         messages: "Only a Super Admin or an Admin can create a user"
-    //     });
-    // }
-
-    // if (req.user.role != 'superAdmin' && req.body.role == 'admin') {
-    //     return res.status(401).send({
-    //         messages: "Only a Super Admin can create an Admin"
-    //     });
-    // }
-
-    // if (req.user.role == 'superAdmin' && req.body.role == 'superAdmin') {
-    //     return res.status(401).send({
-    //         messages: "Only one super admin allowed"
-    //     });
-    // }
-
+    
     let newEmployer = new Employer(req.body);
     newEmployer.placementOfficer = mongoose.Types.ObjectId(req.body.placementOfficer)
     Employer.getEmployerByEmail(newEmployer.email, (err, user) => {
