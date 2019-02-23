@@ -9,15 +9,7 @@ var CandidateSchema = new schema({
     cnic: Number,
     phone: String,
     dob: Date,
-    skills: [String], //should be enum
-    education: Number, //should be enum
-    training: String, //should be enum
-    experience: Number, //years of expereince
-    location: {
-        lat: Number,
-        long: Number,
-        city: String //should be enum
-    },
+    training: [String],
     email: String,
     employmentStatus: Boolean
 });

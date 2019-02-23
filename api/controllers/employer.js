@@ -1,16 +1,14 @@
 'use strict';
 
 const Employer = require('../models/Employer');
-const mongoose = require('mongoose');
 
 exports.create = function (req, res) {
 
     let newEmployer = new Employer(req.body);
-    newEmployer.placementOfficer = mongoose.Types.ObjectId(req.body.placementOfficer)
-    Employer.getEmployerByEmail(newEmployer.email, (err, user) => {
+    Employer.getEmployerByCompanyName(newEmployer.companyName, (err, user) => {
         if (user) {
             return res.status(400).send({
-                message: "Employer with this email already exists"
+                message: "Employer with this company name already exists"
             });
         }
         newEmployer.save((err, user) => {
@@ -36,8 +34,7 @@ exports.update = function (req, res) {
         companyPhone: req.body.companyPhone,
         industry: req.body.industry, 
         website: req.body.website,
-        location: req.body.location,
-        placementOfficer: mongoose.Types.ObjectId(req.body.placementOfficer)
+        location: req.body.location
     };
     Employer.findByIdAndUpdate(req.params.employerId, updatedEmployer, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
         if (!user || (err && err.kind === 'ObjectId')) {

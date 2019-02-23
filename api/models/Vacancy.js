@@ -6,6 +6,7 @@ var schema = mongoose.Schema;
 var VacancySchema = new schema({
 
     title: String,
+    occupation: String, //should be enum
     description: String,
     location: {
         lat: Number,
@@ -15,9 +16,9 @@ var VacancySchema = new schema({
     salary: Number,
     openings: Number,
     hired: Number,
-    shortlist: [{ //not automated, selection after matching query (people won't removed)
+    shortlist: [{ //selection after matching query
         candidate: { type: schema.Types.ObjectId, ref: 'candidate' },
-        status: String, //initial status: not applied, then schedule interview', then 'interview scheduled', then 'interviewed', 'hired', 'rejected'
+        status: String, //initial status: not contacted, then schedule interview', then 'interview scheduled', then 'interviewed', 'hired', 'rejected'
         interviewDate: Date //if status is 'interview scheduled', then use this
     }],
     jobType: {
@@ -26,11 +27,7 @@ var VacancySchema = new schema({
     },
     startDate: Date,
     experience: Number, //years
-    trainingPeriod: Number, //months
-    ageRange: {
-        minAge: Number,
-        maxAge: Number
-    }, //maximum allowed age
+    educationRequirement: String, //should be enum,
     gender: {
         type: String,
         enum: ['Male', 'Female', 'Any']

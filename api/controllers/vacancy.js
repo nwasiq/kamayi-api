@@ -49,14 +49,14 @@ exports.update = function (req, res) {
     let updatedVacancy = {
         title: req.body.title,
         description: req.body.description,
+        occupation: req.body.occupation,
         location: req.body.location,
+        educationRequirement: req.body.educationRequirement,
         salary: req.body.salary,
         openings: req.body.openings,
         jobType: req.body.jobType,
         startDate: req.body.startDate,
         experience: req.body.experience,
-        trainingPeriod: req.body.trainingPeriod, 
-        ageRange: req.body.ageRange,
         gender: req.body.gender,
         benefits: req.body.benefits
     };

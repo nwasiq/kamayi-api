@@ -1,6 +1,7 @@
 'use strict';
 
 const Candidate = require('../models/Candidate');
+const Critera = require('../models/CandidateMatchingCriteria');
 
 exports.create = function (req, res) {
 

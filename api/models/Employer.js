@@ -26,9 +26,9 @@ var EmployerSchema = new schema({
 
 const employer = module.exports = mongoose.model('employer', EmployerSchema);
 
-module.exports.getEmployerByEmail = function (email, callback) {
+module.exports.getEmployerByCompanyName = function (company, callback) {
     const query = {
-        email: email
+        companyName: company
     };
 
     employer.findOne(query, callback);
