@@ -57,14 +57,7 @@ exports.update = function (req, res) {
     }
 
 
-    let updatedUser = {
-        email: req.body.email,
-        password: req.body.password,
-        fullName: req.body.fullName,
-        username: req.body.username,
-        phone: req.body.phone,
-        role: req.body.role
-    };
+    let updatedUser = {...req.body};
     User.findByIdAndUpdate(req.params.userId, updatedUser, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
         if (!user || (err && err.kind === 'ObjectId')) {
             return res.status(404).send({

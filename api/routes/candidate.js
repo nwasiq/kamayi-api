@@ -19,5 +19,6 @@ router.get('', denyAccessUnlessGranted(), candidateController.findAll);
 router.get('/:candidateId', denyAccessUnlessGranted(), candidateController.findOne);
 router.put('/:candidateId', denyAccessUnlessGranted(), candidateController.update);
 router.delete('/:candidateId', denyAccessUnlessGranted(), candidateController.delete);
+router.get('/:candidateId/criteria', denyAccessUnlessGranted(), candidateController.findCriteriaForCandidate);
 
 module.exports = router;

@@ -24,18 +24,7 @@ exports.create = function (req, res) {
 
 exports.update = function (req, res) {
 
-    let updatedEmployer = {
-        fullName: req.body.fullName,
-        email: req.body.email,
-        pocPhone: req.body.pocPhone,
-        pocDesignation: req.body.pocDesignation,
-        pocAddress: req.body.pocAddress,
-        companyName: req.body.companyName,
-        companyPhone: req.body.companyPhone,
-        industry: req.body.industry, 
-        website: req.body.website,
-        location: req.body.location
-    };
+    let updatedEmployer = { ...req.body };
     Employer.findByIdAndUpdate(req.params.employerId, updatedEmployer, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
         if (!user || (err && err.kind === 'ObjectId')) {
             return res.status(404).send({

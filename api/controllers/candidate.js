@@ -1,11 +1,13 @@
 'use strict';
 
 const Candidate = require('../models/Candidate');
-const Critera = require('../models/CandidateMatchingCriteria');
+const Criteria = require('../models/CandidateMatchingCriteria');
 
 exports.create = function (req, res) {
 
     let newCandidate = new Candidate(req.body);
+    let candidateCriteria = req.body.criteria;
+    delete newCandidate.criteria;
     Candidate.getCandidateByCnic(newCandidate.cnic, (err, candidate) => {
         if (candidate) {
             return res.status(400).send({
@@ -18,25 +20,28 @@ exports.create = function (req, res) {
                     message: err.message || "Some error occurred while creating the Candidate."
                 });
             }
-            res.send(candidate);
+            for(let singleCriteria of candidateCriteria){
+                singleCriteria['candidate'] = candidate._id;
+            }
+            Criteria.insertMany(candidateCriteria, (err, criteria) => {
+                if (err) {
+                    return res.status(500).send({
+                        message: err.message || "Some error occurred while creating multiple criteria."
+                    });
+                }
+
+                res.json({
+                    candidate: candidate,
+                    criteria: criteria
+                })
+            });
         })
     })
 }
 
 exports.update = function (req, res) {
 
-    let updatedCandidate = {
-        fullName: req.body.fullName,
-        cnic: req.body.cnic,
-        phone: req.body.phone,
-        dob: req.body.dob,
-        skills: req.body.skills, 
-        education: req.body.education, 
-        training: req.body.training, 
-        experience: req.body.experience, 
-        location: req.body.location,
-        employmentStatus: req.body.employmentStatus
-    };
+    let updatedCandidate = {...req.body};
     Candidate.findByIdAndUpdate(req.params.candidateId, updatedCandidate, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, candidate) => {
         if (!candidate || (err && err.kind === 'ObjectId')) {
             return res.status(404).send({
@@ -94,5 +99,17 @@ exports.findAll = function (req, res) {
             });
         }
         res.send(candidates);
+    })
+}
+
+exports.findCriteriaForCandidate = function(req, res) {
+    let candidateId = req.params.candidateId;
+    Criteria.find({candidate: candidateId}, (err, criteria) => {
+        if(criteria.length == 0){
+            return res.status(404).send({
+                message: "No criteria found for candidate " + candidateId
+            });
+        }
+        res.send(criteria);
     })
 }

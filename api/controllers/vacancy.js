@@ -46,20 +46,7 @@ exports.findVacanciesForEmployer = function (req, res) {
 
 exports.update = function (req, res) {
     
-    let updatedVacancy = {
-        title: req.body.title,
-        description: req.body.description,
-        occupation: req.body.occupation,
-        location: req.body.location,
-        educationRequirement: req.body.educationRequirement,
-        salary: req.body.salary,
-        openings: req.body.openings,
-        jobType: req.body.jobType,
-        startDate: req.body.startDate,
-        experience: req.body.experience,
-        gender: req.body.gender,
-        benefits: req.body.benefits
-    };
+    let updatedVacancy = { ...req.body };
     Vacancy.findByIdAndUpdate(req.params.vacancyId, updatedVacancy, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, vacancy) => {
 
         if (!vacancy || (err && err.kind === 'ObjectId')) {
