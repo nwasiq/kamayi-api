@@ -28,55 +28,65 @@ module.exports.getUserById = function (id, callback) {
     user.findById(id, callback);
 }
 
-module.exports.getUserByEmail = function (email, callback) {
+module.exports.getUserByEmail = function (email) {
     const query = {
         email: email
     };
-
-    user.findOne(query, callback);
+    return user.findOne(query);
 }
 
-module.exports.saveUser = function (newUser, callback) {
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser.save(callback);
+module.exports.saveUser = function (newUser) {
+    return new Promise((resolve, reject) => {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+                if (err) reject(err);
+                newUser.password = hash;
+                newUser.save((err, user) => {
+                    resolve(user);
+                });
+            });
         });
-    });
+    })
+    
 };
 
-module.exports.updateUser = function (user, callback) {
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(user.password, salt, (err, hash) => {
-            if (err) throw err;
-            user.password = hash;
-            user.save(callback);
+module.exports.updateUser = function (user) {
+    return new Promise((resolve, reject) => {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(user.password, salt, (err, hash) => {
+                if (err) reject(err);
+                user.password = hash;
+                user.save((err, user) => {
+                    resolve(user);
+                });
+            });
         });
-    });
+    })
 };
 
-module.exports.comparePassword = function (user, candidatePassword, hash, callback) {
-    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
-        if (err) throw err;
-        if (!isMatch) {
-            // If user password stored as plain text, save it as hash
-            if (candidatePassword.trim() === hash.trim()) {
-                bcrypt.genSalt(10, (err, salt) => {
-                    bcrypt.hash(candidatePassword, salt, (err, hashedPassword) => {
-                        if (err) throw err;
-                        user.password = hashedPassword;
-                        user.save(function (err, user) {
-                            if (err) throw err;
-                            callback(null, true);
+module.exports.comparePassword = function (user, candidatePassword, hash) {
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+            if (err) reject(err);
+            if (!isMatch) {
+                // If user password stored as plain text, save it as hash
+                if (candidatePassword.trim() === hash.trim()) {
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(candidatePassword, salt, (err, hashedPassword) => {
+                            if (err) reject(err);
+                            user.password = hashedPassword;
+                            user.save(function (err, user) {
+                                if (err) reject(err);
+                                resolve(true);
+                            });
                         });
                     });
-                });
+                }
+                else
+                    resolve(isMatch);
             }
             else
-                callback(null, isMatch);
-        }
-        else
-            callback(null, isMatch);
-    });
+                resolve(isMatch);
+        });
+    })
 };
