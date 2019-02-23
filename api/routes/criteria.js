@@ -14,7 +14,6 @@ function denyAccessUnlessGranted() {
     });
 }
 
-router.post('', denyAccessUnlessGranted(), criteriaControleler.create);
 router.get('', denyAccessUnlessGranted(), criteriaControleler.findAll);
 router.get('/:criteriaId', denyAccessUnlessGranted(), criteriaControleler.findOne);
 router.put('/:criteriaId', denyAccessUnlessGranted(), criteriaControleler.update);

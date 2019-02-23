@@ -2,9 +2,10 @@
 
 const Criteria = require('../models/CandidateMatchingCriteria');
 
-exports.create = function (req, res) {
+exports.createCriteriaForCandidate = function (req, res) {
 
     let newCriteria = new Criteria(req.body);
+    newCriteria.candidate = req.params.candidateId;
     newCriteria.save((err, criteria) => {
         if (err) {
             return res.status(500).send({
