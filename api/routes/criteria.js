@@ -5,7 +5,7 @@ const router = express.Router({});
 
 const passport = require('passport');
 
-let criteriaControleler = require('../controllers/criteria');
+let criteriaController = require('../controllers/criteria');
 
 function denyAccessUnlessGranted() {
     return passport.authenticate('jwt', {
@@ -14,9 +14,9 @@ function denyAccessUnlessGranted() {
     });
 }
 
-router.get('', denyAccessUnlessGranted(), criteriaControleler.findAll);
-router.get('/:criteriaId', denyAccessUnlessGranted(), criteriaControleler.findOne);
-router.put('/:criteriaId', denyAccessUnlessGranted(), criteriaControleler.update);
-router.delete('/:criteriaId', denyAccessUnlessGranted(), criteriaControleler.delete);
+router.get('', denyAccessUnlessGranted(), criteriaController.findAll);
+router.get('/:criteriaId', denyAccessUnlessGranted(), criteriaController.findOne);
+router.put('/:criteriaId', denyAccessUnlessGranted(), criteriaController.update);
+router.delete('/:criteriaId', denyAccessUnlessGranted(), criteriaController.delete);
 
 module.exports = router;

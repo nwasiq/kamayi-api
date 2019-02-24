@@ -3,107 +3,93 @@
 const Vacancy = require('../models/Vacancy');
 const Employer = require('../models/Employer');
 
-exports.createVacancyForEmployer = function (req, res) {
+exports.createVacancyForEmployer = async function (req, res) {
 
-    Employer.findById(req.params.employerId, (err, employer) => {
-        if(!employer){
-            return res.status(404).send({
-                message: "Employer not found with id " + req.params.employerId
-            });
-        }
-        let newVacancy = new Vacancy(req.body);
-        let employerId = req.params.employerId;
-        newVacancy.employer = employerId;
-        newVacancy.save((err, vacancy) => {
-            if (err) {
-                return res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Vacancy."
-                });
-            }
-            res.send(vacancy);
-        })
-    })
-}
-
-exports.findVacanciesForEmployer = function (req, res) {
-
-    Employer.findById(req.params.employerId, (err, employer) => {
+    try{
+        let employer = await Employer.findById(req.params.employerId);
         if (!employer) {
             return res.status(404).send({
                 message: "Employer not found with id " + req.params.employerId
             });
         }
-        Vacancy.find({ employer: req.params.employerId}, (err, vacancies) => {
-            if (vacancies.length == 0) {
-                return res.status(404).send({
-                    message: "Vacancies not found for this employer "
-                });
-            }
-            res.send(vacancies);
-        });
-    })
+        let newVacancy = new Vacancy(req.body);
+        newVacancy.employer = req.params.employerId;
+        let savedVacancy = await newVacancy.save();
+        res.send(savedVacancy);
+
+    } catch(err) {
+        res.send(err);
+    }
 }
 
-exports.update = function (req, res) {
-    
-    let updatedVacancy = { ...req.body };
-    Vacancy.findByIdAndUpdate(req.params.vacancyId, updatedVacancy, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, vacancy) => {
+exports.findVacanciesForEmployer = async function (req, res) {
 
-        if (!vacancy || (err && err.kind === 'ObjectId')) {
+    try {
+        let employer = await Employer.findById(req.params.employerId);
+        if (!employer) {
             return res.status(404).send({
-                message: "Vacancy not found with id " + req.params.vacancyId
+                message: "Employer not found with id " + req.params.employerId
             });
         }
-        if (err) {
-            return res.status(500).send({
-                message: "Error updating Vacancy with id " + req.params.vacancyId
+        let vacancies = await Vacancy.find({employer: req.params.employerId });
+        if (vacancies.length == 0) {
+            return res.status(404).send({
+                message: "Vacancies not found for this employer "
             });
         }
-        res.send(vacancy);
-    })
-
+        res.send(vacancies);
+    } catch(err) {
+        res.send(err);
+    }
 }
 
-exports.delete = function (req, res) {
-    Vacancy.findByIdAndDelete(req.params.vacancyId, (err, vacancy) => {
-        if (!vacancy || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
+exports.update = async function (req, res) {
+
+    let updatedVacancyFields = { ...req.body };
+    try {
+        let updatedVacancy = await Vacancy.findByIdAndUpdate(req.params.vacancyId, updatedVacancyFields, { new: true, upsert: true, setDefaultsOnInsert: true });
+        res.send(updatedVacancy);
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+exports.delete = async function (req, res) {
+
+    try {
+        let deletedVacancy = await Vacancy.findByIdAndDelete(req.params.vacancyId);
+        if (!deletedVacancy) {
             return res.status(404).send({
                 message: "Vacancy not found with id " + req.params.vacancyId
-            });
-        }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Vacancy with id " + req.params.vacancyId
             });
         }
         res.send({ message: "Vacancy deleted successfully!" });
-    })
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.findOne = function (req, res) {
-    Vacancy.findById(req.params.vacancyId, (err, vacancy) => {
+exports.findOne = async function (req, res) {
 
-        if (!vacancy || (err && err.kind === 'ObjectId')) {
+    try {
+        let vacancy = await Vacancy.findById(req.params.vacancyId);
+        if (!vacancy) {
             return res.status(404).send({
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Vacancy with id " + req.params.vacancyId
-            });
-        }
         res.send(vacancy);
-    })
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.findAll = function (req, res) {
-    Vacancy.find({}, (err, vacancys) => {
-        if (err) {
-            return res.status(500).send({
-                message: err.message || "Some error occurred while retrieving vacancys."
-            });
-        }
-        res.send(vacancys);
-    })
+exports.findAll = async function (req, res) {
+
+    try {
+        let vacancies = await Vacancy.find();
+        res.send(vacancies);
+    } catch (err) {
+        res.send(err);
+    }
 }
