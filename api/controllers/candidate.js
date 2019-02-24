@@ -3,113 +3,99 @@
 const Candidate = require('../models/Candidate');
 const Criteria = require('../models/CandidateMatchingCriteria');
 
-exports.create = function (req, res) {
+exports.create = async function (req, res) {
 
-    let newCandidate = new Candidate(req.body);
-    let candidateCriteria = req.body.criteria;
-    delete newCandidate.criteria;
-    Candidate.getCandidateByCnic(newCandidate.cnic, (err, candidate) => {
+    try{
+        let newCandidate = new Candidate(req.body);
+        let candidateCriteria = req.body.criteria;
+        delete newCandidate.criteria;
+        let candidate = await Candidate.getCandidateByCnic(newCandidate.cnic);
         if (candidate) {
             return res.status(400).send({
                 message: "Candidate with this cnic already exists"
             });
         }
-        newCandidate.save((err, candidate) => {
-            if (err) {
-                return res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Candidate."
-                });
-            }
-            for(let singleCriteria of candidateCriteria){
-                singleCriteria['candidate'] = candidate._id;
-            }
-            Criteria.insertMany(candidateCriteria, (err, criteria) => {
-                if (err) {
-                    return res.status(500).send({
-                        message: err.message || "Some error occurred while creating multiple criteria."
-                    });
-                }
-
-                res.json({
-                    candidate: candidate,
-                    criteria: criteria
-                })
-            });
+        let savedCandidate = await newCandidate.save();
+        for (let singleCriteria of candidateCriteria) {
+            singleCriteria['candidate'] = savedCandidate._id;
+        }
+        let savedCriteria = await Criteria.insertMany(candidateCriteria);
+        res.json({
+            candidate: savedCandidate,
+            criteria: savedCriteria
         })
-    })
+    } catch(err) {
+        res.send(err);
+    }
 }
 
-exports.update = function (req, res) {
-
-    let updatedCandidate = {...req.body};
-    Candidate.findByIdAndUpdate(req.params.candidateId, updatedCandidate, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, candidate) => {
-        if (!candidate || (err && err.kind === 'ObjectId')) {
+exports.delete = async function (req, res) {
+    try{
+        let candidate = await Candidate.findByIdAndDelete(req.params.candidateId);
+        if (!candidate) {
             return res.status(404).send({
                 message: "Candidate not found with id " + req.params.candidateId
             });
         }
-        if (err) {
-            return res.status(500).send({
-                message: "Error updating Candidate with id " + req.params.candidateId
-            });
-        }
-        res.send(candidate);
-    })
-
-}
-
-exports.delete = function (req, res) {
-    Candidate.findByIdAndDelete(req.params.candidateId, (err, candidate) => {
-        if (!candidate || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
-            return res.status(404).send({
-                message: "Candidate not found with id " + req.params.candidateId
-            });
-        }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Candidate with id " + req.params.candidateId
-            });
-        }
+        await Criteria.deleteMany({candidate: candidate._id});
         res.send({ message: "Candidate deleted successfully!" });
-    })
+    } catch(err){
+        res.send(err);
+    }
 }
 
-exports.findOne = function (req, res) {
-    Candidate.findById(req.params.candidateId, (err, candidate) => {
-
-        if (!candidate || (err && err.kind === 'ObjectId')) {
+exports.findCriteriaForCandidate = async function (req, res) {
+    try{
+        let candidate = await Candidate.findById(req.params.candidateId);
+        if(!candidate){
             return res.status(404).send({
                 message: "Candidate not found with id " + req.params.candidateId
             });
         }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Candidate with id " + req.params.candidateId
-            });
-        }
-        res.send(candidate);
-    })
-}
-
-exports.findAll = function (req, res) {
-    Candidate.find({}, (err, candidates) => {
-        if (err) {
-            return res.status(500).send({
-                message: err.message || "Some error occurred while retrieving candidates."
-            });
-        }
-        res.send(candidates);
-    })
-}
-
-exports.findCriteriaForCandidate = function(req, res) {
-    let candidateId = req.params.candidateId;
-    Criteria.find({candidate: candidateId}, (err, criteria) => {
-        if(criteria.length == 0){
+        let criteria = await Criteria.find({ candidate: req.params.candidateId });
+        if (criteria.length == 0 ) {
             return res.status(404).send({
                 message: "No criteria found for candidate " + candidateId
             });
         }
         res.send(criteria);
-    })
+    } catch(err) {
+        res.send(err);
+    }
+}
+
+exports.update = async function (req, res) {
+
+    let updatedCandidateFields = { ...req.body };
+    try {
+        let updatedCandidate = await Candidate.findByIdAndUpdate(req.params.candidateId, updatedCandidateFields, { new: true, upsert: true, setDefaultsOnInsert: true });
+        res.send(updatedCandidate);
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+exports.findOne = async function (req, res) {
+
+    try {
+        let candidate = await Candidate.findById(req.params.candidateId);
+        if (!candidate) {
+            return res.status(404).send({
+                message: "Candidate not found with id " + req.params.candidateId
+            });
+        }
+        res.send(candidate);
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+exports.findAll = async function (req, res) {
+
+    try {
+        let candidates = await Candidate.find();
+        res.send(candidates);
+    } catch (err) {
+        res.send(err);
+    }
 }

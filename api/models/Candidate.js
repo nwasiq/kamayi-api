@@ -16,10 +16,10 @@ var CandidateSchema = new schema({
 
 const candidate = module.exports = mongoose.model('candidate', CandidateSchema);
 
-module.exports.getCandidateByCnic = function (cnic, callback) {
+module.exports.getCandidateByCnic = function (cnic) {
     const query = {
         cnic: cnic
     };
 
-    candidate.findOne(query, callback);
+    return candidate.findOne(query);
 }
