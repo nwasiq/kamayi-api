@@ -32,8 +32,8 @@ exports.create = async function (req, res) {
                 message: "User with this email already exists"
             });
         }
-        user = await User.saveUser(newUser);
-        res.send(user);
+        let savedUser = await User.saveUser(newUser);
+        res.send(savedUser);
     } catch(err) {
         res.send(err);
     }

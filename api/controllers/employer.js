@@ -2,85 +2,70 @@
 
 const Employer = require('../models/Employer');
 
-exports.create = function (req, res) {
+exports.create = async function (req, res) {
 
     let newEmployer = new Employer(req.body);
-    Employer.getEmployerByCompanyName(newEmployer.companyName, (err, user) => {
-        if (user) {
+    try {
+        let employer = await Employer.getEmployerByCompanyName(newEmployer.companyName);
+        if (employer) {
             return res.status(400).send({
                 message: "Employer with this company name already exists"
             });
         }
-        newEmployer.save((err, user) => {
-            if (err) {
-                return res.status(500).send({
-                    message: err.message || "Some error occurred while creating the Employer."
-                });
-            }
-            res.send(user);
-        })
-    })
+        let savedEmployer = await newEmployer.save();
+        res.send(savedEmployer);
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.update = function (req, res) {
+exports.update = async function (req, res) {
 
-    let updatedEmployer = { ...req.body };
-    Employer.findByIdAndUpdate(req.params.employerId, updatedEmployer, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, user) => {
-        if (!user || (err && err.kind === 'ObjectId')) {
-            return res.status(404).send({
-                message: "Employer not found with id " + req.params.employerId
-            });
-        }
-        if (err) {
-            return res.status(500).send({
-                message: "Error updating Employer with id " + req.params.employerId
-            });
-        }
-        res.send(user);
-    })
-
+    let updatedEmployerFields = { ...req.body };
+    try {
+        let updatedEmployer = await Employer.findByIdAndUpdate(req.params.employerId, updatedEmployerFields, { new: true, upsert: true, setDefaultsOnInsert: true });
+        res.send(updatedEmployer);
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.delete = function (req, res) {
-    Employer.findByIdAndDelete(req.params.employerId, (err, user) => {
-        if (!user || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
+exports.delete = async function (req, res) {
+
+    try {
+        let deletedEmployer = await Employer.findByIdAndDelete(req.params.employerId);
+        if (!deletedEmployer) {
             return res.status(404).send({
                 message: "Employer not found with id " + req.params.employerId
-            });
-        }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Employer with id " + req.params.employerId
             });
         }
         res.send({ message: "Employer deleted successfully!" });
-    })
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.findOne = function (req, res) {
-    Employer.findById(req.params.employerId, (err, user) => {
+exports.findOne = async function (req, res) {
 
-        if (!user || (err && err.kind === 'ObjectId')) {
+    try {
+        let employer = await Employer.findById(req.params.employerId);
+        if (!employer) {
             return res.status(404).send({
                 message: "Employer not found with id " + req.params.employerId
             });
         }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Employer with id " + req.params.employerId
-            });
-        }
-        res.send(user);
-    })
+        res.send(employer);
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.findAll = function (req, res) {
-    Employer.find({}, (err, users) => {
-        if (err) {
-            return res.status(500).send({
-                message: err.message || "Some error occurred while retrieving users."
-            });
-        }
-        res.send(users);
-    })
+exports.findAll = async function (req, res) {
+
+    try {
+        let employers = await Employer.find();
+        res.send(employers);
+    } catch (err) {
+        res.send(err);
+    }
 }

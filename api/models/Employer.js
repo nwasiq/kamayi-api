@@ -26,10 +26,10 @@ var EmployerSchema = new schema({
 
 const employer = module.exports = mongoose.model('employer', EmployerSchema);
 
-module.exports.getEmployerByCompanyName = function (company, callback) {
+module.exports.getEmployerByCompanyName = function (company) {
     const query = {
         companyName: company
     };
 
-    employer.findOne(query, callback);
+    return employer.findOne(query);
 }
