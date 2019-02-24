@@ -2,78 +2,64 @@
 
 const Criteria = require('../models/CandidateMatchingCriteria');
 
-exports.create = function (req, res) {
+exports.create = async function (req, res) {
 
     let newCriteria = new Criteria(req.body);
-    newCriteria.save((err, criteria) => {
-        if (err) {
-            return res.status(500).send({
-                message: err.message || "Some error occurred while creating the Criteria."
-            });
-        }
-        res.send(criteria);
-    })
+    try {
+        let savedCriteria = await newCriteria.save();
+        res.send(savedCriteria);
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.update = function (req, res) {
+exports.update = async function (req, res) {
 
-    let updatedCriteria = { ...req.body };
-    Criteria.findByIdAndUpdate(req.params.criteriaId, updatedCriteria, { new: true, upsert: true, setDefaultsOnInsert: true }, (err, criteria) => {
-        if (!criteria || (err && err.kind === 'ObjectId')) {
-            return res.status(404).send({
-                message: "Criteria not found with id " + req.params.criteriaId
-            });
-        }
-        if (err) {
-            return res.status(500).send({
-                message: "Error updating Criteria with id " + req.params.criteriaId
-            });
-        }
-        res.send(criteria);
-    })
-
+    let updatedCriteriaFields = { ...req.body };
+    try {
+        let updatedCriteria = await Criteria.findByIdAndUpdate(req.params.criteriaId, updatedCriteriaFields, { new: true, upsert: true, setDefaultsOnInsert: true });
+        res.send(updatedCriteria);
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.delete = function (req, res) {
-    Criteria.findByIdAndDelete(req.params.criteriaId, (err, criteria) => {
-        if (!criteria || (err && (err.kind === 'ObjectId' || err.name === 'NotFound'))) {
+exports.delete = async function (req, res) {
+
+    try {
+        let deletedCriteria = await Criteria.findByIdAndDelete(req.params.criteriaId);
+        if (!deletedCriteria) {
             return res.status(404).send({
                 message: "Criteria not found with id " + req.params.criteriaId
-            });
-        }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Criteria with id " + req.params.criteriaId
             });
         }
         res.send({ message: "Criteria deleted successfully!" });
-    })
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.findOne = function (req, res) {
-    Criteria.findById(req.params.criteriaId, (err, criteria) => {
+exports.findOne = async function (req, res) {
 
-        if (!criteria || (err && err.kind === 'ObjectId')) {
+    try {
+        let criteria = await Criteria.findById(req.params.criteriaId);
+        if (!criteria) {
             return res.status(404).send({
                 message: "Criteria not found with id " + req.params.criteriaId
             });
         }
-        if (err) {
-            return res.status(500).send({
-                message: "Error retrieving Criteria with id " + req.params.criteriaId
-            });
-        }
         res.send(criteria);
-    })
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.findAll = function (req, res) {
-    Criteria.find({}, (err, criterias) => {
-        if (err) {
-            return res.status(500).send({
-                message: err.message || "Some error occurred while retrieving criterias."
-            });
-        }
+exports.findAll = async function (req, res) {
+
+    try {
+        let criterias = await Criteria.find();
         res.send(criterias);
-    })
+    } catch (err) {
+        res.send(err);
+    }
 }
