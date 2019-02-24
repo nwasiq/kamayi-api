@@ -2,7 +2,7 @@
 
 const Criteria = require('../models/CandidateMatchingCriteria');
 
-exports.createCriteriaForCandidate = function (req, res) {
+exports.createCriteriaForCandidate = async function (req, res) {
 
     let newCriteria = new Criteria(req.body);
     newCriteria.candidate = req.params.candidateId;
