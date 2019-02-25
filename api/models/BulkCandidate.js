@@ -14,7 +14,7 @@ var BulkCandidateSchema = new schema({
     experience: Number, //years of expereince
     city: String, //should be enum
     email: String,
-    status: String //in system or not
+    inSystem: String //in system or not
 });
 
 const Candidate = module.exports = mongoose.model('bulkcandidate', BulkCandidateSchema);

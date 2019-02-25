@@ -1,7 +1,12 @@
 'use strict';
 
 const Candidate = require('../models/Candidate');
+const BulkCandidate = require('../models/BulkCandidate');
+const fileUpload = require('../services/FileUploadService');
 const Criteria = require('../models/CandidateMatchingCriteria');
+const xlstojson = require("xls-to-json-lc");
+const xlsxtojson = require("xlsx-to-json-lc");
+var fs = require('fs');
 
 exports.create = async function (req, res) {
 
