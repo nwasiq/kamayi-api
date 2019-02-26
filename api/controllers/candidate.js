@@ -98,8 +98,29 @@ exports.findOne = async function (req, res) {
 exports.findAll = async function (req, res) {
 
     try {
-        let candidates = await Candidate.find();
-        res.send(candidates);
+        /**
+         * paging 
+         */
+        var paging = {};
+
+        var page = parseInt(req.query.page);
+        var limit = parseInt(req.query.limit);
+
+        if (page < 0 || page === 0)
+            page = 1;
+
+        paging.skip = limit * (page - 1);
+        paging.limit = limit;
+
+        let documentCount = await Candidate.countDocuments({});
+        let pageCount = Math.ceil(documentCount / limit);
+
+        ////////////////////////////////////
+        let candidates = await Candidate.find({}, {}, paging);
+        res.send({
+            pages: pageCount,
+            candidates: candidates
+        });
     } catch (err) {
         res.send(err);
     }
