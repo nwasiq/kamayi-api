@@ -22,9 +22,17 @@ exports.create = async function (req, res) {
 exports.update = async function (req, res) {
 
     let updatedEmployerFields = { ...req.body };
+    let updateMessage = "Employer updated";
+    if (req.user.role != 'admin' && updatedEmployerFields.placementOfficer != undefined) {
+        delete updatedEmployerFields.placementOfficer;
+        updateMessage = "Placement officer not updated, only an Admin can do that. Other fields, if entered, updated";
+    }
     try {
         let updatedEmployer = await Employer.findByIdAndUpdate(req.params.employerId, updatedEmployerFields, { new: true, upsert: true, setDefaultsOnInsert: true });
-        res.send(updatedEmployer);
+        res.send({
+            message: updateMessage,
+            updatedEmployer: updatedEmployer
+        });
     } catch (err) {
         res.send(err);
     }
