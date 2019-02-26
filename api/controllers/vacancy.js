@@ -85,9 +85,31 @@ exports.createCandidateShortlist = async function(req, res) {
         if(req.query.education != undefined){
             shortListQuery.$and.push({ education: { $gte: vacancy.educationRequirement }});
         }
-        let shortListCandidates = await Criteria.find(shortListQuery)
+        /**
+         * paging 
+         */
+        var paging = {};
+
+        var page = parseInt(req.query.page);
+        var limit = parseInt(req.query.limit);
+
+        if (page < 0 || page === 0)
+            page = 1;
+
+        paging.skip = limit * (page - 1);
+        paging.limit = limit;
+
+        let documentCount = await Criteria.countDocuments(shortListQuery);
+        let pageCount = Math.ceil(documentCount / limit);
+
+        ////////////////////////////////////
+
+        let shortListCandidates = await Criteria.find(shortListQuery, {}, paging)
                                                 .populate('candidate');
-        res.send(shortListCandidates);
+        res.send({
+            pages: pageCount, 
+            candidates: shortListCandidates
+        });
 
     } catch(err){
         res.status(500).send({

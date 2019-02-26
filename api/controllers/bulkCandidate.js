@@ -94,13 +94,34 @@ exports.importExcel = function (req, res) {
 
 exports.findExcelCandidates = async function (req, res) {
     try {
-        let excelCandidates = await BulkCandidate.find();
+        /**
+         * paging 
+         */
+        var paging = {};
+
+        var page = parseInt(req.query.page);
+        var limit = parseInt(req.query.limit);
+
+        if (page < 0 || page === 0)
+            page = 1;
+
+        paging.skip = limit * (page - 1);
+        paging.limit = limit;
+
+        let documentCount = await BulkCandidate.countDocuments({});
+        let pageCount = Math.ceil(documentCount / limit);
+
+        ////////////////////////////////////
+        let excelCandidates = await BulkCandidate.find({}, {}, paging);
         if(!excelCandidates.length){
             res.status(404).send({
                 message: "No bulk candidates found"
             })
         }
-        res.send(excelCandidates);
+        res.send({
+            excelCandidates: excelCandidates,
+            pages: pageCount
+        });
     } catch (err) {
         res.status(500).send({
             message: "An error occurred",
