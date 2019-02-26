@@ -27,7 +27,7 @@ var VacancySchema = new schema({
     },
     startDate: Date,
     experience: Number, //years
-    educationRequirement: String, //should be enum,
+    educationRequirement: Number, //should be enum,
     gender: {
         type: String,
         enum: ['Male', 'Female', 'Any']

@@ -18,7 +18,7 @@ var MatchingCriteriaSchema = new schema({
         long: Number,
         city: String //should be enum
     },
-    education: String, //should be enum
+    education: Number, //should be enum
     candidate: {
         type: schema.Types.ObjectId, ref: 'candidate'
     } 

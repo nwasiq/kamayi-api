@@ -2,6 +2,8 @@
 
 const Vacancy = require('../models/Vacancy');
 const Employer = require('../models/Employer');
+const Criteria = require('../models/CandidateMatchingCriteria');
+const Candidate = require('../models/Candidate');
 
 exports.createVacancyForEmployer = async function (req, res) {
 
@@ -40,6 +42,58 @@ exports.findVacanciesForEmployer = async function (req, res) {
         res.send(vacancies);
     } catch(err) {
         res.send(err);
+    }
+}
+
+exports.createCandidateShortlist = async function(req, res) {
+    try{
+        let vacancyId = req.params.vacancyId;
+        let vacancy = await Vacancy.findById(vacancyId);
+        if (!vacancy) {
+            return res.status(404).send({
+                message: "Vacancy not found with id " + req.params.vacancyId
+            });
+        }
+        if (req.query.education == undefined && req.query.gender == undefined && 
+            req.query.location == undefined && req.query.experience == undefined 
+            && req.query.occupation == undefined) {
+            return res.status(400).send({
+                message: "No criteria selected for shortlist"
+            }); 
+        }
+        let shortListQuery = {$and: []};
+        let genderQuery = [];
+        if(req.query.occupation != undefined){
+            shortListQuery.$and.push({ occupation: vacancy.occupation});
+        }
+        if(req.query.experience != undefined){
+            shortListQuery.$and.push({experience: { $gte: vacancy.experience }});
+        }
+        if(req.query.location != undefined){
+            shortListQuery.$and.push({ 'location.city': vacancy.location.city});
+        }
+        if(req.query.gender != undefined){
+            if (vacancy.gender == "Any") {
+                genderQuery.push("Male");
+                genderQuery.push("Female");
+            }
+            else {
+                genderQuery.push(vacancy.gender);
+            }
+            shortListQuery.$and.push({ gender: { $in: genderQuery }});
+        }
+        if(req.query.education != undefined){
+            shortListQuery.$and.push({ education: { $gte: vacancy.educationRequirement }});
+        }
+        let shortListCandidates = await Criteria.find(shortListQuery)
+                                                .populate('candidate');
+        res.send(shortListCandidates);
+
+    } catch(err){
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
     }
 }
 

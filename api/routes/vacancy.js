@@ -18,5 +18,6 @@ router.get('', denyAccessUnlessGranted(), vacancyController.findAll);
 router.get('/:vacancyId', denyAccessUnlessGranted(), vacancyController.findOne);
 router.put('/:vacancyId', denyAccessUnlessGranted(), vacancyController.update);
 router.delete('/:vacancyId', denyAccessUnlessGranted(), vacancyController.delete);
+router.get('/:vacancyId/shortlist', denyAccessUnlessGranted(), vacancyController.createCandidateShortlist);
 
 module.exports = router;
