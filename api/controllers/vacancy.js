@@ -243,7 +243,12 @@ exports.delete = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        res.send({ message: "Vacancy deleted successfully!" });
+        let update = await Candidate.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId},
+                                   { $pull: { vacancyStatus: { vacancy: req.params.vacancyId} } })       
+        res.send({ 
+            message: "Vacancy deleted successfully!",
+            update 
+        });
     } catch (err) {
         res.send(err);
     }
