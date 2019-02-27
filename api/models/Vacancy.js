@@ -16,11 +16,6 @@ var VacancySchema = new schema({
     salary: Number,
     openings: Number,
     hired: Number,
-    shortlist: [{ //selection after matching query
-        candidate: { type: schema.Types.ObjectId, ref: 'candidate' },
-        status: String, //initial status: not contacted, then schedule interview', then 'interview scheduled', then 'interviewed', 'hired', 'rejected'
-        interviewDate: Date //if status is 'interview scheduled', then use this
-    }],
     jobType: {
         type: String,
         enum: ['fullTime', 'partTime']
