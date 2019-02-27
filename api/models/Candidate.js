@@ -11,7 +11,12 @@ var CandidateSchema = new schema({
     dob: Date,
     training: [String],
     email: String,
-    employmentStatus: Boolean
+    employmentStatus: Boolean,
+    vacancyStatus: [{
+        vacancy: { type: schema.Types.ObjectId, ref: 'vacancy' },
+        status: String, //initial status: not contacted, then schedule interview', then 'interview scheduled', then 'interviewed', 'rejected', 'hired', 'joined'
+        interviewDate: Date //if status is 'interview scheduled', then use this
+    }]
 });
 
 const candidate = module.exports = mongoose.model('candidate', CandidateSchema);
