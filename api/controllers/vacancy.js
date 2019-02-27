@@ -45,7 +45,7 @@ exports.findVacanciesForEmployer = async function (req, res) {
     }
 }
 
-exports.createCandidateShortlist = async function(req, res) {
+exports.createTentativeCandidateShortlist = async function(req, res) {
     try{
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId);
@@ -103,7 +103,11 @@ exports.createCandidateShortlist = async function(req, res) {
         let pageCount = Math.ceil(documentCount / limit);
 
         ////////////////////////////////////
-
+        let previousVacancyCandidates = await Candidate.find({ 'vacancyStatus.vacancy': vacancyId }, { _id: 1 });
+        if(previousVacancyCandidates.length != 0){
+            shortListQuery.$and.push({ candidate: { $nin: previousVacancyCandidates}});
+        }
+        
         let shortListCandidates = await Criteria.find(shortListQuery, {}, paging)
                                                 .populate('candidate');
         res.send({
@@ -112,6 +116,106 @@ exports.createCandidateShortlist = async function(req, res) {
         });
 
     } catch(err){
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.createCandidateShortlist = async function(req, res) {
+    try{
+        let candidateIds = req.body.candidateIds;
+        let vacancyId = req.params.vacancyId;
+        let vacancy = await Vacancy.findById(vacancyId);
+        if (!vacancy) {
+            return res.status(404).send({
+                message: "Vacancy not found with id " + req.params.vacancyId
+            });
+        }
+        let candidateVacancyStatus = {
+            vacancy: vacancyId,
+            status: "Schedule Interview"
+        }
+        let shortlist = await Candidate.updateMany({ _id: { $in: candidateIds } },
+                                                   { $push: { vacancyStatus: candidateVacancyStatus } });
+        res.send(shortlist);
+
+    }catch(err){
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.findVacancyShortlist = async function(req, res) {
+    try{
+        let vacancyId = req.params.vacancyId;
+        let vacancy = await Vacancy.findById(vacancyId);
+        if (!vacancy) {
+            return res.status(404).send({
+                message: "Vacancy not found with id " + req.params.vacancyId
+            });
+        }
+        let candidateQuery = {
+            'vacancyStatus.vacancy': vacancyId
+        };
+        if (req.query.status) {
+            candidateQuery = {
+                "vacancyStatus": {
+                    $elemMatch: {
+                        vacancy: vacancyId,
+                        status: req.query.status
+                    }
+                }
+            }
+        }
+        let candidates = await Candidate.find(candidateQuery, {_id: 1});
+        let candidatesWithCriteria = await Criteria.find({candidate: {$in: candidates}})
+                                                   .populate('candidate');
+        res.send(candidatesWithCriteria);
+
+    } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.updateStatusForCandidateInAVacancy = async function(req, res) {
+    try{
+        let vacancyId = req.params.vacancyId;
+        let vacancy = await Vacancy.findById(vacancyId);
+        if (!vacancy) {
+            return res.status(404).send({
+                message: "Vacancy not found with id " + req.params.vacancyId
+            });
+        }
+        let candidateId = req.params.candidateId;
+        let checkCandidate = await Candidate.findById(candidateId);
+        if (!checkCandidate) {
+            return res.status(404).send({
+                message: "Candidate not found with id " + req.params.candidateId
+            });
+        }
+        let status = req.body.status;
+        let interviewDate;
+        if(req.body.interviewDate){
+            interviewDate = req.body.interviewDate;
+        }
+        else{
+            interviewDate = Date.now();
+        }
+        let candidate = await Candidate.updateOne({ _id: candidateId , 'vacancyStatus.vacancy': vacancyId}, 
+                                            {'$set': {
+                                                'vacancyStatus.$.status': status,
+                                                'vacancyStatus.$.interviewDate': interviewDate
+                                            }});
+        res.send(candidate);
+
+    } catch(err) {
         res.status(500).send({
             message: "A server error occurred",
             err: err
