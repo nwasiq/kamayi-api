@@ -186,6 +186,12 @@ exports.findVacancyShortlist = async function(req, res) {
 
 exports.updateStatusForCandidateInAVacancy = async function(req, res) {
     try{
+        let status = req.body.status;
+        if (!status) {
+            return res.status(400).send({
+                message: "Update status not provided"
+            });
+        }
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId);
         if (!vacancy) {
@@ -200,7 +206,6 @@ exports.updateStatusForCandidateInAVacancy = async function(req, res) {
                 message: "Candidate not found with id " + req.params.candidateId
             });
         }
-        let status = req.body.status;
         let interviewDate;
         if(req.body.interviewDate){
             interviewDate = req.body.interviewDate;
@@ -208,11 +213,18 @@ exports.updateStatusForCandidateInAVacancy = async function(req, res) {
         else{
             interviewDate = Date.now();
         }
-        let candidate = await Candidate.updateOne({ _id: candidateId , 'vacancyStatus.vacancy': vacancyId}, 
+        let candidate = await Candidate.findOneAndUpdate({ _id: candidateId , 'vacancyStatus.vacancy': vacancyId}, 
                                             {'$set': {
                                                 'vacancyStatus.$.status': status,
                                                 'vacancyStatus.$.interviewDate': interviewDate
-                                            }});
+                                            }}, {new: true});
+
+        if(status == "Joined") {
+            candidate.employmentStatus = true;
+            candidate = await candidate.save();
+            vacancy.hired += 1;
+            vacancy = await vacancy.save();
+        }
         res.send(candidate);
 
     } catch(err) {
