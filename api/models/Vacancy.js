@@ -50,6 +50,11 @@ var VacancySchema = new schema({
 
 });
 
+/**
+ * @todo: if vacancy deleted, remove vacancy reference from candidates ()
+ * This is already being done in delete vacancy function
+ */
+
 VacancySchema.index({ location: '2dsphere' });
 
 const vacancy = module.exports = mongoose.model('vacancy', VacancySchema);

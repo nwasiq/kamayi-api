@@ -20,9 +20,13 @@ var EmployerSchema = new schema({
         city: String
     }],
     placementOfficer: {
-        type: schema.Types.ObjectId, ref: 'placementuser'
+        type: schema.Types.ObjectId, ref: 'user'
     }
 });
+
+/**
+ * @todo: if employer is deleted, remove all his vacancies
+ */
 
 const employer = module.exports = mongoose.model('employer', EmployerSchema);
 

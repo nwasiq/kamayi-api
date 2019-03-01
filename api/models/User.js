@@ -22,6 +22,11 @@ const UserSchema = new schema({
     },
 })
 
+/**
+ *  @todo: when a user deleted, if his role is placement,
+ * remove his reference from employer, placementOfficer: ""
+ */
+
 const user = module.exports = mongoose.model('user', UserSchema)
 
 module.exports.getUserById = function (id, callback) {
