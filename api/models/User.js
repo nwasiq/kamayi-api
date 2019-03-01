@@ -27,6 +27,9 @@ const UserSchema = new schema({
  * remove his reference from employer, placementOfficer: ""
  */
 
+ /**
+  * @todo: create endpoint to get employers assigned to placement officer
+  */
 const user = module.exports = mongoose.model('user', UserSchema)
 
 module.exports.getUserById = function (id, callback) {
