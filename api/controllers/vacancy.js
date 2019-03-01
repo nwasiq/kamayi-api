@@ -59,7 +59,7 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         }
         if (req.query.education == undefined && req.query.gender == undefined && 
             req.query.location == undefined && req.query.experience == undefined 
-            && req.query.occupation == undefined) {
+            && req.query.occupation == undefined && req.query.city == undefined) {
             return res.status(400).send({
                 message: "No criteria selected for shortlist"
             }); 
@@ -76,7 +76,7 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
             shortListQuery.$and.push({experience: { $gte: vacancy.experience }});
         }
         if(req.query.city != undefined){
-            shortListQuery.$and.push({ 'location.city': vacancy.city});
+            shortListQuery.$and.push({ 'city': vacancy.city});
         }
         if(req.query.gender != undefined){
             if (vacancy.gender == "Any") {
@@ -105,6 +105,9 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         paging.skip = limit * (page - 1);
         paging.limit = limit;
 
+        if (!shortListQuery.$and.length) {
+            shortListQuery = {}
+        }
         let documentCount = await Criteria.countDocuments(shortListQuery);
         let pageCount = Math.ceil(documentCount / limit);
 
@@ -120,11 +123,13 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
          * Aggregation: sorting candidates based on weights
          * assigned to education, experience and location
          */
+
         let aggregateOperation = [];
         if (req.query.location != undefined){
             aggregateOperation.push({
                 $geoNear: {
                     near: { type: "Point", coordinates: vacancy.location.coordinates },
+                    distanceMultiplier: 0.001,
                     distanceField: "distanceFromVacancy",
                     query: shortListQuery,
                     spherical: true
@@ -145,7 +150,8 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                 employer: 1,
                 experience: 1,
                 occupation: 1,
-                gender: 1
+                gender: 1,
+                distanceFromVacancy: 1
             }
             let projectIndividualScores = {
                 ...candidateProjection,
@@ -181,7 +187,7 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
             }
             if (req.query.location) {
                 let locationScoreField = {
-                    $multiply: ["$distanceFromVacancy", parseInt(req.query.location) || 1]
+                    $multiply: ["$distanceFromVacancy", parseFloat(req.query.location) || 1]
                 }
                 projectIndividualScores.locationScore = locationScoreField;
                 projectCombinedScore.score.$add.push('$locationScore');
