@@ -210,7 +210,7 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         let locationCandidates = await Criteria.aggregate(aggregateOperation);
         let shortListCandidates = await Criteria.populate(locationCandidates, {path: "candidate"});
         res.send({
-            criteriaToMatch: vacancy,
+            criteriaToMatch: vacancy, //temporary
             pages: pageCount, 
             candidates: shortListCandidates
         });
