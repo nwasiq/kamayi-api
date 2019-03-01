@@ -18,7 +18,10 @@ app.use(cors());
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect(config.localDatabase, {useNewUrlParser: true});
+mongoose.connect(config.localDatabase, {
+	useNewUrlParser: true,
+	useCreateIndex: true
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -46,9 +46,12 @@ exports.findVacanciesForEmployer = async function (req, res) {
 }
 
 exports.createTentativeCandidateShortlist = async function(req, res) {
+    
     try{
         let vacancyId = req.params.vacancyId;
-        let vacancy = await Vacancy.findById(vacancyId);
+        let vacancy = await Vacancy.findById(vacancyId, {
+            gender: 1, location: 1, occupation: 1, city: 1, experience: 1, educationRequirement: 1
+        });
         if (!vacancy) {
             return res.status(404).send({
                 message: "Vacancy not found with id " + req.params.vacancyId
@@ -61,6 +64,9 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                 message: "No criteria selected for shortlist"
             }); 
         }
+        /**
+         * Creating Query for Candidate shortlist based on params (req.query)
+         */
         let shortListQuery = {$and: []};
         let genderQuery = [];
         if(req.query.occupation != undefined){
@@ -69,8 +75,8 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         if(req.query.experience != undefined){
             shortListQuery.$and.push({experience: { $gte: vacancy.experience }});
         }
-        if(req.query.location != undefined){
-            shortListQuery.$and.push({ 'location.city': vacancy.location.city});
+        if(req.query.city != undefined){
+            shortListQuery.$and.push({ 'location.city': vacancy.city});
         }
         if(req.query.gender != undefined){
             if (vacancy.gender == "Any") {
@@ -102,15 +108,103 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         let documentCount = await Criteria.countDocuments(shortListQuery);
         let pageCount = Math.ceil(documentCount / limit);
 
-        ////////////////////////////////////
+        /**
+         *  Don't search for canidates who are already in the shortlist
+         */
         let previousVacancyCandidates = await Candidate.find({ 'vacancyStatus.vacancy': vacancyId }, { _id: 1 });
         if(previousVacancyCandidates.length != 0){
             shortListQuery.$and.push({ candidate: { $nin: previousVacancyCandidates}});
         }
         
-        let shortListCandidates = await Criteria.find(shortListQuery, {}, paging)
-                                                .populate('candidate');
+        /**
+         * Aggregation: sorting candidates based on weights
+         * assigned to education, experience and location
+         */
+        let aggregateOperation = [];
+        if (req.query.location != undefined){
+            aggregateOperation.push({
+                $geoNear: {
+                    near: { type: "Point", coordinates: vacancy.location.coordinates },
+                    distanceField: "distanceFromVacancy",
+                    query: shortListQuery,
+                    spherical: true
+                }
+            })
+        }
+        else{
+            aggregateOperation.push({ $match: shortListQuery });
+        }
+
+        if(req.query.weighted != undefined){
+            let candidateProjection = {
+                candidate: 1,
+                location: 1,
+                education: 1,
+                city: 1,
+                isTrained: 1,
+                employer: 1,
+                experience: 1,
+                occupation: 1,
+                gender: 1
+            }
+            let projectIndividualScores = {
+                ...candidateProjection,
+                experienceScore: {},
+                educationScore: {},
+                locationScore: {}
+            };
+            let projectCombinedScore = {
+                ...candidateProjection,
+                score: {
+                    $add: []
+                }
+            }
+            if(req.query.experience) {
+                let experienceScoreField = {
+                    $multiply: ["$experience", parseInt(req.query.experience) || 1]
+                }
+                projectIndividualScores.experienceScore = experienceScoreField;
+                projectCombinedScore.score.$add.push('$experienceScore');
+            }
+            else{
+                delete projectIndividualScores.experienceScore;
+            }
+            if (req.query.education) {
+                let educationScoreField = {
+                    $multiply: ["$education", parseInt(req.query.education) || 1]
+                }
+                projectIndividualScores.educationScore = educationScoreField;
+                projectCombinedScore.score.$add.push('$educationScore');
+            }
+            else {
+                delete projectIndividualScores.educationScore;
+            }
+            if (req.query.location) {
+                let locationScoreField = {
+                    $multiply: ["$distanceFromVacancy", parseInt(req.query.location) || 1]
+                }
+                projectIndividualScores.locationScore = locationScoreField;
+                projectCombinedScore.score.$add.push('$locationScore');
+            }
+            else {
+                delete projectIndividualScores.locationScore;
+            }
+            aggregateOperation.push({
+                    $project: projectIndividualScores
+                },
+                {
+                    $project: projectCombinedScore
+                },
+                {
+                    $sort: { 'score': -1 }
+                }
+            );
+        }
+        aggregateOperation.push({$skip: paging.skip}, {$limit: paging.limit});
+        let locationCandidates = await Criteria.aggregate(aggregateOperation);
+        let shortListCandidates = await Criteria.populate(locationCandidates, {path: "candidate"});
         res.send({
+            criteriaToMatch: vacancy,
             pages: pageCount, 
             candidates: shortListCandidates
         });

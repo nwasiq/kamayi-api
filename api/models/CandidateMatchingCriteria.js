@@ -13,10 +13,17 @@ var MatchingCriteriaSchema = new schema({
     experience: Number,
     employer: String,
     isTrained: Boolean,
-    location: { 
-        lat: Number,
-        long: Number,
-        city: String //should be enum
+    city: String, //should be enum
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point',
+        },
+        coordinates: {
+            type: [Number],
+            default: [0, 0],
+        }
     },
     education: Number, //should be enum
     candidate: {
@@ -24,5 +31,6 @@ var MatchingCriteriaSchema = new schema({
     } 
 });
 
+MatchingCriteriaSchema.index({ location: '2dsphere' });
 const criteria = module.exports = mongoose.model('criteria', MatchingCriteriaSchema);
 

@@ -8,10 +8,17 @@ var VacancySchema = new schema({
     title: String,
     occupation: String, //should be enum
     description: String,
+    city: String, //should be enum
     location: {
-        lat: Number,
-        long: Number,
-        city: String //should be enum
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number],
+            default: [0, 0]
+        }
     },
     salary: Number,
     openings: Number,
@@ -42,5 +49,7 @@ var VacancySchema = new schema({
     }
 
 });
+
+VacancySchema.index({ location: '2dsphere' });
 
 const vacancy = module.exports = mongoose.model('vacancy', VacancySchema);
