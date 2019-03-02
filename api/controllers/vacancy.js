@@ -140,11 +140,16 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
             aggregateOperation.push({ $match: shortListQuery });
         }
 
+        /**
+         * sort based on single criteria (can be education, experience, gender)
+         */
         if(req.query.sort != undefined){
-            let sortObj = {
-                $sort: { [req.query.sort] : -1}
+            if(req.query.sort != 'location'){
+                let sortObj = {
+                    $sort: { [req.query.sort]: -1 }
+                }
+                aggregateOperation.push(sortObj);
             }
-            aggregateOperation.push(sortObj);
         }
 
         /**
