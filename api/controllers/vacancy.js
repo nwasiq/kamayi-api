@@ -140,7 +140,18 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
             aggregateOperation.push({ $match: shortListQuery });
         }
 
-        if(req.query.weighted != undefined){
+        if(req.query.sort != undefined){
+            let sortObj = {
+                $sort: { [req.query.sort] : -1}
+            }
+            aggregateOperation.push(sortObj);
+        }
+
+        /**
+         * Weighted query can only run if sort not defined
+         * i.e. you can only do weighted OR sort query
+         */
+        if (req.query.sort == undefined && req.query.weighted != undefined){
             let candidateProjection = {
                 candidate: 1,
                 location: 1,
