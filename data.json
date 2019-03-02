@@ -1,0 +1,58 @@
+
+[   
+    {
+        "fullName": "Salman larrka",
+        "cnic": 7777,
+        "phone": "0343123123",
+        "dob": "2019-02-23",
+        "training": [
+            "Certificate of business"
+        ],
+        "employmentStatus": false,
+        "criteria": [
+            {
+                "gender": "Male",
+                "occupation": "Engineer",
+                "experience": 5,
+                "employer": "Engineer wali Company",
+                "isTrained": false,
+                "city": "Islamabad",
+                "location": {
+                    "coordinates": [
+                        73.0550872,
+                        33.7211036
+                    ]
+                },
+                "education": 7
+            }
+        ]
+    },
+    {
+        "fullName": "Wasiq Nazir",
+        "cnic": 22222,
+        "phone": "0343123123",
+        "dob": "2019-02-23",
+        "training": [
+            "Certificate of CS"
+        ],
+        "employmentStatus": false,
+        "criteria": [
+            {
+                "gender": "Male",
+                "occupation": "Software Engineer",
+                "experience": 5,
+                "employer": "Squaberry",
+                "isTrained": false,
+                "city": "Islamabad",
+                "location": {
+                    "coordinates": [
+                        73.0550872,
+                        33.7211036
+                    ]
+                },
+                "education": 7
+            }
+        ]
+    }
+
+]
