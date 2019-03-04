@@ -120,7 +120,8 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         }
         
         /**
-         * Aggregation: sorting candidates based on weights
+         * Aggregation: calculating distance from vacancy, 
+         * sorting candidates based on weights
          * assigned to education, experience and location
          */
 
