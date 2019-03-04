@@ -119,9 +119,10 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         
         let excludedCandidatesQuery = {$or: []};
         if(req.query.employmentStatus != undefined){
-            excludedCandidatesQuery.$or.push({employmentStatus: !req.query.employmentStatus});
+            let employmentStatusVal = req.query.employmentStatus == "true" ? false : true;
+            excludedCandidatesQuery.$or.push({ employmentStatus: employmentStatusVal});
         }
-        excludedCandidatesQuery.$or.push({ 'vacancyStatus.vacancy': vacancyId});
+        excludedCandidatesQuery.$or.push({ 'vacancyStatus.vacancy': vacancyId});  
         let excludedCandidates = await Candidate.find(excludedCandidatesQuery).distinct('_id');
         if (excludedCandidates.length != 0){
             shortListQuery.$and.push({ candidate: { $nin: excludedCandidates}});
