@@ -112,11 +112,19 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
         let pageCount = Math.ceil(documentCount / limit);
 
         /**
+         *  Query candidates model:
          *  Don't search for canidates who are already in the shortlist
+         *  Don't search for candidates according to employment status
          */
-        let previousVacancyCandidates = await Candidate.find({ 'vacancyStatus.vacancy': vacancyId }, { _id: 1 });
-        if(previousVacancyCandidates.length != 0){
-            shortListQuery.$and.push({ candidate: { $nin: previousVacancyCandidates}});
+        
+        let excludedCandidatesQuery = {$or: []};
+        if(req.query.employmentStatus != undefined){
+            excludedCandidatesQuery.$or.push({employmentStatus: !req.query.employmentStatus});
+        }
+        excludedCandidatesQuery.$or.push({ 'vacancyStatus.vacancy': vacancyId});
+        let excludedCandidates = await Candidate.find(excludedCandidatesQuery).distinct('_id');
+        if (excludedCandidates.length != 0){
+            shortListQuery.$and.push({ candidate: { $nin: excludedCandidates}});
         }
         
         /**
