@@ -6,7 +6,7 @@ var schema = mongoose.Schema;
 var CandidateSchema = new schema({
 
     fullName: String,
-    cnic: Number,
+    cnic: String,
     phone: String,
     dob: Date,
     training: [String],
