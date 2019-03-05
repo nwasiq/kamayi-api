@@ -21,7 +21,10 @@ var VacancySchema = new schema({
         }
     },
     salary: Number,
-    openings: Number,
+    openings: {
+        type: Number,
+        required: true
+    },
     hired: {
         type: Number,
         default: 0

@@ -365,6 +365,7 @@ exports.updateStatusForCandidateInAVacancy = async function (req, res) {
             candidate.employmentStatus = true;
             candidate = await candidate.save();
             vacancy.hired += 1;
+            vacancy.openings -= 1;
             vacancy = await vacancy.save();
         }
         res.send(candidate);
