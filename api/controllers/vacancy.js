@@ -339,6 +339,11 @@ exports.updateStatusForCandidateInAVacancy = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
+        if(vacancy.openings == 0){
+            return res.status(400).send({
+                message: "Vacancy already filled"
+            });
+        }
         let candidateId = req.params.candidateId;
         let checkCandidate = await Candidate.findById(candidateId);
         if (!checkCandidate) {
