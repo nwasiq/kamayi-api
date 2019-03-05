@@ -247,8 +247,8 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
             );
         }
         aggregateOperation.push({ $skip: paging.skip }, { $limit: paging.limit });
-        let locationCandidates = await Criteria.aggregate(aggregateOperation);
-        let shortListCandidates = await Criteria.populate(locationCandidates, { path: "candidate" });
+        let shortListCriteria = await Criteria.aggregate(aggregateOperation);
+        let shortListCandidates = await Criteria.populate(shortListCriteria, { path: "candidate" });
         res.send({
             criteriaToMatch: vacancy, //temporary
             pages: pageCount,
