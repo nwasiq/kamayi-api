@@ -7,7 +7,7 @@ const Candidate = require('../models/Candidate');
 
 exports.createVacancyForEmployer = async function (req, res) {
 
-    try{
+    try {
         let employer = await Employer.findById(req.params.employerId);
         if (!employer) {
             return res.status(404).send({
@@ -19,7 +19,7 @@ exports.createVacancyForEmployer = async function (req, res) {
         let savedVacancy = await newVacancy.save();
         res.send(savedVacancy);
 
-    } catch(err) {
+    } catch (err) {
         res.send(err);
     }
 }
@@ -33,21 +33,21 @@ exports.findVacanciesForEmployer = async function (req, res) {
                 message: "Employer not found with id " + req.params.employerId
             });
         }
-        let vacancies = await Vacancy.find({employer: req.params.employerId });
+        let vacancies = await Vacancy.find({ employer: req.params.employerId });
         if (vacancies.length == 0) {
             return res.status(404).send({
                 message: "Vacancies not found for this employer "
             });
         }
         res.send(vacancies);
-    } catch(err) {
+    } catch (err) {
         res.send(err);
     }
 }
 
-exports.createTentativeCandidateShortlist = async function(req, res) {
-    
-    try{
+exports.createTentativeCandidateShortlist = async function (req, res) {
+
+    try {
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId, {
             gender: 1, location: 1, occupation: 1, city: 1, experience: 1, educationRequirement: 1
@@ -57,28 +57,28 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        if (req.query.education == undefined && req.query.gender == undefined && 
-            req.query.location == undefined && req.query.experience == undefined 
+        if (req.query.education == undefined && req.query.gender == undefined &&
+            req.query.location == undefined && req.query.experience == undefined
             && req.query.occupation == undefined && req.query.city == undefined) {
             return res.status(400).send({
                 message: "No criteria selected for shortlist"
-            }); 
+            });
         }
         /**
          * Creating Query for Candidate shortlist based on params (req.query)
          */
-        let shortListQuery = {$and: []};
+        let shortListQuery = { $and: [] };
         let genderQuery = [];
-        if(req.query.occupation != undefined){
-            shortListQuery.$and.push({ occupation: vacancy.occupation});
+        if (req.query.occupation != undefined) {
+            shortListQuery.$and.push({ occupation: vacancy.occupation });
         }
-        if(req.query.experience != undefined){
-            shortListQuery.$and.push({experience: { $gte: vacancy.experience }});
+        if (req.query.experience != undefined) {
+            shortListQuery.$and.push({ experience: { $gte: vacancy.experience } });
         }
-        if(req.query.city != undefined){
-            shortListQuery.$and.push({ 'city': vacancy.city});
+        if (req.query.city != undefined) {
+            shortListQuery.$and.push({ 'city': vacancy.city });
         }
-        if(req.query.gender != undefined){
+        if (req.query.gender != undefined) {
             if (vacancy.gender == "Any") {
                 genderQuery.push("Male");
                 genderQuery.push("Female");
@@ -86,10 +86,10 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
             else {
                 genderQuery.push(vacancy.gender);
             }
-            shortListQuery.$and.push({ gender: { $in: genderQuery }});
+            shortListQuery.$and.push({ gender: { $in: genderQuery } });
         }
-        if(req.query.education != undefined){
-            shortListQuery.$and.push({ education: { $gte: vacancy.educationRequirement }});
+        if (req.query.education != undefined) {
+            shortListQuery.$and.push({ education: { $gte: vacancy.educationRequirement } });
         }
         /**
          * paging 
@@ -116,18 +116,18 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
          *  Don't search for canidates who are already in the shortlist
          *  Don't search for candidates according to employment status
          */
-        
-        let excludedCandidatesQuery = {$or: []};
-        if(req.query.employmentStatus != undefined){
+
+        let excludedCandidatesQuery = { $or: [] };
+        if (req.query.employmentStatus != undefined) {
             let employmentStatusVal = req.query.employmentStatus == "true" ? false : true;
-            excludedCandidatesQuery.$or.push({ employmentStatus: employmentStatusVal});
+            excludedCandidatesQuery.$or.push({ employmentStatus: employmentStatusVal });
         }
-        excludedCandidatesQuery.$or.push({ 'vacancyStatus.vacancy': vacancyId});  
+        excludedCandidatesQuery.$or.push({ 'vacancyStatus.vacancy': vacancyId });
         let excludedCandidates = await Candidate.find(excludedCandidatesQuery).distinct('_id');
-        if (excludedCandidates.length != 0){
-            shortListQuery.$and.push({ candidate: { $nin: excludedCandidates}});
+        if (excludedCandidates.length != 0) {
+            shortListQuery.$and.push({ candidate: { $nin: excludedCandidates } });
         }
-        
+
         /**
          * Aggregation: calculating distance from vacancy, 
          * sorting candidates based on weights
@@ -135,7 +135,7 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
          */
 
         let aggregateOperation = [];
-        if (req.query.location != undefined){
+        if (req.query.location != undefined) {
             aggregateOperation.push({
                 $geoNear: {
                     near: { type: "Point", coordinates: vacancy.location.coordinates },
@@ -146,15 +146,15 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                 }
             })
         }
-        else{
+        else {
             aggregateOperation.push({ $match: shortListQuery });
         }
 
         /**
          * sort based on single criteria (can be education, experience, gender)
          */
-        if(req.query.sort != undefined){
-            if(req.query.sort != 'location'){
+        if (req.query.sort != undefined) {
+            if (req.query.sort != 'location') {
                 let sortObj = {
                     $sort: { [req.query.sort]: -1 }
                 }
@@ -166,7 +166,7 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
          * Weighted query can only run if sort not defined
          * i.e. you can only do weighted OR sort query
          */
-        if (req.query.sort == undefined && req.query.weighted != undefined){
+        if (req.query.sort == undefined && req.query.weighted != undefined) {
             let candidateProjection = {
                 candidate: 1,
                 location: 1,
@@ -191,19 +191,19 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                     $add: []
                 }
             }
-            if(req.query.experience) {
+            if (req.query.experience) {
                 let experienceScoreField = {
-                    $multiply: ["$experience", parseInt(req.query.experience) || 1]
+                    $multiply: ["$experience", parseFloat(req.query.experience)]
                 }
                 projectIndividualScores.experienceScore = experienceScoreField;
                 projectCombinedScore.score.$add.push('$experienceScore');
             }
-            else{
+            else {
                 delete projectIndividualScores.experienceScore;
             }
             if (req.query.education) {
                 let educationScoreField = {
-                    $multiply: ["$education", parseInt(req.query.education) || 1]
+                    $multiply: ["$education", parseFloat(req.query.education)]
                 }
                 projectIndividualScores.educationScore = educationScoreField;
                 projectCombinedScore.score.$add.push('$educationScore');
@@ -212,8 +212,22 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                 delete projectIndividualScores.educationScore;
             }
             if (req.query.location) {
+                /**
+                 * Location is given a score based on y = mx + c
+                 * m in our case is -0.025 (considering y intercept, c = 10 
+                 * and x intercept = 400). X axis is distance, y is calculated 
+                 * (score for location)
+                 */
                 let locationScoreField = {
-                    $multiply: ["$distanceFromVacancy", parseFloat(req.query.location) || 1]
+                    $multiply: [
+                        {
+                            $add:
+                                [
+                                    {
+                                        $multiply:
+                                            ["$distanceFromVacancy", -0.025]
+                                    }, 10]
+                        }, parseFloat(req.query.location)]
                 }
                 projectIndividualScores.locationScore = locationScoreField;
                 projectCombinedScore.score.$add.push('$locationScore');
@@ -222,8 +236,8 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                 delete projectIndividualScores.locationScore;
             }
             aggregateOperation.push({
-                    $project: projectIndividualScores
-                },
+                $project: projectIndividualScores
+            },
                 {
                     $project: projectCombinedScore
                 },
@@ -232,16 +246,16 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
                 }
             );
         }
-        aggregateOperation.push({$skip: paging.skip}, {$limit: paging.limit});
+        aggregateOperation.push({ $skip: paging.skip }, { $limit: paging.limit });
         let locationCandidates = await Criteria.aggregate(aggregateOperation);
-        let shortListCandidates = await Criteria.populate(locationCandidates, {path: "candidate"});
+        let shortListCandidates = await Criteria.populate(locationCandidates, { path: "candidate" });
         res.send({
             criteriaToMatch: vacancy, //temporary
-            pages: pageCount, 
+            pages: pageCount,
             candidates: shortListCandidates
         });
 
-    } catch(err){
+    } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
             err: err
@@ -249,8 +263,8 @@ exports.createTentativeCandidateShortlist = async function(req, res) {
     }
 }
 
-exports.createCandidateShortlist = async function(req, res) {
-    try{
+exports.createCandidateShortlist = async function (req, res) {
+    try {
         let candidateIds = req.body.candidateIds;
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId);
@@ -264,10 +278,10 @@ exports.createCandidateShortlist = async function(req, res) {
             status: "Schedule Interview"
         }
         let shortlist = await Candidate.updateMany({ _id: { $in: candidateIds } },
-                                                   { $push: { vacancyStatus: candidateVacancyStatus } });
+            { $push: { vacancyStatus: candidateVacancyStatus } });
         res.send(shortlist);
 
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
             err: err
@@ -275,8 +289,8 @@ exports.createCandidateShortlist = async function(req, res) {
     }
 }
 
-exports.findVacancyShortlist = async function(req, res) {
-    try{
+exports.findVacancyShortlist = async function (req, res) {
+    try {
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId);
         if (!vacancy) {
@@ -297,9 +311,9 @@ exports.findVacancyShortlist = async function(req, res) {
                 }
             }
         }
-        let candidates = await Candidate.find(candidateQuery, {_id: 1});
-        let candidatesWithCriteria = await Criteria.find({candidate: {$in: candidates}})
-                                                   .populate('candidate');
+        let candidates = await Candidate.find(candidateQuery, { _id: 1 });
+        let candidatesWithCriteria = await Criteria.find({ candidate: { $in: candidates } })
+            .populate('candidate');
         res.send(candidatesWithCriteria);
 
     } catch (err) {
@@ -310,8 +324,8 @@ exports.findVacancyShortlist = async function(req, res) {
     }
 }
 
-exports.updateStatusForCandidateInAVacancy = async function(req, res) {
-    try{
+exports.updateStatusForCandidateInAVacancy = async function (req, res) {
+    try {
         let status = req.body.status;
         if (!status) {
             return res.status(400).send({
@@ -333,19 +347,21 @@ exports.updateStatusForCandidateInAVacancy = async function(req, res) {
             });
         }
         let interviewDate;
-        if(req.body.interviewDate){
+        if (req.body.interviewDate) {
             interviewDate = req.body.interviewDate;
         }
-        else{
+        else {
             interviewDate = Date.now();
         }
-        let candidate = await Candidate.findOneAndUpdate({ _id: candidateId , 'vacancyStatus.vacancy': vacancyId}, 
-                                            {'$set': {
-                                                'vacancyStatus.$.status': status,
-                                                'vacancyStatus.$.interviewDate': interviewDate
-                                            }}, {new: true});
+        let candidate = await Candidate.findOneAndUpdate({ _id: candidateId, 'vacancyStatus.vacancy': vacancyId },
+            {
+                '$set': {
+                    'vacancyStatus.$.status': status,
+                    'vacancyStatus.$.interviewDate': interviewDate
+                }
+            }, { new: true });
 
-        if(status == "Joined") {
+        if (status == "Joined") {
             candidate.employmentStatus = true;
             candidate = await candidate.save();
             vacancy.hired += 1;
@@ -353,7 +369,7 @@ exports.updateStatusForCandidateInAVacancy = async function(req, res) {
         }
         res.send(candidate);
 
-    } catch(err) {
+    } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
             err: err
@@ -381,11 +397,11 @@ exports.delete = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        let update = await Candidate.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId},
-                                   { $pull: { vacancyStatus: { vacancy: req.params.vacancyId} } })       
-        res.send({ 
+        let update = await Candidate.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
+            { $pull: { vacancyStatus: { vacancy: req.params.vacancyId } } })
+        res.send({
             message: "Vacancy deleted successfully!",
-            update 
+            update
         });
     } catch (err) {
         res.send(err);
