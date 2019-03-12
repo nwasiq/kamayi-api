@@ -6,14 +6,14 @@ const router = express.Router({});
 const passport = require('passport');
 let bulkCandidateController = require('../controllers/bulkCandidate');
 
-function denyAccessUnlessGranted() {
+function checkAuthToken() {
     return passport.authenticate('jwt', {
         failureRedirect: '/authfailurejson',
         session: false
     });
 }
 
-router.post('', denyAccessUnlessGranted(), bulkCandidateController.importExcel);
-router.get('', denyAccessUnlessGranted(), bulkCandidateController.findExcelCandidates);
+router.post('', checkAuthToken(), bulkCandidateController.importExcel);
+router.get('', checkAuthToken(), bulkCandidateController.findExcelCandidates);
 
 module.exports = router;

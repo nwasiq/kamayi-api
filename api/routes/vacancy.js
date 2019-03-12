@@ -7,20 +7,20 @@ const passport = require('passport');
 
 let vacancyController = require('../controllers/vacancy');
 
-function denyAccessUnlessGranted() {
+function checkAuthToken() {
     return passport.authenticate('jwt', {
         failureRedirect: '/authfailurejson',
         session: false
     });
 }
 
-router.get('', denyAccessUnlessGranted(), vacancyController.findAll);
-router.get('/:vacancyId', denyAccessUnlessGranted(), vacancyController.findOne);
-router.put('/:vacancyId', denyAccessUnlessGranted(), vacancyController.update);
-router.delete('/:vacancyId', denyAccessUnlessGranted(), vacancyController.delete);
-router.get('/:vacancyId/tentativeshortlist', denyAccessUnlessGranted(), vacancyController.createTentativeCandidateShortlist);
-router.post('/:vacancyId/shortlist', denyAccessUnlessGranted(), vacancyController.createCandidateShortlist);
-router.get('/:vacancyId/shortlist', denyAccessUnlessGranted(), vacancyController.findVacancyShortlist);
-router.post('/:vacancyId/shortlist/:candidateId', denyAccessUnlessGranted(), vacancyController.updateStatusForCandidateInAVacancy);
+router.get('', checkAuthToken(), vacancyController.findAll);
+router.get('/:vacancyId', checkAuthToken(), vacancyController.findOne);
+router.put('/:vacancyId', checkAuthToken(), vacancyController.update);
+router.delete('/:vacancyId', checkAuthToken(), vacancyController.delete);
+router.get('/:vacancyId/tentativeshortlist', checkAuthToken(), vacancyController.createTentativeCandidateShortlist);
+router.post('/:vacancyId/shortlist', checkAuthToken(), vacancyController.createCandidateShortlist);
+router.get('/:vacancyId/shortlist', checkAuthToken(), vacancyController.findVacancyShortlist);
+router.post('/:vacancyId/shortlist/:candidateId', checkAuthToken(), vacancyController.updateStatusForCandidateInAVacancy);
 
 module.exports = router;

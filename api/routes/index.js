@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/authfailurejson', function (req, res) {
     res.json({
         success: false,
-        message: 'authorization failed'
+        message: 'authorization failed: Invalid Token'
     });
 });
 

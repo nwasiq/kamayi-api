@@ -6,12 +6,6 @@ const config = require('../../config/database')
 
 exports.create = async function (req, res) {
 
-    if (req.user.role != 'superAdmin' && req.user.role != 'admin'){
-        return res.status(401).send({
-            messages: "Only a Super Admin or an Admin can create a user"
-        });
-    }
-
     if(req.user.role != 'superAdmin' && req.body.role == 'admin'){
         return res.status(401).send({
             messages: "Only a Super Admin can create an Admin"
@@ -41,12 +35,6 @@ exports.create = async function (req, res) {
 
 exports.update = async function (req, res) {
 
-    if (req.user.role != 'superAdmin' && req.user.role != 'admin') {
-        return res.status(401).send({
-            messages: "Only a Super Admin or an Admin can update a user"
-        });
-    }
-
     if (req.user.role == 'admin' && req.body.role == 'superAdmin') {
         return res.status(401).send({
             messages: "An Admin cannot update anyone to Super Admin"
@@ -65,11 +53,6 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
 
-    if (req.user.role != 'superAdmin' && req.user.role != 'admin') {
-        return res.status(401).send({
-            messages: "Only a Super Admin or an Admin can delete a user"
-        });
-    }
     try {
         let deletedUser = await User.findByIdAndDelete(req.params.userId);
         if (!deletedUser) {

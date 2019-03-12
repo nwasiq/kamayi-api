@@ -12,7 +12,7 @@ mongoose.plugin(schema => {
 	schema.options.usePushEach = true
 });
 
-require('./config/passport')(passport);
+require('./api/middlewares/authenticate')(passport);
 
 app.use(cors());
 

@@ -7,16 +7,16 @@ const passport = require('passport');
 
 let criteriaController = require('../controllers/criteria');
 
-function denyAccessUnlessGranted() {
+function checkAuthToken() {
     return passport.authenticate('jwt', {
         failureRedirect: '/authfailurejson',
         session: false
     });
 }
 
-router.get('', denyAccessUnlessGranted(), criteriaController.findAll);
-router.get('/:criteriaId', denyAccessUnlessGranted(), criteriaController.findOne);
-router.put('/:criteriaId', denyAccessUnlessGranted(), criteriaController.update);
-router.delete('/:criteriaId', denyAccessUnlessGranted(), criteriaController.delete);
+router.get('', checkAuthToken(), criteriaController.findAll);
+router.get('/:criteriaId', checkAuthToken(), criteriaController.findOne);
+router.put('/:criteriaId', checkAuthToken(), criteriaController.update);
+router.delete('/:criteriaId', checkAuthToken(), criteriaController.delete);
 
 module.exports = router;
