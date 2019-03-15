@@ -14,7 +14,7 @@ router.use('/users', require('./user'));
 router.use('/employers', require('./employer'));
 router.use('/candidates', require('./candidate'));
 router.use('/vacancies', require('./vacancy'));
-router.use('/criteria', require('./criteria'));
+router.use('/criterias', require('./criteria'));
 router.use('/bulkcandidates', require('./bulkcandidate'));
 
 module.exports = router;
