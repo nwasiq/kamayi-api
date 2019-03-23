@@ -6,6 +6,7 @@ const router = express.Router({});
 const passport = require('passport');
 
 let criteriaController = require('../controllers/criteria');
+let crudController = require('../controllers/crud');
 
 function checkAuthToken() {
     return passport.authenticate('jwt', {
@@ -14,9 +15,9 @@ function checkAuthToken() {
     });
 }
 
-router.get('', checkAuthToken(), criteriaController.findAll);
-router.get('/:criteriaId', checkAuthToken(), criteriaController.findOne);
-router.put('/:criteriaId', checkAuthToken(), criteriaController.update);
-router.delete('/:criteriaId', checkAuthToken(), criteriaController.delete);
+router.get('', checkAuthToken(), crudController.findAll);
+router.get('/:criteriaId', checkAuthToken(), crudController.findOne);
+router.put('/:criteriaId', checkAuthToken(), crudController.update);
+router.delete('/:criteriaId', checkAuthToken(), crudController.delete);
 
 module.exports = router;

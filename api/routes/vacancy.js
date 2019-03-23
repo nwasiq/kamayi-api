@@ -6,6 +6,7 @@ const router = express.Router({});
 const passport = require('passport');
 
 let vacancyController = require('../controllers/vacancy');
+let crudController = require('../controllers/crud');
 
 function checkAuthToken() {
     return passport.authenticate('jwt', {
@@ -14,10 +15,10 @@ function checkAuthToken() {
     });
 }
 
-router.get('', checkAuthToken(), vacancyController.findAll);
-router.get('/:vacancyId', checkAuthToken(), vacancyController.findOne);
-router.put('/:vacancyId', checkAuthToken(), vacancyController.update);
-router.delete('/:vacancyId', checkAuthToken(), vacancyController.delete);
+router.get('', checkAuthToken(), crudController.findAll);
+router.get('/:vacancyId', checkAuthToken(), crudController.findOne);
+router.put('/:vacancyId', checkAuthToken(), crudController.update);
+router.delete('/:vacancyId', checkAuthToken(), crudController.delete);
 router.get('/:vacancyId/tentativeshortlist', checkAuthToken(), vacancyController.createTentativeCandidateShortlist);
 router.post('/:vacancyId/shortlist', checkAuthToken(), vacancyController.createCandidateShortlist);
 router.get('/:vacancyId/shortlist', checkAuthToken(), vacancyController.findVacancyShortlist);

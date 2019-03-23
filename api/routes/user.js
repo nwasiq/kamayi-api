@@ -7,6 +7,7 @@ const permit = require('../middlewares/permission');
 const passport = require('passport');
 
 let userController = require('../controllers/user');
+let crudController = require('../controllers/crud');
 
 function checkAuthToken() {
     return passport.authenticate('jwt', {
@@ -16,10 +17,10 @@ function checkAuthToken() {
 }
 
 router.post('', checkAuthToken(), permit('admin', 'superAdmin'), userController.create);
-router.get('', checkAuthToken(), userController.findAll);
-router.get('/:userId', checkAuthToken(), userController.findOne);
+router.get('', checkAuthToken(), crudController.findAll);
+router.get('/:userId', checkAuthToken(), crudController.findOne);
 router.put('/:userId', checkAuthToken(), permit('admin', 'superAdmin'), userController.update);
-router.delete('/:userId', checkAuthToken(), permit('admin', 'superAdmin'), userController.delete);
+router.delete('/:userId', checkAuthToken(), permit('admin', 'superAdmin'), crudController.delete);
 router.post('/login', userController.login);
 
 module.exports = router;

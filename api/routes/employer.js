@@ -7,6 +7,7 @@ const passport = require('passport');
 
 let employerController = require('../controllers/employer');
 let vacancyController = require('../controllers/vacancy');
+let crudController = require('../controllers/crud');
 
 function checkAuthToken() {
     return passport.authenticate('jwt', {
@@ -15,11 +16,11 @@ function checkAuthToken() {
     });
 }
 
-router.post('', checkAuthToken(), employerController.create);
-router.get('', checkAuthToken(), employerController.findAll);
-router.get('/:employerId', checkAuthToken(), employerController.findOne);
-router.put('/:employerId', checkAuthToken(), employerController.update);
-router.delete('/:employerId', checkAuthToken(), employerController.delete);
+router.post('', checkAuthToken(), crudController.create);
+router.get('', checkAuthToken(), crudController.findAll);
+router.get('/:employerId', checkAuthToken(), crudController.findOne);
+router.put('/:employerId', checkAuthToken(), crudController.update);
+router.delete('/:employerId', checkAuthToken(), crudController.delete);
 router.post('/:employerId/vacancies', checkAuthToken(), vacancyController.createVacancyForEmployer);
 router.get('/:employerId/vacancies', checkAuthToken(), vacancyController.findVacanciesForEmployer);
 

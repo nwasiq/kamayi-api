@@ -383,79 +383,8 @@ exports.updateStatusForCandidateInAVacancy = async function (req, res) {
     }
 }
 
-exports.update = async function (req, res) {
-
-    let updatedVacancyFields = { ...req.body };
-    try {
-        let updatedVacancy = await Vacancy.findByIdAndUpdate(req.params.vacancyId, updatedVacancyFields, { new: true, upsert: true, setDefaultsOnInsert: true });
-        res.send(updatedVacancy);
-    } catch (err) {
-        res.send(err);
-    }
-}
-
-exports.delete = async function (req, res) {
-
-    try {
-        let deletedVacancy = await Vacancy.findByIdAndDelete(req.params.vacancyId);
-        if (!deletedVacancy) {
-            return res.status(404).send({
-                message: "Vacancy not found with id " + req.params.vacancyId
-            });
-        }
-        let update = await Candidate.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
+/**
+ * @todo: add this to middleware vacancy delete middleware: 
+ * let update = await Candidate.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
             { $pull: { vacancyStatus: { vacancy: req.params.vacancyId } } })
-        res.send({
-            message: "Vacancy deleted successfully!",
-            update
-        });
-    } catch (err) {
-        res.send(err);
-    }
-}
-
-exports.findOne = async function (req, res) {
-
-    try {
-        let vacancy = await Vacancy.findById(req.params.vacancyId);
-        if (!vacancy) {
-            return res.status(404).send({
-                message: "Vacancy not found with id " + req.params.vacancyId
-            });
-        }
-        res.send(vacancy);
-    } catch (err) {
-        res.send(err);
-    }
-}
-
-exports.findAll = async function (req, res) {
-
-    try {
-        /**
-         * paging 
-         */
-        var paging = {};
-
-        var page = parseInt(req.query.page);
-        var limit = parseInt(req.query.limit);
-
-        if (page < 0 || page === 0)
-            page = 1;
-
-        paging.skip = limit * (page - 1);
-        paging.limit = limit;
-
-        let documentCount = await Vacancy.countDocuments({});
-        let pageCount = Math.ceil(documentCount / limit);
-
-        ////////////////////////////////////
-        let vacancies = await Vacancy.find({}, {}, paging);
-        res.send({
-            vacancies: vacancies,
-            pages: pageCount
-        });
-    } catch (err) {
-        res.send(err);
-    }
-}
+ */

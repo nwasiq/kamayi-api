@@ -43,22 +43,7 @@ module.exports.getUserByEmail = function (email) {
     return user.findOne(query);
 }
 
-module.exports.saveUser = function (newUser) {
-    return new Promise((resolve, reject) => {
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-                if (err) reject(err);
-                newUser.password = hash;
-                newUser.save((err, user) => {
-                    resolve(user);
-                });
-            });
-        });
-    })
-    
-};
-
-module.exports.updateUser = function (user) {
+module.exports.saveUserWithHashedPassword = function (user) {
     return new Promise((resolve, reject) => {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(user.password, salt, (err, hash) => {
@@ -70,6 +55,7 @@ module.exports.updateUser = function (user) {
             });
         });
     })
+    
 };
 
 module.exports.comparePassword = function (user, candidatePassword, hash) {

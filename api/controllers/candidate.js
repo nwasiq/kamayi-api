@@ -34,20 +34,10 @@ exports.create = async function (req, res) {
     }
 }
 
-exports.delete = async function (req, res) {
-    try{
-        let candidate = await Candidate.findByIdAndDelete(req.params.candidateId);
-        if (!candidate) {
-            return res.status(404).send({
-                message: "Candidate not found with id " + req.params.candidateId
-            });
-        }
-        await Criteria.deleteMany({candidate: candidate._id});
-        res.send({ message: "Candidate deleted successfully!" });
-    } catch(err){
-        res.send(err);
-    }
-}
+/**
+ * @todo: add middleware for candidate delete:
+ * await Criteria.deleteMany({candidate: candidate._id});
+ */
 
 exports.findCriteriaForCandidate = async function (req, res) {
     try{
@@ -65,63 +55,6 @@ exports.findCriteriaForCandidate = async function (req, res) {
         }
         res.send(criteria);
     } catch(err) {
-        res.send(err);
-    }
-}
-
-exports.update = async function (req, res) {
-
-    let updatedCandidateFields = { ...req.body };
-    try {
-        let updatedCandidate = await Candidate.findByIdAndUpdate(req.params.candidateId, updatedCandidateFields, { new: true, upsert: true, setDefaultsOnInsert: true });
-        res.send(updatedCandidate);
-    } catch (err) {
-        res.send(err);
-    }
-}
-
-exports.findOne = async function (req, res) {
-
-    try {
-        let candidate = await Candidate.findById(req.params.candidateId);
-        if (!candidate) {
-            return res.status(404).send({
-                message: "Candidate not found with id " + req.params.candidateId
-            });
-        }
-        res.send(candidate);
-    } catch (err) {
-        res.send(err);
-    }
-}
-
-exports.findAll = async function (req, res) {
-
-    try {
-        /**
-         * paging 
-         */
-        var paging = {};
-
-        var page = parseInt(req.query.page);
-        var limit = parseInt(req.query.limit);
-
-        if (page < 0 || page === 0)
-            page = 1;
-
-        paging.skip = limit * (page - 1);
-        paging.limit = limit;
-
-        let documentCount = await Candidate.countDocuments({});
-        let pageCount = Math.ceil(documentCount / limit);
-
-        ////////////////////////////////////
-        let candidates = await Candidate.find({}, {}, paging);
-        res.send({
-            pages: pageCount,
-            candidates: candidates
-        });
-    } catch (err) {
         res.send(err);
     }
 }

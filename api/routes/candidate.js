@@ -7,6 +7,7 @@ const passport = require('passport');
 
 let candidateController = require('../controllers/candidate');
 let criteriaController = require('../controllers/criteria');
+let crudController = require('../controllers/crud');
 
 function checkAuthToken() {
     return passport.authenticate('jwt', {
@@ -16,10 +17,10 @@ function checkAuthToken() {
 }
 
 router.post('', checkAuthToken(), candidateController.create);
-router.get('', checkAuthToken(), candidateController.findAll);
-router.get('/:candidateId', checkAuthToken(), candidateController.findOne);
-router.put('/:candidateId', checkAuthToken(), candidateController.update);
-router.delete('/:candidateId', checkAuthToken(), candidateController.delete);
+router.get('', checkAuthToken(), crudController.findAll);
+router.get('/:candidateId', checkAuthToken(), crudController.findOne);
+router.put('/:candidateId', checkAuthToken(), crudController.update);
+router.delete('/:candidateId', checkAuthToken(), crudController.delete);
 router.get('/:candidateId/criteria', checkAuthToken(), candidateController.findCriteriaForCandidate);
 router.post('/:candidateId/criteria', checkAuthToken(), criteriaController.createCriteriaForCandidate);
 
