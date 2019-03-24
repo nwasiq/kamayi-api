@@ -19,10 +19,10 @@ var CandidateSchema = new schema({
     }]
 });
 
-/**
- * @todo: If candidate deleted, delete all his matching criteria
- * Maybe this is already being done in delete candidate function
- */
+ CandidateSchema.pre('remove', async function() {
+     const CriteriaModel = mongoose.model("criteria");
+     await CriteriaModel.deleteMany({ candidate: this._id });
+ })
 
 const candidate = module.exports = mongoose.model('candidate', CandidateSchema);
 
