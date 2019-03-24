@@ -53,6 +53,12 @@ var VacancySchema = new schema({
 
 });
 
+// VacancySchema.pre('remove', async function(){
+//     const CandidateModel = mongoose.model('candidate');
+//     await CandidateModel.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
+//         { $set: { vacancyStatus: { status: "Status TBD" } } })
+// });
+
 /**
  * @todo: if vacancy deleted, remove vacancy reference from candidates ()
  * This is already being done in delete vacancy function

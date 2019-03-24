@@ -29,11 +29,6 @@ exports.create = async function (req, res) {
     }
 }
 
-/**
- * @todo: add middleware for candidate delete:
- * await Criteria.deleteMany({candidate: candidate._id});
- */
-
 exports.findCriteriaForCandidate = async function (req, res) {
     try{
         let candidate = await Candidate.findById(req.params.candidateId);
