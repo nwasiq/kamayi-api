@@ -31,9 +31,12 @@ exports.create = async function (req, res) {
         let savedEntity = await newEntity.save();
         res.send(savedEntity);
     } catch (err) {
-        res.send({
-            message: err.message
-        });
+        if (err.message) {
+            return res.send({
+                message: err.message
+            });
+        }
+        res.send(err);
     }
 }
 
@@ -106,6 +109,11 @@ exports.update = async function (req, res) {
         let updatedModel = await Model.findOneAndUpdate({ _id: req.params.entityId }, updatedModelFields, { new: true, upsert: true, setDefaultsOnInsert: true });
         res.send(updatedModel);
     } catch (err) {
+        if(err.message){
+            return res.send({
+                message: err.message
+            });
+        }
         res.send(err);
     }
 }

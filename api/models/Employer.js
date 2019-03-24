@@ -24,17 +24,26 @@ var EmployerSchema = new schema({
     }
 });
 
-/**
- * @todo: if employer is deleted, remove all his vacancies
- * @todo: before update, check if placementOfficer is actually placement
- */
+EmployerSchema.pre('save', async function(){
+    let employer = await this.constructor.findOne({companyName: this.companyName});
+    if (employer) {
+        throw new Error('This company already exists');
+    }
+});
+
+EmployerSchema.pre('remove', async function(){
+    const VacancyModel = mongoose.model("vacancy");
+    await VacancyModel.deleteMany({employer: this._id});
+});
+
+EmployerSchema.pre('findOneAndUpdate', async function () {
+    if(this._update.placementOfficer != undefined){
+        const UserModel = mongoose.model('user');
+        let user = await UserModel.findOne({ role: 'placement', _id: this._update.placementOfficer });
+        if (!user) {
+            throw new Error('No placement officer found with id: ' + this._update.placementOfficer);
+        }
+    }
+});
 
 const employer = module.exports = mongoose.model('employer', EmployerSchema);
-
-module.exports.getEmployerByCompanyName = function (company) {
-    const query = {
-        companyName: company
-    };
-
-    return employer.findOne(query);
-}

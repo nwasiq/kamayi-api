@@ -41,3 +41,14 @@ exports.authenticateUserUpdate = function(){
         next();
     }
 }
+
+exports.authenticatePlacementOfficerUpdate = function() {
+    return(req, res, next) => {
+        if (req.user.role != 'admin' && req.body.placementOfficer != undefined) {
+            return res.status(401).send({
+                messages: "Placement officer not updated, only an Admin can do that."
+            });
+        }
+        next();
+    }
+}

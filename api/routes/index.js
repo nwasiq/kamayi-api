@@ -13,7 +13,7 @@ router.get('/authfailurejson', function (req, res) {
 router.use('/users', require('./user'));
 router.use('/employers', require('./employer'));
 router.use('/candidates', require('./candidate'));
-router.use('/vacancies', require('./vacancy'));
+router.use('/vacancys', require('./vacancy'));
 router.use('/criterias', require('./criteria'));
 router.use('/bulkcandidates', require('./bulkcandidate'));
 
