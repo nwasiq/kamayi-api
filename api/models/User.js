@@ -2,6 +2,9 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+const util = require('util');
+const genSalt = util.promisify(bcrypt.genSalt);
+const hashFunction = util.promisify(bcrypt.hash);
 
 const UserSchema = new schema({
     email: {
@@ -22,41 +25,36 @@ const UserSchema = new schema({
     },
 })
 
-/**
- *  @todo: when a user deleted, if his role is placement,
- * remove his reference from employer, placementOfficer: ""
- */
+UserSchema.pre('save', async function() {
+    let user = await this.constructor.findOne({email: this.email});
+    if(user){
+        throw new Error('User with this email already exists');
+    }
+    const salt = await genSalt(10);
+    const hash = await hashFunction(this.password, salt);
+    this.password = hash;
+});
 
- /**
-  * @todo: create endpoint to get employers assigned to placement officer
-  */
+UserSchema.pre('findOneAndUpdate', async function() {
+    if(this._update.password != undefined){
+        const salt = await genSalt(10);
+        const hash = await hashFunction(this._update.password, salt);
+        this._update.password = hash;
+    }
+});
+
+UserSchema.pre('remove', async function(){
+    if(this.role == 'placement'){
+        const EmployerModel = mongoose.model("employer");
+        await EmployerModel.updateMany({placementOfficer: this._id}, {$unset: {placementOfficer: 1}});
+    }
+})
+
 const user = module.exports = mongoose.model('user', UserSchema)
 
 module.exports.getUserById = function (id, callback) {
     user.findById(id, callback);
 }
-
-module.exports.getUserByEmail = function (email) {
-    const query = {
-        email: email
-    };
-    return user.findOne(query);
-}
-
-module.exports.saveUserWithHashedPassword = function (user) {
-    return new Promise((resolve, reject) => {
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(user.password, salt, (err, hash) => {
-                if (err) reject(err);
-                user.password = hash;
-                user.save((err, user) => {
-                    resolve(user);
-                });
-            });
-        });
-    })
-    
-};
 
 module.exports.comparePassword = function (user, candidatePassword, hash) {
     return new Promise((resolve, reject) => {

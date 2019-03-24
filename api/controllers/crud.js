@@ -31,7 +31,9 @@ exports.create = async function (req, res) {
         let savedEntity = await newEntity.save();
         res.send(savedEntity);
     } catch (err) {
-        res.send(err);
+        res.send({
+            message: err.message
+        });
     }
 }
 
@@ -101,7 +103,7 @@ exports.update = async function (req, res) {
                 message: modelName + " not found with id " + req.params.entityId
             }); 
         }
-        let updatedModel = await Model.findByIdAndUpdate(req.params.entityId, updatedModelFields, { new: true, upsert: true, setDefaultsOnInsert: true });
+        let updatedModel = await Model.findOneAndUpdate({ _id: req.params.entityId }, updatedModelFields, { new: true, upsert: true, setDefaultsOnInsert: true });
         res.send(updatedModel);
     } catch (err) {
         res.send(err);
@@ -112,12 +114,13 @@ exports.delete = async function (req, res) {
     const modelName = extractModelFromEndpoint(req.originalUrl, true);
     const Model = mongoose.model(modelName);
     try {
-        let deletedModel = await Model.findByIdAndDelete(req.params.entityId);
+        let deletedModel = await Model.findById(req.params.entityId);
         if (!deletedModel) {
             return res.status(404).send({
                 message: modelName + " not found with id " + req.params.entityId
             });
         }
+        await deletedModel.remove(); //so that pre remove middleware gets called
         res.send({ message: modelName + " deleted successfully!" });
     } catch (err) {
         res.status(500).send({

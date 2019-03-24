@@ -3,11 +3,22 @@ var express    = require('express'),
 	port       = process.env.PORT || 3000,
 	mongoose   = require('mongoose'),
 	passport   = require('passport'),
-	User = require('./api/models/User'), //created model loading here
 	bodyParser = require('body-parser');
 const cors     = require('cors');
 const path     = require('path');
 const config   = require('./config/database');
+
+/**
+ * Model loading
+ */
+
+var User = require('./api/models/User'),
+	Employer = require('./api/models/Employer'),
+	Candidate = require('./api/models/Candidate'),
+	BulkCandidate = require('./api/models/BulkCandidate'),
+	CandidateMatchingCriteria = require('./api/models/CandidateMatchingCriteria'),
+	Vacancy = require('./api/models/Vacancy');
+	
 mongoose.plugin(schema => {
 	schema.options.usePushEach = true
 });

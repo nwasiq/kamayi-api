@@ -16,9 +16,9 @@ function checkAuthToken() {
 }
 
 router.get('', checkAuthToken(), crudController.findAll);
-router.get('/:vacancyId', checkAuthToken(), crudController.findOne);
-router.put('/:vacancyId', checkAuthToken(), crudController.update);
-router.delete('/:vacancyId', checkAuthToken(), crudController.delete);
+router.get('/:entityId', checkAuthToken(), crudController.findOne);
+router.put('/:entityId', checkAuthToken(), crudController.update);
+router.delete('/:entityId', checkAuthToken(), crudController.delete);
 router.get('/:vacancyId/tentativeshortlist', checkAuthToken(), vacancyController.createTentativeCandidateShortlist);
 router.post('/:vacancyId/shortlist', checkAuthToken(), vacancyController.createCandidateShortlist);
 router.get('/:vacancyId/shortlist', checkAuthToken(), vacancyController.findVacancyShortlist);

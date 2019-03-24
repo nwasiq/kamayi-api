@@ -26,6 +26,7 @@ var EmployerSchema = new schema({
 
 /**
  * @todo: if employer is deleted, remove all his vacancies
+ * @todo: before update, check if placementOfficer is actually placement
  */
 
 const employer = module.exports = mongoose.model('employer', EmployerSchema);

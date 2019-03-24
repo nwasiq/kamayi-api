@@ -18,9 +18,9 @@ function checkAuthToken() {
 
 router.post('', checkAuthToken(), candidateController.create);
 router.get('', checkAuthToken(), crudController.findAll);
-router.get('/:candidateId', checkAuthToken(), crudController.findOne);
-router.put('/:candidateId', checkAuthToken(), crudController.update);
-router.delete('/:candidateId', checkAuthToken(), crudController.delete);
+router.get('/:entityId', checkAuthToken(), crudController.findOne);
+router.put('/:entityId', checkAuthToken(), crudController.update);
+router.delete('/:entityId', checkAuthToken(), crudController.delete);
 router.get('/:candidateId/criteria', checkAuthToken(), candidateController.findCriteriaForCandidate);
 router.post('/:candidateId/criteria', checkAuthToken(), criteriaController.createCriteriaForCandidate);
 

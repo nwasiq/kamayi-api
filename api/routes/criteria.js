@@ -16,8 +16,8 @@ function checkAuthToken() {
 }
 
 router.get('', checkAuthToken(), crudController.findAll);
-router.get('/:criteriaId', checkAuthToken(), crudController.findOne);
-router.put('/:criteriaId', checkAuthToken(), crudController.update);
-router.delete('/:criteriaId', checkAuthToken(), crudController.delete);
+router.get('/:entityId', checkAuthToken(), crudController.findOne);
+router.put('/:entityId', checkAuthToken(), crudController.update);
+router.delete('/:entityId', checkAuthToken(), crudController.delete);
 
 module.exports = router;

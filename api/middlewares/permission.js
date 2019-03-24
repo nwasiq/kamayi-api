@@ -1,4 +1,4 @@
-module.exports =  function (...allowed) {
+exports.permit =  function (...allowed) {
     const isAllowed = role => allowed.indexOf(role) > -1;
 
     // return a middleware
@@ -9,5 +9,35 @@ module.exports =  function (...allowed) {
         else {
             response.status(403).json({ message: "Forbidden" }); // user is forbidden
         }
+    }
+}
+
+exports.authenticateUserCreate = function(){
+    return (req, res, next) => {
+        if (req.user.role != 'superAdmin' && 
+            (req.body.role == 'admin' || req.body.role == 'superAdmin')) {
+            return res.status(401).send({
+                messages: "Only a Super Admin can create an Admin"
+            });
+        }
+
+        if (req.user.role == 'superAdmin' && req.body.role == 'superAdmin') {
+            return res.status(401).send({
+                messages: "Only one super admin allowed"
+            });
+        }
+
+        next();
+    }
+}
+
+exports.authenticateUserUpdate = function(){
+    return (req, res, next) => {
+        if (req.user.role == 'admin' && req.body.role == 'superAdmin') {
+            return res.status(401).send({
+                messages: "An Admin cannot update anyone to Super Admin"
+            });
+        }
+        next();
     }
 }
