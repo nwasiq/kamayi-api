@@ -9,6 +9,7 @@ var VacancySchema = new schema({
     occupation: String, //should be enum
     description: String,
     city: String, //should be enum
+    area: String,
     location: {
         type: {
             type: String,
