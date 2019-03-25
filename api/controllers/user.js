@@ -70,7 +70,7 @@ exports.getOpenVacanciesForPlacementOfficer = async function (req, res) {
             });
         }
         let employers = await Employer.find({ placementOfficer: placementId }).distinct('_id');
-        let vacancies = await Vacancy.find({employer: {$in: employers}});
+        let vacancies = await Vacancy.find({ employer: { $in: employers }, status: 'Active'});
         res.send(vacancies)
     } catch (err) {
         res.status(500).send({

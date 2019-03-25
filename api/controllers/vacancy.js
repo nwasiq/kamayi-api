@@ -382,6 +382,9 @@ exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
             }
             vacancy.hired += candidateIds.length;
             vacancy.openings -= candidateIds.length;
+            if (vacancy.openings == 0) {
+                vacancy.status = 'Completed';
+            }
             vacancy = await vacancy.save();
         }
         res.send(candidates);

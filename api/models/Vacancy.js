@@ -5,6 +5,12 @@ var schema = mongoose.Schema;
 
 var VacancySchema = new schema({
 
+    //pending verification status for when placement user archives vacancy
+    status: {
+        type: String,
+        enum: ['Active', 'Completed', 'Pending Verification', 'Archived'],
+        default: 'Active'
+    },
     title: String,
     occupation: String, //should be enum
     description: String,
