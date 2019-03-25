@@ -22,6 +22,6 @@ router.delete('/:entityId', checkAuthToken(), crudController.delete);
 router.get('/:vacancyId/tentativeshortlist', checkAuthToken(), vacancyController.createTentativeCandidateShortlist);
 router.post('/:vacancyId/shortlist', checkAuthToken(), vacancyController.createCandidateShortlist);
 router.get('/:vacancyId/shortlist', checkAuthToken(), vacancyController.findVacancyShortlist);
-router.post('/:vacancyId/shortlist/:candidateId', checkAuthToken(), vacancyController.updateStatusForCandidateInAVacancy);
+router.post('/:vacancyId/candidates', checkAuthToken(), vacancyController.updateStatusForCandidatesInAVacancy);
 
 module.exports = router;

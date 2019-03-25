@@ -236,8 +236,8 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
                 delete projectIndividualScores.locationScore;
             }
             aggregateOperation.push({
-                $project: projectIndividualScores
-            },
+                    $project: projectIndividualScores
+                },
                 {
                     $project: projectCombinedScore
                 },
@@ -324,9 +324,10 @@ exports.findVacancyShortlist = async function (req, res) {
     }
 }
 
-exports.updateStatusForCandidateInAVacancy = async function (req, res) {
+exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
     try {
         let status = req.body.status;
+        let candidateIds = req.body.ids;
         if (!status) {
             return res.status(400).send({
                 message: "Update status not provided"
@@ -339,16 +340,20 @@ exports.updateStatusForCandidateInAVacancy = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        if(vacancy.openings == 0){
+        if(status == 'Joined' && vacancy.openings == 0){
             return res.status(400).send({
                 message: "Vacancy already filled"
             });
         }
-        let candidateId = req.params.candidateId;
-        let checkCandidate = await Candidate.findById(candidateId);
-        if (!checkCandidate) {
+        if (status == 'Joined' && vacancy.openings < candidateIds.length){
+            return res.status(400).send({
+                message: "Not enough openings for vacancy"
+            });
+        }
+        let checkCandidates = await Candidate.find({_id: {$in: candidateIds}});
+        if (checkCandidates.length != candidateIds.length) {
             return res.status(404).send({
-                message: "Candidate not found with id " + req.params.candidateId
+                message: "One or more candidates not found"
             });
         }
         let interviewDate;
@@ -358,7 +363,7 @@ exports.updateStatusForCandidateInAVacancy = async function (req, res) {
         else {
             interviewDate = Date.now();
         }
-        let candidate = await Candidate.findOneAndUpdate({ _id: candidateId, 'vacancyStatus.vacancy': vacancyId },
+        let candidates = await Candidate.updateMany({ _id: {$in: candidateIds}, 'vacancyStatus.vacancy': vacancyId },
             {
                 '$set': {
                     'vacancyStatus.$.status': status,
@@ -367,13 +372,15 @@ exports.updateStatusForCandidateInAVacancy = async function (req, res) {
             }, { new: true });
 
         if (status == "Joined") {
-            candidate.employmentStatus = true;
-            candidate = await candidate.save();
-            vacancy.hired += 1;
-            vacancy.openings -= 1;
+            for(let candidate of checkCandidates){
+                candidate.employmentStatus = true;
+                candidate = await candidate.save();
+            }
+            vacancy.hired += candidateIds.length;
+            vacancy.openings -= candidateIds.length;
             vacancy = await vacancy.save();
         }
-        res.send(candidate);
+        res.send(candidates);
 
     } catch (err) {
         res.status(500).send({

@@ -33,7 +33,7 @@ var VacancySchema = new schema({
         type: String,
         enum: ['fullTime', 'partTime']
     },
-    startDate: Date,
+    dateCreated: Date,
     experience: Number, //years
     educationRequirement: Number, //should be enum,
     gender: {
@@ -58,6 +58,10 @@ var VacancySchema = new schema({
 //     await CandidateModel.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
 //         { $set: { vacancyStatus: { status: "Status TBD" } } })
 // });
+
+VacancySchema.pre('save', async function(){
+    this.dateCreated = Date.now();
+});
 
 /**
  * @todo: if vacancy deleted, remove vacancy reference from candidates ()
