@@ -57,21 +57,25 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        if (req.query.education == undefined && req.query.gender == undefined &&
-            req.query.location == undefined && req.query.experience == undefined
-            && req.query.occupation == undefined && req.query.city == undefined) {
-            return res.status(400).send({
-                message: "No criteria selected for shortlist"
-            });
+        let shortListQuery = { $and: [] };
+        if(vacancy.occupation == 'Any'){
+            if (req.query.education == undefined && req.query.gender == undefined &&
+                req.query.location == undefined && req.query.experience == undefined
+                && req.query.city == undefined) {
+                return res.status(400).send({
+                    message: "No criteria selected for shortlist; Vacancy occupation is Any"
+                });
+            }
+        }
+        else{
+            //default matching
+            shortListQuery.$and.push({ occupation: vacancy.occupation });
         }
         /**
          * Creating Query for Candidate shortlist based on params (req.query)
          */
-        let shortListQuery = { $and: [] };
         let genderQuery = [];
-        if (req.query.occupation != undefined) {
-            shortListQuery.$and.push({ occupation: vacancy.occupation });
-        }
+        
         if (req.query.experience != undefined) {
             shortListQuery.$and.push({ experience: { $gte: vacancy.experience } });
         }
