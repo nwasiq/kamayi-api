@@ -52,3 +52,14 @@ exports.authenticatePlacementOfficerUpdate = function() {
         next();
     }
 }
+
+exports.authenticateVacancyStatusUpdate = function () {
+    return (req, res, next) => {
+        if (req.user.role != 'admin' && (req.body.status != undefined && req.body.status != "Pending Verification")) {
+            return res.status(401).send({
+                messages: "Placement officer can only update status to Pending Verification."
+            });
+        }
+        next();
+    }
+}
