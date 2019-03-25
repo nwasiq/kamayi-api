@@ -5,6 +5,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/database');
 const Employer = require('../models/Employer');
+const Vacancy = require('../models/Vacancy');
 
 exports.login = async function(req, res) {
     let email = req.body.email;
@@ -51,6 +52,27 @@ exports.getEmployersAssignedForPlacementOfficer = async function(req, res) {
         let employers = await Employer.find({placementOfficer: placementId});
         res.send(employers)
     } catch(err){
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.getOpenVacanciesForPlacementOfficer = async function (req, res) {
+
+    let placementId = req.params.placementId;
+    try {
+        let placementUser = await User.findOne({ role: 'placement', _id: placementId });
+        if (!placementUser) {
+            return res.status(400).send({
+                message: "Placement user not found with id: " + placementId
+            });
+        }
+        let employers = await Employer.find({ placementOfficer: placementId }).distinct('_id');
+        let vacancies = await Vacancy.find({employer: {$in: employers}});
+        res.send(vacancies)
+    } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
             err: err
