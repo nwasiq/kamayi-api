@@ -397,6 +397,24 @@ exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
     }
 }
 
+exports.getVacanciesByStatus = async function (req, res) {
+    let status = Vacancy.schema.path('status').enumValues[parseInt(req.params.statusId)];
+    try{
+        let vacancies = await Vacancy.find({status: status});
+        if(vacancies.length == 0){
+            return res.status(404).send({
+                message: "Vacancies with status " + status + " not found"
+            })
+        }
+        res.send(vacancies);
+    } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
 /**
  * @todo: add this to middleware vacancy delete middleware: 
  * let update = await Candidate.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
