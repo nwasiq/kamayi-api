@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
+var industryList = require('../enums/industry');
 
 var EmployerSchema = new schema({
 
@@ -12,7 +13,10 @@ var EmployerSchema = new schema({
     pocAddress: String,
     companyName: String,
     companyPhone: String,
-    industry: String, //should be enum
+    industry: {
+        type: String,
+        enum: industryList
+    },
     website: String,
     location: [{
         lat: Number,

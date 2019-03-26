@@ -79,3 +79,21 @@ exports.getOpenVacanciesForPlacementOfficer = async function (req, res) {
         })
     }
 }
+
+exports.getUsersByRole = async function(req, res){
+    let role = req.params.role;
+    try{
+        let users = await User.find({role: role});
+        if (users.length == 0) {
+            return res.status(400).send({
+                message: "Users not found with role: " + role
+            });
+        }
+        res.send(users);
+    } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
