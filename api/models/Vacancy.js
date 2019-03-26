@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var occupationList = require('../enums/occupation');
 
 var VacancySchema = new schema({
 
@@ -13,10 +12,7 @@ var VacancySchema = new schema({
         default: 'Active'
     },
     title: String,
-    occupation: {
-        type: String,
-        enum: occupationList
-    },
+    occupation: String,
     description: String,
     city: String, //should be enum
     area: String,

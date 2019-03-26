@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var occupationList = require('../enums/occupation');
 
 var MatchingCriteriaSchema = new schema({
 
@@ -10,10 +9,7 @@ var MatchingCriteriaSchema = new schema({
         type: String,
         enum: ['Male', 'Female', 'Any']
     },
-    occupation: {
-        type: String,
-        enum: occupationList
-    },
+    occupation: String,
     experience: Number,
     employer: String,
     isTrained: Boolean,
