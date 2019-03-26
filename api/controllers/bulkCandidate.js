@@ -7,6 +7,7 @@ const Criteria = require('../models/CandidateMatchingCriteria');
 const xlstojson = require("xls-to-json-lc");
 const xlsxtojson = require("xlsx-to-json-lc");
 const util = require('util');
+const allowedEducations = require('../enums/education');
 var fs = require('fs');
 
 var NodeGeocoder = require('node-geocoder');
@@ -41,7 +42,7 @@ exports.importExcel = async function (req, res) {
         fs.unlinkSync(req.file.path);
         if (req.query.candidate != undefined) {
             if (req.query.key == undefined) {
-                res.status(400).send({ msg: "API key required" })
+                return res.status(400).send({ msg: "API key required" })
             }
             geoCodeOptions.apiKey = req.query.key;
             var geocoder = NodeGeocoder(geoCodeOptions);
@@ -116,13 +117,26 @@ exports.importExcel = async function (req, res) {
             res.send({msg: "Candidates saved!"})
         }
         else {
+            
+            /**
+             * remove empty excel cells, remove eduction if not in list
+             */
+            let cnicNumbers = [];
+            for (var n = 0; n < result.length; n++) {
+                if (result[n].cnic == null || result[n].cnic == ""){
+                    result.splice(n, 1);
+                    n--;
+                    continue;
+                }
+                if (allowedEducations.indexOf(result[n].education) == -1) {
+                    delete result[n].education; //education not in required list of educations
+                }
+                cnicNumbers.push(result[n].cnic);
+            }
+
             /**
              * Check if candidates already exist in DB by cnic numbers
              */
-            let cnicNumbers = [];
-            for (let candidate of result) {
-                cnicNumbers.push(candidate.cnic);
-            }
             let candidates = await BulkCandidate.find({ cnic: { $in: cnicNumbers }});
             let message;
             if (candidates.length) {
@@ -151,6 +165,24 @@ exports.importExcel = async function (req, res) {
             });
         }
     } catch(err) {
+        return res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.getBulkCandiesByStatus = async function(req, res) {
+    let status = req.params.statusType == "true" ? true : false;
+    try{
+        let bulkCandies = await BulkCandidate.find({status: status});
+        if (bulkCandies.length == 0) {
+            return res.status(404).send({
+                message: "Bulk Candidates with status " + status + " not found"
+            })
+        }
+        res.send(bulkCandies);
+    } catch (err) {
         return res.status(500).send({
             message: "A server error occurred",
             err: err

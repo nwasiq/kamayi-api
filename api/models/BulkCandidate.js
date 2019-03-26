@@ -5,6 +5,10 @@ var schema = mongoose.Schema;
 
 var BulkCandidateSchema = new schema({
 
+    status: {
+        type: Boolean,
+        default: false
+    },
     fullName: String,
     cnic: String,
     phone: String,
@@ -13,8 +17,7 @@ var BulkCandidateSchema = new schema({
     training: String, //should be enum
     experience: Number, //years of expereince
     city: String, //should be enum
-    email: String,
-    inSystem: String //in system or not
+    email: String
 });
 
 const Candidate = module.exports = mongoose.model('bulkcandidate', BulkCandidateSchema);

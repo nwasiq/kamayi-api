@@ -106,7 +106,7 @@ exports.update = async function (req, res) {
                 message: modelName + " not found with id " + req.params.entityId
             }); 
         }
-        let updatedModel = await Model.findOneAndUpdate({ _id: req.params.entityId }, updatedModelFields, { new: true, upsert: true, setDefaultsOnInsert: true });
+        let updatedModel = await Model.findOneAndUpdate({ _id: req.params.entityId }, updatedModelFields, { new: true});
         res.send(updatedModel);
     } catch (err) {
         if(err.message){

@@ -24,6 +24,15 @@ var CandidateSchema = new schema({
      await CriteriaModel.deleteMany({ candidate: this._id });
  })
 
+CandidateSchema.pre('save', async function () {
+    /**
+     * If cnic is present in bulk candidate IDs, his status will be set to true
+     * This means that candidate being created was retrieved from bulk cand model 
+     */
+    const BulkCandModel = mongoose.model('bulkcandidate');
+    await BulkCandModel.findOneAndUpdate({cnic: this.cnic}, {status: true});
+})
+
 const candidate = module.exports = mongoose.model('candidate', CandidateSchema);
 
 module.exports.getCandidateByCnic = function (cnic) {
