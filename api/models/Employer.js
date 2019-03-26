@@ -18,11 +18,11 @@ var EmployerSchema = new schema({
         enum: industryList
     },
     website: String,
-    location: [{
+    location: {
         lat: Number,
         long: Number,
         city: String
-    }],
+    },
     placementOfficer: {
         type: schema.Types.ObjectId, ref: 'user'
     }

@@ -18,6 +18,7 @@ function checkAuthToken() {
 
 router.post('', checkAuthToken(), permission.permit('admin', 'superAdmin'), permission.authenticateUserCreate(), crudController.create);
 router.get('', checkAuthToken(), crudController.findAll);
+router.get('/dashboard', checkAuthToken(), permission.permit('admin', 'placement'), userController.getDashboardFields);
 router.get('/:entityId', checkAuthToken(), crudController.findOne);
 router.put('/:entityId', checkAuthToken(), permission.permit('admin', 'superAdmin'), permission.authenticateUserUpdate(), crudController.update);
 router.delete('/:entityId', checkAuthToken(), permission.permit('admin', 'superAdmin'), crudController.delete);

@@ -1,6 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/database');
@@ -23,10 +22,26 @@ exports.login = async function(req, res) {
             const token = jwt.sign(user.toJSON(), config.secret, {
                 expiresIn: 604800 // 1 week
             });
+            /**
+             * For admin and placement, retrieve dashboard fields
+             * For admin: employers who have no officer assigned, payments? and job archive approvals
+             * For placement: assigned employers, open vacancies
+             */
+            let dashboard = {};
+            if(user.role == "admin"){
+                dashboard['employerAssignments'] = await Employer.find({placementOfficer: {$exists: false}}).count();
+                dashboard['vacancyArchiveApprovals'] = await Vacancy.find({status: 'Pending Verification'}).count();
+            }
+            else if(user.role == "placement"){
+                let employers = await Employer.find({ placementOfficer: user._id }).distinct('_id');
+                dashboard['assignedEmployers'] = employers.length;
+                dashboard['openVacancies'] = await Vacancy.find({ employer: { $in: employers }, status: 'Active' }).count();
+            }
             res.send({
                 success: true,
                 token: 'Bearer ' + token,
-                user
+                user,
+                dashboard
             });
         }
         else {
@@ -36,6 +51,28 @@ exports.login = async function(req, res) {
         }
     } catch (err) {
         res.send(err);
+    }
+}
+
+exports.getDashboardFields = async function(req, res){
+    let role = req.user.role;
+    let dashboard = {};
+    try{
+        if (role == "admin") {
+            dashboard['employerAssignments'] = await Employer.find({ placementOfficer: { $exists: false } }).count();
+            dashboard['vacancyArchiveApprovals'] = await Vacancy.find({ status: 'Pending Verification' }).count();
+        }
+        else if (role == "placement") {
+            let employers = await Employer.find({ placementOfficer: req.user._id }).distinct('_id');
+            dashboard['assignedEmployers'] = employers.length;
+            dashboard['openVacancies'] = await Vacancy.find({ employer: { $in: employers }, status: 'Active' }).count();
+        }
+        res.send(dashboard);
+    } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
     }
 }
 

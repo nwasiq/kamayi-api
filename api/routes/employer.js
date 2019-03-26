@@ -7,6 +7,7 @@ const passport = require('passport');
 
 let vacancyController = require('../controllers/vacancy');
 let crudController = require('../controllers/crud');
+let employerController = require('../controllers/employer');
 const permission = require('../middlewares/permission');
 
 function checkAuthToken() {
@@ -18,6 +19,7 @@ function checkAuthToken() {
 
 router.post('', checkAuthToken(), crudController.create);
 router.get('', checkAuthToken(), crudController.findAll);
+router.get('/unassigned', checkAuthToken(), permission.permit('admin'), employerController.getUnassignedEmployers);
 router.get('/:entityId', checkAuthToken(), crudController.findOne);
 router.put('/:entityId', checkAuthToken(), permission.permit('admin', 'placement'), permission.authenticatePlacementOfficerUpdate(), crudController.update);
 router.delete('/:entityId', checkAuthToken(), crudController.delete);
