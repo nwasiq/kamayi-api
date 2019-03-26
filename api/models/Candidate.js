@@ -11,6 +11,8 @@ var CandidateSchema = new schema({
     dob: Date,
     training: [String],
     email: String,
+    primarySkill: String,
+    area: String,
     employmentStatus: Boolean,
     vacancyStatus: [{
         vacancy: { type: schema.Types.ObjectId, ref: 'vacancy' },
