@@ -48,3 +48,14 @@ exports.findCriteriaForCandidate = async function (req, res) {
         res.send(err);
     }
 }
+
+exports.getCandiesWithinArea = function (req, res) {
+    let coords = req.body.coords;
+    let maxDistance = req.body.distance;
+
+    try{
+        
+    } catch (err) {
+        res.send(err);
+    }
+}
