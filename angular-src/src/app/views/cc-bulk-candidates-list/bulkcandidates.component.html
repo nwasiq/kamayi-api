@@ -1,0 +1,65 @@
+<div class="animated fadeIn">
+    <div class="row" style="margin-top: 4em;">
+      <div class="col-md-12 mb-4">
+        <!-- Nav tabs -->
+        <div class="col-md-12 mb-4">
+          <div class="input-group">
+            <div class="input-group-prepend" style="border: 1px solid #707070; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+                <span class="input-group-text" style="border-top-left-radius: 15px;border-bottom-left-radius: 15px;"><i class="fa fa-search"></i></span>
+            </div>
+            <input type="search" class="form-control" placeholder="Search..." name="search" [(ngModel)]="search" style="border-color: #707070; border-top-right-radius: 15px;border-bottom-right-radius: 15px;">
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped table-responsive-sm">
+            <thead>
+              <tr style="background: #BFFFCE;">
+                <th>ID</th>
+                <th>Candidate Name</th>
+                <th>Primary Skill</th>
+                <th>Location</th>
+                <th>Contact No</th>
+                <th>Institute</th>
+                <th>CNIC No</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let candidate of candidatesInfo | filter:search">
+                <td>{{ candidate.id }}</td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
+                    {{ candidate.candidateName }}
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
+                    {{ candidate.primarySkill }}
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
+                    {{ candidate.location }}
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
+                    {{ candidate.contactNo }}
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
+                    {{ candidate.institute }}
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
+                    {{ candidate.cnicNo }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!--/.col-->
+    </div>
+  </div>

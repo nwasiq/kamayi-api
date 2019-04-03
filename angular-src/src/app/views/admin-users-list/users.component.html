@@ -1,0 +1,51 @@
+<div class="animated fadeIn">
+  <div class="row" style="margin-top: 2em;">
+    <div class="col-lg-12">
+      <label>
+          <h5>Users</h5>
+          <hr>
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="input-group">
+        <div class="input-group-prepend" style="border: 1px solid #707070; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+            <span class="input-group-text" style="border-top-left-radius: 15px;border-bottom-left-radius: 15px;"><i class="fa fa-search"></i></span>
+        </div>
+        <input type="search" class="form-control" placeholder="Search..." name="search" [(ngModel)]="search" style="border-color: #707070; border-top-right-radius: 15px;border-bottom-right-radius: 15px;">
+      </div>
+    </div>
+    
+    <div class="col-md-12 mb-4">
+      <!-- Nav tabs -->
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-responsive-sm">
+          <thead>
+            <tr style="background: #BFFFCE;">
+              <th>ID</th>
+              <th>Candidate Name</th>
+              <th>Primary Skill</th>
+              <th>Location</th>
+              <th>Contact No</th>
+              <th>Institute</th>
+              <th>CNIC No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let candidate of candidatesInfo | filter:search">
+              <td>{{ candidate.id }}</td>
+              <td>{{ candidate.candidateName }}</td>
+              <td>{{ candidate.primarySkill }}</td>
+              <td>{{ candidate.location }}</td>
+              <td>{{ candidate.contactNo }}</td>
+              <td>{{ candidate.institute }}</td>
+              <td>{{ candidate.cnicNo }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!--/.col-->
+  </div>
+</div>

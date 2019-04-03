@@ -1,0 +1,172 @@
+<div class="animated fadeIn">
+    <div class="row" style="margin-top: 2em;">
+        <div class="col-lg-6">
+            <label>
+                <h3>Manage Applications for Vacancy</h3>
+                <hr style="margin-bottom: 0rem; margin-top: -0.5rem;">
+                <p>Electricians required | Osaka Batteries</p>
+            </label>
+        </div>
+        <div class="col-lg-4" style="text-align: right;">
+            <label>
+                <h5><span style="color: #20C90E; font-size: 40px; font-weight: bold;">40</span>/100</h5>
+            </label>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 0.5em;">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> Criteria
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-12">
+                        <div class="input-group col-md-1">
+                        </div>
+                        <div class="input-group col-md-3">
+                            <div class="col-md-12 col-form-label">
+                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                    
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                    <input class="form-check-input" type="checkbox" name="gender" [(ngModel)]="gender" value="Gender">
+                                    <label class="form-check-label" for="inlineRadio1"> Gender</label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.5em;">
+                                    <input class="form-check-input" type="checkbox" name="education" [(ngModel)]="education" value="Education">
+                                    <label class="form-check-label" for="inlineRadio2"> Education</label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                    <input class="form-check-input" type="checkbox" name="experience" [(ngModel)]="experience" value="Experience">
+                                    <label class="form-check-label" for="inlineRadio3"> Experience</label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                    <input class="form-check-input" type="checkbox" name="city" [(ngModel)]="city" value="City">
+                                    <label class="form-check-label" for="inlineRadio2"> City</label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                    <input class="form-check-input" type="checkbox" name="location" [(ngModel)]="location" value="Location">
+                                    <label class="form-check-label" for="inlineRadio3"> Location</label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                    <input class="form-check-input" type="checkbox" name="unemployed" [(ngModel)]="unemployed" value="Unemployed">
+                                    <label class="form-check-label" for="inlineRadio3"> Show Only Unemployed</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-1">
+                        </div>
+                        <div class="input-group col-md-3">
+                            <div class="col-md-12 col-form-label">
+                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                    <label class="form-check-label" for="inlineRadio3"> Weights</label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                    <label class="form-check-label" for="inlineRadio1"> - </label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <input class="form-check-input" type="text" name="educationWeight" [(ngModel)]="educationWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <input class="form-check-input" type="text" name="experienceWeight" [(ngModel)]="experienceWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <label class="form-check-label" for="inlineRadio2"> - </label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <input class="form-check-input" type="text" name="locationWeight" [(ngModel)]="locationWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <label class="form-check-label" for="inlineRadio3"> - </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group col-md-4">
+                            <div class="col-md-12 col-form-label">
+                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                    
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <label class="form-check-label" for="inlineRadio2"> Sort By:</label>&emsp;
+                                    <select class="form-control" name="sortBy" [(ngModel)]="sortBy" style="border-color: #707070; width: 50%; margin-bottom: 0.5em;" required>
+                                        <option *ngFor="let x of sortBy" [ngValue]="x">{{x}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <input class="form-check-input" type="checkbox" name="generateWeighted" [(ngModel)]="generateWeighted" value="Generate Weighted">
+                                    <label class="form-check-label" for="inlineRadio3"> Generate Weighted List</label>
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    
+                                </div>
+                                <div class="col-md-12 form-check form-check-inline mr-4">
+                                    <button type="submit" class="btn pull-right" style="font-weight: bold; border-radius: 50px; width: 100%; height: 40px; border-color: #707070">Generate List</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/.col-->
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> System List
+                </div>
+                <div class="card-body">
+                <table class="table table-bordered table-striped table-responsive-sm">
+                    <thead>
+                    <tr style="background: #BFFFCE;">
+                        <th>
+                            <input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/>
+                        </th>
+                        <th>ID</th>
+                        <th>Candidate Name</th>
+                        <th><i class="fa fa-intersex" style="font-weight: bold;"></i></th>
+                        <th>Occupation</th>
+                        <th>City</th>
+                        <th>Education</th>
+                        <th>Relative Experience</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let candidate of candidatesInfo ; let i = index">
+                        <td>
+                            <input type="checkbox" name="candidatecb[]" value="{{candidate.id}}" [(ngModel)]="candidate.state"/>
+                        </td>
+                        <td>{{ candidate.id }}</td>
+                        <td>{{ candidate.candidateName }}</td>
+                        <td>{{ candidate.gender }}</td>
+                        <td>{{ candidate.occupation }}</td>
+                        <td>{{ candidate.city }}</td>
+                        <td>{{ candidate.education }}</td>
+                        <td>{{ candidate.relativeExp }}</td>
+                        <td>{{ candidate.status }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                <!--/.col-->
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+    <div class="row">
+        <div class="input-group mb-12">
+            <div class="input-group col-md-9">
+            </div>
+            <div class="input-group col-md-3">
+                    <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Short List Selected</button>
+            </div>
+        </div>
+    </div>
+</div>

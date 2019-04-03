@@ -1,0 +1,316 @@
+<div class="animated fadeIn">
+    <div class="row" style="margin-top: 4em;">
+      <div class="col-md-12 mb-4">
+        <!-- Nav tabs -->
+        <tabset>
+          <tab heading="All">
+            <div class="col-md-12 mb-4">
+              <div class="input-group">
+                <div class="input-group-prepend" style="border: 1px solid #707070; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+                    <span class="input-group-text" style="border-top-left-radius: 15px;border-bottom-left-radius: 15px;"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="search" class="form-control" placeholder="Search..." name="search" [(ngModel)]="search" style="border-color: #707070; border-top-right-radius: 15px;border-bottom-right-radius: 15px;">
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped table-responsive-sm">
+                <thead>
+                  <tr style="background: #BFFFCE;">
+                    <th>ID</th>
+                    <th>Vacancy Title</th>
+                    <th>Company Name</th>
+                    <th>PO Name</th>
+                    <th>Deletion Date</th>
+                    <th>Vacancy Type</th>
+                    <th>Filled %</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody >
+                  <tr *ngFor="let jobDeletion of jobDeletionInfo | filter:search">
+                    <td>{{ jobDeletion.id }}</td>
+                    <td>{{ jobDeletion.vacancyTitle }}</td>
+                    <td>{{ jobDeletion.companyName }}</td>
+                    <td>{{ jobDeletion.poName }}</td>
+                    <td>{{ jobDeletion.deletionDate }}</td>
+                    <td>{{ jobDeletion.vacancyType }}</td>
+                    <td>{{ jobDeletion.filled }}</td>
+                    <td>{{ jobDeletion.status }}</td>
+                    <td>
+                      <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
+                        {{ jobDeletion.action }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </tab>
+          <tab heading="Pending">
+            <div class="col-md-12 mb-4">
+              <div class="input-group">
+                <div class="input-group-prepend" style="border: 1px solid #707070; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+                    <span class="input-group-text" style="border-top-left-radius: 15px;border-bottom-left-radius: 15px;"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="search" class="form-control" placeholder="Search..." name="search" [(ngModel)]="search" style="border-color: #707070; border-top-right-radius: 15px;border-bottom-right-radius: 15px;">
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped table-responsive-sm">
+                <thead>
+                  <tr style="background: #BFFFCE;">
+                    <th>ID</th>
+                    <th>Vacancy Title</th>
+                    <th>Campaign Name</th>
+                    <th>PO Name</th>
+                    <th>Deletion Date</th>
+                    <th>Vacancy Type</th>
+                    <th>Filled %</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let jobDeletion of jobDeletionInfo | filter:search">
+                  <tr *ngIf="jobDeletion.status == 'Pending'">
+                    <td>{{ jobDeletion.id }}</td>
+                    <td>{{ jobDeletion.vacancyTitle }}</td>
+                    <td>{{ jobDeletion.companyName }}</td>
+                    <td>{{ jobDeletion.poName }}</td>
+                    <td>{{ jobDeletion.deletionDate }}</td>
+                    <td>{{ jobDeletion.vacancyType }}</td>
+                    <td>{{ jobDeletion.filled }}</td>
+                    <td>{{ jobDeletion.status }}</td>
+                    <td>
+                      <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
+                        {{ jobDeletion.action }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </tab>
+          <tab heading="Achived/Deleted">
+            <div class="col-md-12 mb-4">
+              <div class="input-group">
+                <div class="input-group-prepend" style="border: 1px solid #707070; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
+                    <span class="input-group-text" style="border-top-left-radius: 15px;border-bottom-left-radius: 15px;"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="search" class="form-control" placeholder="Search..." name="search" [(ngModel)]="search" style="border-color: #707070; border-top-right-radius: 15px;border-bottom-right-radius: 15px;">
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-striped table-responsive-sm">
+                <thead>
+                  <tr style="background: #BFFFCE;">
+                    <th>ID</th>
+                    <th>Vacancy Title</th>
+                    <th>Campaign Name</th>
+                    <th>PO Name</th>
+                    <th>Deletion Date</th>
+                    <th>Vacancy Type</th>
+                    <th>Filled %</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let jobDeletion of jobDeletionInfo | filter:search">
+                  <tr *ngIf="jobDeletion.status == 'Deleted'">
+                    <td>{{ jobDeletion.id }}</td>
+                    <td>{{ jobDeletion.vacancyTitle }}</td>
+                    <td>{{ jobDeletion.companyName }}</td>
+                    <td>{{ jobDeletion.poName }}</td>
+                    <td>{{ jobDeletion.deletionDate }}</td>
+                    <td>{{ jobDeletion.vacancyType }}</td>
+                    <td>{{ jobDeletion.filled }}</td>
+                    <td>{{ jobDeletion.status }}</td>
+                    <td>
+                      <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
+                        {{ jobDeletion.action }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </tab>
+        </tabset>
+      </div><!--/.col-->
+    </div>
+  </div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-success modal-lg" role="document" style="margin-top: 8em;">
+    <div class="modal-content">
+      <div class="header">
+        <h5 style="text-align:center; margin-top: 1em; text-transform: uppercase;">Vacancy Deletion Verification</h5>
+      </div>
+      <div class="header-text">
+        <h6 style="text-align:center; margin-top: 1em; text-transform: uppercase;">Vacancy Details</h6>
+      </div>
+      <hr style="color: #707070;  border: 1px solid #707070; width: 70%;">
+      <form (submit)="onDeletion()" ngNativeValidate>
+        <div class="modal-body">
+          <div class="col-md-12 mb-4">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Vacancy ID</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="idVacancy" name="idVacancy" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Vacancy Title</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="titleVacancy" name="titleVacancy" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Vacancy Desc</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="vacancyDesc" name="vacancyDesc" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Company Name</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="nameCompany" name="nameCompany" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Placement Officer ID</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="poID" name="poID" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Deletion Date</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="dateDeletion" name="dateDeletion" type="date" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Vacancy Type</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="typeVacancy" name="typeVacancy" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Empty Slots</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="emptySlots" name="emptySlots" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Filled Slots</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="filledSlots" name="filledSlots" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Contact No</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="contactNo" name="contactNo" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Vacancy Location</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="vacancyLocation" name="vacancyLocation" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Job Uploaded Date</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="jobUploadedDate" name="jobUploadedDate" type="date" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p>Deletion Comments</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" [(ngModel)]="deletionComments" name="deletionComments" type="text" style="border-color: #707070" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" (click)="successModal.hide()" class="btn btn-success" style="font-weight: bold; display: block; margin: 0px auto; border-radius: 50px; width: 30%; height: 50px; background: #479B5B">Verify</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+  

@@ -1,0 +1,254 @@
+<div class="animated fadeIn">
+    <form (submit)="onSubmitCreateVacancy()" ngNativeValidate>
+        <div class="row" style="margin-top: 2em;">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Company Details
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-2">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Name</label>
+                                        <input class="form-control" [(ngModel)]="name" name="name" type="text" style="border-color: #707070" placeholder="Electrician Required" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Description</label>
+                                        <textarea class="form-control" [(ngModel)]="description" name="description" type="text" style="border-color: #707070" placeholder="Electricians required for Osaka batteries, candidates must be good vocationally trained amazing resources, lorem ipsum dolor sit amet consecti " required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Occupation</label>
+                                        <input class="form-control" [(ngModel)]="occupation" name="occupation" type="text" style="border-color: #707070" placeholder="Electrician and Mechanical" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Employer</label>
+                                        <input class="form-control" [(ngModel)]="employer" name="employer" type="text" style="border-color: #707070" placeholder="Osaka Batteries" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Set Location
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-4">
+                            <div class="input-group col-md-6">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="company">Primary Location</label>
+                                        <input class="form-control" [(ngModel)]="primaryLocation" name="primaryLocation" type="text" style="border-color: #707070" placeholder="340, F-11 Markaz, Islamabad, Pakistan" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <span class="btn" style="margin-top: 1.75em;border-radius: 50%; border: 1px solid #707070; background: #ADFFB7; cursor: pointer;"><i class="fa fa-pencil"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <div class="input-group col-md-12">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div style="height: 500px; display: block; margin: 0 auto;">
+                                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [zoomControl]="false" (mapClick)="mapClicked($event)" style="height: 490px;">
+                                                <agm-marker *ngFor="let m of markers" [latitude]="m.lat" [longitude]="m.lng">
+                                                </agm-marker>
+                                            </agm-map>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Additional Details
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-4">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Salary</label>
+                                        <input class="form-control" [(ngModel)]="salary" name="salary" type="text" style="border-color: #707070" placeholder="PKR 20,000" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Designation</label>
+                                        <input class="form-control" [(ngModel)]="designation" name="designation" type="text" style="border-color: #707070" placeholder="Marketing Manager" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Type</label>
+                                        <input class="form-control" [(ngModel)]="type" name="type" type="text" style="border-color: #707070" placeholder="Full-Time" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-4">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Required Education</label>
+                                        <input class="form-control" [(ngModel)]="requiredEducation" name="requiredEducation" type="text" style="border-color: #707070" placeholder="Graduate" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Mobile No</label>
+                                        <input class="form-control" [(ngModel)]="mobileNo" name="mobileNo" type="text" style="border-color: #707070" placeholder="+923451234567" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Total Slots</label>
+                                        <input class="form-control" [(ngModel)]="totalSlots" name="totalSlots" type="text" style="border-color: #707070" placeholder="900"  required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Age Range</label>
+                                        <input class="form-control" [(ngModel)]="ageRange" name="ageRange" type="text" style="border-color: #707070" placeholder="18 - 40" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">City</label>
+                                        <input class="form-control" [(ngModel)]="city" name="city" type="text" style="border-color: #707070" placeholder="Islamabad" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Min. Exp</label>
+                                        <input class="form-control" [(ngModel)]="minExp" name="minExp" type="text" style="border-color: #707070" placeholder="5" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Gender Req.</label>
+                                        <input class="form-control" [(ngModel)]="genderReq" name="genderReq" type="text" style="border-color: #707070" placeholder="Any" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-8">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Comments</label>
+                                        <textarea class="form-control" [(ngModel)]="comments" name="comments" type="text" style="border-color: #707070" placeholder="Any" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Benefits
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-12">
+                            <div class="form-group row">
+                                <div class="col-md-12 col-form-label">
+                                    <div class="form-check form-check-inline mr-4" id="inline-radios">
+                                        <input class="form-check-input" type="checkbox" name="insurance" [(ngModel)]="insurance" id="insurance" value="Insurance">
+                                        <label class="form-check-label" for="inlineRadio1"> Insurance</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="checkbox" name="transport" [(ngModel)]="transport" id="transport" value="Transport">
+                                        <label class="form-check-label" for="inlineRadio2"> Transport</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="checkbox" name="accomodation" [(ngModel)]="accomodation" id="accomodation" value="Accomodation">
+                                        <label class="form-check-label" for="inlineRadio3"> Accomodation</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="checkbox" name="food" [(ngModel)]="food" id="food" value="Food">
+                                        <label class="form-check-label" for="inlineRadio2"> Food</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="checkbox" name="socailSecurity" [(ngModel)]="socailSecurity" id="socailSecurity" value="Social Security">
+                                        <label class="form-check-label" for="inlineRadio3"> Social Security</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group mb-12">
+                <div class="input-group col-md-9">
+                </div>
+                <div class="input-group col-md-3">
+                        <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Create Vacancy</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--/.row-->
+</div>

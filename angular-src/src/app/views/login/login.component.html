@@ -1,0 +1,43 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center" style="background-color: #ffffff">
+    <div class="container" style="height: 100vh;">
+      <div class="row">
+        <div class="col-md-8 mx-auto" style="margin-top: 2em;">
+          <img src="../../../assets/img/logo1.png" style="width: 50%; display: block; margin: 0px auto;"/>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card-group">
+            <div class="card p-4" style="background-color: #909090; border-radius: 2em; border-color: #707070;">
+              <div class="card-body" style="margin-top: 2em;">
+                <form (submit)="onLoginSubmit()" ngNativeValidate>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="username" required>
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Password" name="password" [(ngModel)]="password" required>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4" style="text-align:center;">
+                      <button type="submit" name="loginSubmit" class="btn btn-primary px-4" style="height: 45px; background-color: #6BD873; border-color: #A0FFA6; border-radius: 2em;">Login</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,55 @@
+<div class="animated fadeIn">
+  <div class="row" style="margin-top: 2em;">
+    <div class="col-lg-12">
+      <label>
+          <h5>Bulk Employers - Upload</h5>
+          <hr>
+      </label>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 1em;">
+    <div class="col-md-12 mb-12">
+        <div class="input-group">
+          <div class="upload-field">
+            <input type="file" #file id="uploadFileInput"/>
+            <button class="upload-button">Upload</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mb-4">
+        <div class="input-group">
+          <button class="upload-file-button" (click)="file.click()">Save</button>
+        </div>
+      </div>
+
+    <div class="col-md-12 mb-4">
+      <!-- Nav tabs -->
+      <div class="card-body">
+        <table class="table table-bordered table-striped table-responsive-sm">
+          <thead>
+            <tr style="background: #BFFFCE;">
+              <th>ID</th>
+              <th>Company Name</th>
+              <th>Industry</th>
+              <th>Location</th>
+              <th>Contact No</th>
+              <th>POC</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let employers of employersInfo">
+              <td>{{ employers.id }}</td>
+              <td>{{ employers.companyName }}</td>
+              <td>{{ employers.industry }}</td>
+              <td>{{ employers.location }}</td>
+              <td>{{ employers.contactNo }}</td>
+              <td>{{ employers.poc }}</td>
+              <td>{{ employers.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!--/.col-->
+  </div>
+</div>
