@@ -14,8 +14,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { AppComponent } from './app.component';
 
 import { AgmCoreModule } from '@agm/core';
-
-
+import { CrudService } from '../services/crud/crud.service';
+import { UserService } from '../services/user/user.service';
+import { BulkCandidateService } from '../services/bulkCandidate/bulk-candidate.service';
+import { AuthGuard } from '../services/authGuard/auth.guard';
+ 
 // Import containers
 import { DefaultLayoutComponent } from './containers';
 import { CcDefaultLayoutComponent } from './containers';
@@ -46,6 +49,7 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { HttpInterceptor } from '../services/httpInterceptor';
 
 
 @NgModule({
@@ -63,7 +67,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     ChartsModule,
     FormsModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
+      apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM' //needs to be changed
     })
   ],
   declarations: [
@@ -73,7 +77,13 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     P500Component,
     LoginComponent
   ],
-  providers: [{
+  providers: [
+    CrudService, 
+    AuthGuard, 
+    HttpInterceptor,
+    UserService,
+    BulkCandidateService, 
+    {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],
