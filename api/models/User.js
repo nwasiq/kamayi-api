@@ -48,6 +48,9 @@ UserSchema.pre('remove', async function(){
         const EmployerModel = mongoose.model("employer");
         await EmployerModel.updateMany({placementOfficer: this._id}, {$unset: {placementOfficer: 1}});
     }
+    else if(this.role == 'superAdmin'){
+        throw new Error('super admin cannot be deleted');
+    }
 })
 
 const user = module.exports = mongoose.model('user', UserSchema)

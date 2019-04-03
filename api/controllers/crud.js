@@ -131,6 +131,11 @@ exports.delete = async function (req, res) {
         await deletedModel.remove(); //so that pre remove middleware gets called
         res.send({ message: modelName + " deleted successfully!" });
     } catch (err) {
+        if (err.message) {
+            return res.status(500).send({
+                message: err.message
+            });
+        }
         res.status(500).send({
             message: "A server error occurred",
             err: err
