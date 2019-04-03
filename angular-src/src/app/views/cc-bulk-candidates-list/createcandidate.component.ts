@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candidate.service';
+import { convertToNumber } from  '../../../services/convertEducation';
+import { educationType } from '../../enums'
 
 @Component({
   templateUrl: 'createcandidate.component.html'
@@ -9,7 +11,7 @@ import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candi
 export class CreatecandidateComponent {
 
   name: string;
-  education: string;
+  education: any;
   city: string;
   email: string;
   phone: string
@@ -85,6 +87,11 @@ export class CreatecandidateComponent {
 
   onSubmitCreateCandidate(){
     let criteria: any = [];
+    if (Object.keys(educationType).indexOf(this.education) == -1) {
+      alert('Education not accepted'); //education not in required list of educations
+      return;
+    }
+    this.education = convertToNumber(this.education);
     for (let one of this.tiers){
       criteria.push({
         occupation:  one.occupation,

@@ -181,7 +181,9 @@ exports.getBulkCandiesByStatus = async function(req, res) {
                 message: "Bulk Candidates with status " + status + " not found"
             })
         }
-        res.send(bulkCandies);
+        res.send({
+            bulkcandidates :bulkCandies
+        });
     } catch (err) {
         return res.status(500).send({
             message: "A server error occurred",

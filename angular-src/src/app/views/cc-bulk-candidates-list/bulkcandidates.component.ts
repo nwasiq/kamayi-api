@@ -30,7 +30,8 @@ export class BulkcandidatesComponent {
   ) { }
 
   ngOnInit(){
-    this.crudService.retrieveAll("bulkcandidates").subscribe(data => {
+    this.bulkCandidateService.getBulkCandiesByStatus('false').subscribe(data => {
+      console.log(data);
       if(data.message)
       {
         alert(data.message);
