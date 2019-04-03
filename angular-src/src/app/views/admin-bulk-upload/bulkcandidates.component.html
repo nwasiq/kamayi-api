@@ -13,14 +13,14 @@
     <div class="col-md-12 mb-12">
       <div class="input-group">
         <div class="upload-field">
-          <input type="file" #file id="uploadFileInput"/>
+          <input type="file" #file id="uploadFileInput" (change)="fileChangeEvent($event)" accept=".xlsx"/>
           <button class="upload-button" (click)="file.click()">Upload</button>
         </div>
       </div>
     </div>
     <div class="col-md-12 mb-4">
       <div class="input-group">
-        <button class="upload-file-button">Save</button>
+        <button class="upload-file-button" (click)="onUpload()">Save</button>
       </div>
     </div>
 
@@ -31,23 +31,23 @@
           <thead>
             <tr style="background: #BFFFCE;">
               <th>ID</th>
-              <th>Candidate Name</th>
+              <th>Full Name</th>
+              <th>Education</th>
               <th>Primary Skill</th>
-              <th>Location</th>
-              <th>Contact No</th>
-              <th>Institute</th>
+              <th>City</th>
+              <th>Phone No</th>
               <th>CNIC No</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let candidate of candidatesInfo">
-              <td>{{ candidate.id }}</td>
-              <td>{{ candidate.candidateName }}</td>
+              <td>{{ candidate._id }}</td>
+              <td>{{ candidate.fullName }}</td>
+              <td>{{ candidate.education }}</td>
               <td>{{ candidate.primarySkill }}</td>
-              <td>{{ candidate.location }}</td>
-              <td>{{ candidate.contactNo }}</td>
-              <td>{{ candidate.institute }}</td>
-              <td>{{ candidate.cnicNo }}</td>
+              <td>{{ candidate.city }}</td>
+              <td>{{ candidate.phone }}</td>
+              <td>{{ candidate.cnic }}</td>
             </tr>
           </tbody>
         </table>

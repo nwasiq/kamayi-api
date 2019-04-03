@@ -5,6 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { CcdashboardComponent } from './ccdashboard.component';
+import {UserviewComponent } from './userview.component';
 import { CcdashboardRoutingModule } from './ccdashboard-routing.module';
 
 
@@ -16,6 +17,6 @@ import { CcdashboardRoutingModule } from './ccdashboard-routing.module';
     BsDropdownModule,
     ButtonsModule.forRoot()
   ],
-  declarations: [ CcdashboardComponent ]
+  declarations: [ CcdashboardComponent, UserviewComponent ]
 })
 export class CcdashboardModule { }

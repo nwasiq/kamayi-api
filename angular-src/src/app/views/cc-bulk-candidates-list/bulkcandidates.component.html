@@ -14,46 +14,50 @@
           <table class="table table-bordered table-striped table-responsive-sm">
             <thead>
               <tr style="background: #BFFFCE;">
-                <th>ID</th>
-                <th>Candidate Name</th>
-                <th>Primary Skill</th>
-                <th>Location</th>
-                <th>Contact No</th>
-                <th>Institute</th>
-                <th>CNIC No</th>
+                  <th>ID</th>
+                  <th>Full Name</th>
+                  <th>Education</th>
+                  <th>Primary Skill</th>
+                  <th>City</th>
+                  <th>Phone No</th>
+                  <th>CNIC No</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let candidate of candidatesInfo | filter:search">
-                <td>{{ candidate.id }}</td>
                 <td>
-                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
-                    {{ candidate.candidateName }}
+                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
+                    {{ candidate._id }}
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
+                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
+                    {{ candidate.fullName }}
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
+                    {{ candidate.education }}
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
                     {{ candidate.primarySkill }}
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
-                    {{ candidate.location }}
+                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
+                    {{ candidate.city }}
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
-                    {{ candidate.contactNo }}
+                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
+                    {{ candidate.phone }}
                   </button>
                 </td>
                 <td>
-                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
-                    {{ candidate.institute }}
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success mr-1" routerLink="/cc-bulk-candidates-list/bulkcandidatesview" style="border: none; background: none; color: black;">
-                    {{ candidate.cnicNo }}
+                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
+                    {{ candidate.cnic }}
                   </button>
                 </td>
               </tr>

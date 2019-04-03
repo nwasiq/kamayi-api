@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 
 
 import { BulkcandidatesComponent } from './bulkcandidates.component';
-import { BulkcandidatesviewComponent } from './bulkcandidatesview.component';
+import { CreatecandidateComponent } from './createcandidate.component';
 
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
@@ -28,7 +28,7 @@ import { AgmCoreModule } from '@agm/core';
   ],
   declarations: [
     BulkcandidatesComponent,
-    BulkcandidatesviewComponent
+    CreatecandidateComponent
   ]
 })
 export class BaseModule { }

@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 
 
 import { BulkemployersComponent } from './bulkemployers.component';
-import { BulkemployersviewComponent } from './bulkemployersview.component';
+import { CreateemployerComponent } from './createemployer.component';
 
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
@@ -28,7 +28,7 @@ import { AgmCoreModule } from '@agm/core';
   ],
   declarations: [
     BulkemployersComponent,
-    BulkemployersviewComponent
+    CreateemployerComponent
   ]
 })
 export class BaseModule { }

@@ -1,0 +1,104 @@
+<div class="animated fadeIn">
+    <div class="row" style="margin-top: 2em;">
+        <div class="col-lg-12">
+            <label>
+                <h5>Update User</h5>
+                <hr>
+            </label>
+        </div>
+    </div>
+
+    <form (submit)="onSubmitCreateUser()" ngNativeValidate>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> User Details
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-2">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Full Name</label>
+                                        <input class="form-control" [(ngModel)]="fullName" name="fullname" type="text" style="border-color: #707070" placeholder="Full Name" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Username</label>
+                                        <input class="form-control" [(ngModel)]="username" name="username" type="text" style="border-color: #707070" placeholder="Username" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Role</label>
+                                        <input class="form-control" [(ngModel)]="role" name="role" type="text" style="border-color: #707070" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Email</label>
+                                        <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" placeholder="Email" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Password</label>
+                                        <input class="form-control" [(ngModel)]="password" name="password" type="password" style="border-color: #707070" placeholder="Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Confirm Password</label>
+                                        <input class="form-control" [(ngModel)]="confirmPassword" name="confirmPassword" type="password" style="border-color: #707070" placeholder="Confirm Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Phone</label>
+                                        <input class="form-control" [(ngModel)]="phone" name="phone" type="text" style="border-color: #707070" placeholder="+92511234567" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-group mb-12">
+                <div class="input-group col-md-9">
+                </div>
+                <div class="input-group col-md-3">
+                        <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--/.row-->
+</div>

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: 'bulkemployersview.component.html'
+  templateUrl: 'createemployer.component.html'
 })
-export class BulkemployersviewComponent {
+export class CreateemployerComponent {
 
   name: string;
   industry: string;

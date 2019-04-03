@@ -9,6 +9,7 @@ var CandidateSchema = new schema({
     cnic: String,
     phone: String,
     dob: Date,
+    age: Number,
     training: [String],
     email: String,
     primarySkill: String,

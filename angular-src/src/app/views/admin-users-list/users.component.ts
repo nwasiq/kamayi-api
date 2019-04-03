@@ -7,20 +7,13 @@ import { CrudService } from '../../../services/crud/crud.service';
 })
 export class UsersComponent {
 
-  name: string;
-  userName: string;
+  fullName: string;
+  username: string;
   email: string;
   role: string;
-  contactNo: string;
+  phone: string;
 
   usersInfo: any;
-
-  // usersInfo = [
-  //   {id: '1', name: 'Ahmed Ilyas', userName: 'ahmedilyas', email: 'ahmed@gmail.com', role: 'Admin', contactNo: '03001234567'},
-  //   {id: '2', name: 'Honda Atlas', userName: 'honda', email: 'honda@gmail.com', role: 'Admin', contactNo: '03211234567'},
-  //   {id: '3', name: 'Ahmed Ilyas', userName: 'ahmedilyas', email: 'ahmed@gmail.com', role: 'Placement', contactNo: '03331234567'},
-  //   {id: '4', name: 'Honda Atlas', userName: 'honda', email: 'honda@gmail.com', role: 'CallCenter', contactNo: '03451234567'}
-  // ]
 
   constructor(
     private userService: UserService,
@@ -38,6 +31,22 @@ export class UsersComponent {
         this.usersInfo = data.users;
       }
     });
+  }
+
+  onDeleteUser(user){
+    let id = JSON.parse(localStorage.getItem("user"))._id;
+    if(id == user._id)
+    {
+      alert("You can not delete yourself.");
+    }
+    else
+    {
+      console.log(user._id);
+      this.crudService.delete("users", user._id).subscribe(data => {
+        alert(data.message);
+        window.location.reload();
+      });
+    }
   }
 
 }

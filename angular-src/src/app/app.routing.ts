@@ -91,14 +91,6 @@ export const routes: Routes = [
         loadChildren: './views/cc-bulk-employers-list/base.module#BaseModule'
       },
       {
-        path: 'cc-organic-candidates-list',
-        loadChildren: './views/cc-organic-candidates-list/base.module#BaseModule'
-      },
-      {
-        path: 'cc-organic-employers-list',
-        loadChildren: './views/cc-organic-employers-list/base.module#BaseModule'
-      },
-      {
         path: 'ccdashboard',
         loadChildren: './views/ccdashboard/ccdashboard.module#CcdashboardModule'
       }

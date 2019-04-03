@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-    <form (submit)="onSubmitCandidateData()" ngNativeValidate>
+    <form (submit)="onSubmitCreateCandidate()" ngNativeValidate>
         <div class="row" style="margin-top: 2em;">
             <div class="col-lg-12">
                 <div class="card">
@@ -11,7 +11,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Company</label>
+                                        <label for="company">Name</label>
                                         <input class="form-control" [(ngModel)]="name" name="name" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
@@ -20,7 +20,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Gender</label>
-                                        <input class="form-control" [(ngModel)]="gender" name="gender" type="text" style="border-color: #707070" required>
+                                        <select class="form-control" name="gender" [(ngModel)]="gender" style="border-color: #707070; text-transform: capitalize;" required>
+                                            <option *ngFor="let x of genderOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -28,7 +30,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Age</label>
-                                        <input class="form-control" [(ngModel)]="gender" name="gender" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="age" name="age" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +41,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Contact No</label>
-                                        <input class="form-control" [(ngModel)]="contactNo" name="contactNo" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="phone" name="phone" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +117,7 @@
         <div class="row" style="margin-top: 2em;">
             <div class="col-lg-12">
                 <label>
-                    <h5>Matching Criteria &emsp; <span class="btn" style="border-radius: 50%; border: 1px solid #707070; background: #ADFFB7; cursor: pointer;">+</span></h5>
+                    <h5>Matching Criteria &emsp; <span class="btn" (click)="addTier()" style="border-radius: 50%; border: 1px solid #707070; background: #ADFFB7; cursor: pointer;">+</span></h5>
                     <hr>
                 </label>
             </div>
@@ -123,10 +125,10 @@
 
         <div class="row">
             <div class="col-sm-12" style="margin-top: 0.5em;">
-                <div style="border: 1px solid #707070;">
+                <div *ngFor="let tier of tiers" style="border: 1px solid #707070;">
                     <div class="row">
                         <div class="col-xs-6 col-sm-1" style="border-right: 1px solid #707070; text-align: center;">
-                            <p style="font-size: 40px; margin-top: 0.5em;">1</p>
+                            <p style="font-size: 40px; margin-top: 0.5em;">{{tier.count}}</p>
                         </div>
                         <div class="col-xs-6 col-sm-5" style="margin-top: 1em;">
                             <div class="col-xs-6 col-sm-12">
@@ -134,10 +136,10 @@
                                     <div class="col-md-1">
                                     </div>
                                     <div class="col-md-5">
-                                        <p>Skill</p>
+                                        <p>Occupation</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="skill" name="cnic" type="skill" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="tier.occupation" name="occupation" type="skill" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +151,7 @@
                                         <p>Experience</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="tier.experience" name="experience" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +165,7 @@
                                         <p>Employer</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="employer" name="employer" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="tier.employer" name="employer" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +177,7 @@
                                         <p>Is Trained</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input [(ngModel)]="isTrained" name="isTrained" type="checkbox" style="width: 30px; height: 30px;" required>
+                                        <input [(ngModel)]="tier.isTrained" name="isTrained" type="checkbox" style="width: 30px; height: 30px;" required>
                                     </div>
                                 </div>
                             </div>

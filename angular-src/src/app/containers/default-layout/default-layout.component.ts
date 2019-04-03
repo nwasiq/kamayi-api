@@ -42,10 +42,10 @@ export class DefaultLayoutComponent implements OnDestroy {
     console.log("Name: " + this.name);
   }
 
-  // onViewUser(user){
-  //   localStorage.setItem("userid", user);
-  //   this.router.navigate(['/dashboard/userprofile']);
-  // }
+  onViewUser(user){
+    localStorage.setItem("userid", user);
+    this.router.navigate(['/dashboard/userview']);
+  }
 
   onLogout(){
     console.log("Logout Clicked.");
@@ -54,5 +54,4 @@ export class DefaultLayoutComponent implements OnDestroy {
       this.router.navigate(['']);
     }
   }
-
 }

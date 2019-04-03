@@ -1,17 +1,50 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CrudService } from '../../../services/crud/crud.service';
+import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candidate.service';
 
 @Component({
   templateUrl: 'bulkcandidates.component.html'
 })
 export class BulkcandidatesComponent {
 
-  candidatesInfo = [
-    {id: '1', candidateName: 'Ahmed Ilyas', primarySkill: 'Mechnical', location: 'Lahore', contactNo: '03001234567', institute: 'Hunar Kada', cnicNo: '67405694949'},
-    {id: '2', candidateName: 'Honda Atlas', primarySkill: 'Electrical', location: 'Islamabad', contactNo: '03331234567', institute: 'NIIT', cnicNo: '115655884949'},
-    {id: '3', candidateName: 'Ahmed Ilyas', primarySkill: 'Mechnical', location: 'Karachi', contactNo: '03211234567', institute: 'Hunar Kada', cnicNo: '67405694949'},
-    {id: '4', candidateName: 'Honda Atlas', primarySkill: 'Electrical', location: 'Peshawar', contactNo: '03451234567', institute: 'NIIT', cnicNo: '115655884949'}
-  ]
+  fullName: string;
+  cnic: string;
+  phone: string;
+  dob: string;
+  education: string; 
+  training: string; 
+  experience: number; 
+  city: string; 
+  email: string;
+  primarySkill: string;
 
-  constructor() { }
+  fileToUpload: File;
 
+  candidatesInfo: any;
+
+  constructor(
+    private crudService: CrudService,
+    private router: Router,
+    private bulkCandidateService: BulkCandidateService
+  ) { }
+
+  ngOnInit(){
+    this.crudService.retrieveAll("bulkcandidates").subscribe(data => {
+      if(data.message)
+      {
+        alert(data.message);
+      }
+      else
+      {
+        this.candidatesInfo = data.bulkcandidates;
+      }
+    });
+  }
+  
+  onViewCandidate(candidate){
+
+    localStorage.setItem("candidateid", candidate._id);
+    this.router.navigate(['/cc-bulk-candidates-list/createcandidate']);
+  }
 }

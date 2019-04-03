@@ -5,6 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { PudashboardComponent } from './pudashboard.component';
+import { UserviewComponent } from './userview.component';
 import { PudashboardRoutingModule } from './pudashboard-routing.module';
 
 @NgModule({
@@ -15,6 +16,6 @@ import { PudashboardRoutingModule } from './pudashboard-routing.module';
     BsDropdownModule,
     ButtonsModule.forRoot()
   ],
-  declarations: [ PudashboardComponent ]
+  declarations: [ PudashboardComponent, UserviewComponent ]
 })
 export class PudashboardModule { }

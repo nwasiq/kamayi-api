@@ -16,10 +16,10 @@ export class BulkCandidateService {
   constructor(private http: HttpInterceptor) {
     this.localhostString = this.isProd ? "" : "http://localhost:3000/";
     this.headers = new Headers();
-    this.headers.append('Content-Type', 'application/json');
   }
 
   importBulkCandies(file) {
+    console.log('import bulk candies', file)
     let token = localStorage.getItem('token');
     this.headers.append('Authorization', token);
     return this.http.post(this.localhostString + 'bulkcandidates', file, { headers: this.headers })

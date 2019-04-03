@@ -5,6 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { DashboardComponent } from './dashboard.component';
+import { UserviewComponent } from './userview.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
 
@@ -16,6 +17,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     BsDropdownModule,
     ButtonsModule.forRoot()
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [ DashboardComponent, UserviewComponent ]
 })
 export class DashboardModule { }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { BulkemployersComponent } from './bulkemployers.component';
-import { BulkemployersviewComponent } from './bulkemployersview.component';
+import { CreateemployerComponent } from './createemployer.component';
 
 const routes: Routes = [
   {
@@ -19,10 +19,10 @@ const routes: Routes = [
         }
       },
       {
-        path: 'bulkemployersview',
-        component: BulkemployersviewComponent,
+        path: 'createemployer',
+        component: CreateemployerComponent,
         data: {
-          title: 'Bulk Employer View'
+          title: 'Create Employer'
         }
       }
     ]
