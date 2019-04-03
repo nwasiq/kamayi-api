@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 
 
 import { UsersComponent } from './users.component';
-import { UserviewComponent } from './userview.component';
+import { AdduserComponent } from './adduser.component';
 
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
@@ -22,7 +22,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
   ],
   declarations: [
     UsersComponent,
-    UserviewComponent
+    AdduserComponent
   ]
 })
 export class BaseModule { }

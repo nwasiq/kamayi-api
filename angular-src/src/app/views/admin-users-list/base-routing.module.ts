@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { UsersComponent } from './users.component';
-import { UserviewComponent } from './userview.component';
+import { AdduserComponent } from './adduser.component';
 
 const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Users'
     },
     children: [
       {
@@ -19,10 +18,10 @@ const routes: Routes = [
         }
       },
       {
-        path: 'userview',
-        component: UserviewComponent,
+        path: 'adduser',
+        component: AdduserComponent,
         data: {
-          title: 'User View'
+          title: 'Add User'
         }
       }
     ]

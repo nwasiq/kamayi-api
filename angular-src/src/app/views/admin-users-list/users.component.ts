@@ -5,11 +5,11 @@ import { Component } from '@angular/core';
 })
 export class UsersComponent {
 
-  candidatesInfo = [
-    {id: '1', candidateName: 'Ahmed Ilyas', primarySkill: 'Mechnical', location: 'Lahore', contactNo: '03001234567', institute: 'Hunar Kada', cnicNo: '67405694949'},
-    {id: '2', candidateName: 'Honda Atlas', primarySkill: 'Electrical', location: 'Islamabad', contactNo: '03331234567', institute: 'NIIT', cnicNo: '115655884949'},
-    {id: '3', candidateName: 'Ahmed Ilyas', primarySkill: 'Mechnical', location: 'Karachi', contactNo: '03211234567', institute: 'Hunar Kada', cnicNo: '67405694949'},
-    {id: '4', candidateName: 'Honda Atlas', primarySkill: 'Electrical', location: 'Peshawar', contactNo: '03451234567', institute: 'NIIT', cnicNo: '115655884949'}
+  usersInfo = [
+    {id: '1', name: 'Ahmed Ilyas', userName: 'ahmedilyas', email: 'ahmed@gmail.com', role: 'Admin', contactNo: '03001234567'},
+    {id: '2', name: 'Honda Atlas', userName: 'honda', email: 'honda@gmail.com', role: 'Admin', contactNo: '03211234567'},
+    {id: '3', name: 'Ahmed Ilyas', userName: 'ahmedilyas', email: 'ahmed@gmail.com', role: 'Placement', contactNo: '03331234567'},
+    {id: '4', name: 'Honda Atlas', userName: 'honda', email: 'honda@gmail.com', role: 'CallCenter', contactNo: '03451234567'}
   ]
 
   constructor() { }

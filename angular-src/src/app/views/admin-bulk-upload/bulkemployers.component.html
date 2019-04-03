@@ -12,13 +12,13 @@
         <div class="input-group">
           <div class="upload-field">
             <input type="file" #file id="uploadFileInput"/>
-            <button class="upload-button">Upload</button>
+            <button class="upload-file-button" (click)="file.click()">Upload</button>
           </div>
         </div>
       </div>
       <div class="col-md-12 mb-4">
         <div class="input-group">
-          <button class="upload-file-button" (click)="file.click()">Save</button>
+          <button class="upload-button">Save</button>
         </div>
       </div>
 
