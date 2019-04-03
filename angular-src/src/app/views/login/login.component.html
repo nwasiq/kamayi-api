@@ -15,9 +15,9 @@
                 <form (submit)="onLoginSubmit()" ngNativeValidate>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="icon-user"></i></span>
+                        <span class="input-group-text">@</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Username" name="username" [(ngModel)]="username" required>
+                    <input type="email" class="form-control" placeholder="Email" name="email" [(ngModel)]="email" required>
                   </div>
                   <div class="input-group mb-4">
                     <div class="input-group-prepend">

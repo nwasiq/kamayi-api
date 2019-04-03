@@ -40,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: DefaultLayoutComponent,
+    component: DefaultLayoutComponent, canActivate: [AuthGuard],
     data: {
       title: 'Home'
     },
@@ -69,7 +69,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: CcDefaultLayoutComponent,
+    component: CcDefaultLayoutComponent, canActivate: [AuthGuard],
     data: {
       title: 'Home'
     },
@@ -106,7 +106,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: PuDefaultLayoutComponent,
+    component: PuDefaultLayoutComponent, canActivate: [AuthGuard],
     data: {
       title: 'Home'
     },
