@@ -30,4 +30,9 @@ export class CandidateComponent {
     });
   }
 
+  onViewCandidate(candidate){
+    localStorage.setItem("candidateid", candidate._id);
+    this.route.navigate(['/cc-candidates-list/candidateview']);
+  }
+
 }

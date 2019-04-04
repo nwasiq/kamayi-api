@@ -16,19 +16,17 @@ export class BulkCandidateService {
   constructor(private http: HttpInterceptor) {
     this.localhostString = this.isProd ? "" : "http://localhost:3000/";
     this.headers = new Headers();
+    let token = localStorage.getItem('token');
+    this.headers.append('Authorization', token);
   }
 
   importBulkCandies(file) {
-    console.log('import bulk candies', file)
-    let token = localStorage.getItem('token');
-    this.headers.append('Authorization', token);
+    // console.log('import bulk candies', file)
     return this.http.post(this.localhostString + 'bulkcandidates', file, { headers: this.headers })
       .map(res => res.json());
   }
 
   getBulkCandiesByStatus(status){
-    let token = localStorage.getItem('token');
-    this.headers.append('Authorization', token);
     return this.http.get(this.localhostString + 'bulkcandidates/status/' + status, { headers: this.headers })
       .map(res => res.json());
   }

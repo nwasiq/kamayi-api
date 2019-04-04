@@ -24,6 +24,11 @@ export class CreatecandidateComponent {
 
   genderOf = ["Male", "Female"];
 
+  occupation: string;
+  experience: string;
+  employer: string;
+  isTrained: boolean;
+
   constructor(
     private crudService: CrudService,
     private route: Router,
@@ -31,13 +36,15 @@ export class CreatecandidateComponent {
   ) { }
 
   ngOnInit(){
-    this.tiers.push({
-      count: 1,
-      occupation:  "",
-      experience: "",
-      employer: "",
-      isTrained: ""
-    });
+    // this.tiers.push({
+    //   count: 1,
+    //   occupation:  "",
+    //   experience: "",
+    //   employer: "",
+    //   isTrained: ""
+    // });
+
+    this.isTrained = false;
 
     let candidateid = localStorage.getItem('candidateid');
     console.log(candidateid);
@@ -46,7 +53,7 @@ export class CreatecandidateComponent {
       this.crudService.retrieveOne("bulkcandidates", candidateid).subscribe(user => {
         if(user.message){
           alert(user.message);
-          this.route.navigate(['/admin-user-list/user']);
+          this.route.navigate(['/cc-bulk-candidates-list/bulkcandidates']);
         }
         else{
           this.name = user.fullName;
@@ -59,14 +66,27 @@ export class CreatecandidateComponent {
     }
   }
 
-  addTier(){
+  appendCriteria(){
+    if(!this.occupation || !this.experience || !this.employer)
+    {
+      alert("Please fill all criteria fields");
+      return;
+    }
     this.tiers.push({
       count: this.tiers.length + 1,
-      occupation:  "",
-      experience: "",
-      employer: "",
-      isTrained: ""
+      occupation:  this.occupation,
+      experience: this.experience,
+      employer: this.employer,
+      isTrained: this.isTrained
     });
+    console.log(this.tiers);
+  }
+
+  deleteCriteria(row){
+    this.tiers.splice(row.count-1, 1);
+    for(let i=0; i<this.tiers.length; i++){
+      this.tiers[i]['count'] = i+1; 
+    }
   }
 
   markers: marker[] = []
@@ -106,6 +126,7 @@ export class CreatecandidateComponent {
       })
     }
     const createCandidate = {
+      primarySkill: this.tiers[0].occupation,
       fullName: this.name,
       cnic: this.cnic,
       phone: this.phone,

@@ -30,7 +30,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Age</label>
-                                        <input class="form-control" [(ngModel)]="age" name="age" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="age" name="age" type="number" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
         <div class="row" style="margin-top: 2em;">
             <div class="col-lg-12">
                 <label>
-                    <h5>Matching Criteria &emsp; <span class="btn" (click)="addTier()" style="border-radius: 50%; border: 1px solid #707070; background: #ADFFB7; cursor: pointer;">+</span></h5>
+                    <h5>Matching Criteria</h5>
                     <hr>
                 </label>
             </div>
@@ -139,7 +139,7 @@
                                         <p>Occupation</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="tier.occupation" name="occupation" type="skill" style="border-color: #707070" required>
+                                        <input class="form-control" value="{{tier.occupation}}"  type="skill" style="margin-top: -0.6em;" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                                         <p>Experience</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="tier.experience" name="experience" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" value="{{tier.experience}}" type="text" style="margin-top: -0.7em;" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +165,7 @@
                                         <p>Employer</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="tier.employer" name="employer" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" value="{{tier.employer}}" type="text" style="margin-top: -0.6em;" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +177,16 @@
                                         <p>Is Trained</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input [(ngModel)]="tier.isTrained" name="isTrained" type="checkbox" style="width: 30px; height: 30px;" required>
+                                        <input class="form-control" value="{{tier.isTrained}}" type="text" style="margin-top: -0.7em;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-1" style="margin-top: 1em;">
+                            <div class="col-xs-6 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="btn" (click)="deleteCriteria(tier)" style="border-radius: 50%; border: 1px solid #707070; background: #ef5353; cursor: pointer;"><i class="fa fa-times" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -186,6 +195,79 @@
                 </div>
             </div>
         </div>
+
+        <div class="row" style="margin-top: 2em;">
+            <div class="col-sm-12" style="margin-top: 0.5em;">
+                <div style="border: 1px solid #707070;">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-5" style="margin-top: 1em;">
+                            <div class="col-xs-6 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p>Occupation</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" [(ngModel)]="occupation" name="occupation" type="skill" style="border-color: #707070" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-12" style="margin-top: 1em;">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p>Experience</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="number" style="border-color: #707070" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-5" style="margin-top: 1em;">
+                            <div class="col-xs-6 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p>Employer</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" [(ngModel)]="employer" name="employer" type="text" style="border-color: #707070" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-12" style="margin-top: 1em;">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p>Is Trained</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input [(ngModel)]="isTrained" name="isTrained" type="checkbox" style="width: 30px; height: 30px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 col-sm-2" style="margin-top: 1em;">
+                            <div class="col-xs-6 col-sm-12">
+                            </div>
+                            <div class="col-xs-6 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span (click)="appendCriteria()" class="btn pull-right" style="border-radius: 50%; border: 1px solid #707070; background: lightgreen; cursor: pointer;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="input-group mb-12">
                 <div class="input-group col-md-9">

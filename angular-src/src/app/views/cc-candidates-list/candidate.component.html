@@ -25,22 +25,24 @@
             <tr style="background: #BFFFCE;">
               <th>ID</th>
               <th>Full Name</th>
-              <th>Education</th>
               <th>Primary Skill</th>
               <th>City</th>
               <th>Phone No</th>
               <th>CNIC No</th>
+              <th>Operations</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let candidate of candidatesInfo | filter:search">
               <td>{{ candidate._id }}</td>
               <td>{{ candidate.fullName }}</td>
-              <td>{{ candidate.education }}</td>
               <td>{{ candidate.primarySkill }}</td>
               <td>{{ candidate.city }}</td>
               <td>{{ candidate.phone }}</td>
               <td>{{ candidate.cnic }}</td>
+              <td>
+                <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
+              </td>
             </tr>
           </tbody>
         </table>
