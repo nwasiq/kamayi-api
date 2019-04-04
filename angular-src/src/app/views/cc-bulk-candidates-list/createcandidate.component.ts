@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candidate.service';
 import { convertToNumber } from  '../../../services/convertEducation';
 import { educationType } from '../../enums'
+import { GetLatlong } from '../../../services/getCoords';
 
 @Component({
   templateUrl: 'createcandidate.component.html'
@@ -28,21 +29,100 @@ export class CreatecandidateComponent {
   experience: string;
   employer: string;
   isTrained: boolean;
+  coords: any;
+  address: Object;
+  formattedAddress: string;
+  area: string;
+  tempFunc: any;
 
   constructor(
     private crudService: CrudService,
     private route: Router,
-    private bulkCandidateService: BulkCandidateService
+    private bulkCandidateService: BulkCandidateService,
+    public zone: NgZone
   ) { }
 
+  // autocomplete address
+  async getAddress(place: object) {
+    this.address = place['formatted_address'];
+    this.formattedAddress = place['formatted_address'];
+    this.coords = await GetLatlong(this.address);
+    this.lat = this.coords[1];
+    this.lng = this.coords[0];
+    this.city = this.getCity(place);
+    this.zone.run(() => this.formattedAddress = place['formatted_address']);
+  }
+
+  getAddrComponent(place, componentTemplate) {
+    let result;
+
+    for (let i = 0; i < place.address_components.length; i++) {
+      const addressType = place.address_components[i].types[0];
+      if (componentTemplate[addressType]) {
+        result = place.address_components[i][componentTemplate[addressType]];
+        return result;
+      }
+    }
+    return;
+  }
+
+  getStreetNumber(place) {
+    const COMPONENT_TEMPLATE = { street_number: 'short_name' },
+      streetNumber = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return streetNumber;
+  }
+
+  getStreet(place) {
+    const COMPONENT_TEMPLATE = { route: 'long_name' },
+      street = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return street;
+  }
+
+  getCity(place) {
+    const COMPONENT_TEMPLATE = { locality: 'long_name' },
+      city = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return city;
+  }
+
+  getState(place) {
+    const COMPONENT_TEMPLATE = { administrative_area_level_1: 'short_name' },
+      state = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return state;
+  }
+
+  getDistrict(place) {
+    const COMPONENT_TEMPLATE = { administrative_area_level_2: 'short_name' },
+      state = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return state;
+  }
+
+  getCountryShort(place) {
+    const COMPONENT_TEMPLATE = { country: 'short_name' },
+      countryShort = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return countryShort;
+  }
+
+  getCountry(place) {
+    const COMPONENT_TEMPLATE = { country: 'long_name' },
+      country = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return country;
+  }
+
+  getPostCode(place) {
+    const COMPONENT_TEMPLATE = { postal_code: 'long_name' },
+      postCode = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return postCode;
+  }
+
+  getPhone(place) {
+    const COMPONENT_TEMPLATE = { formatted_phone_number: 'formatted_phone_number' },
+      phone = this.getAddrComponent(place, COMPONENT_TEMPLATE);
+    return phone;
+  }
+  //end
+  
+
   ngOnInit(){
-    // this.tiers.push({
-    //   count: 1,
-    //   occupation:  "",
-    //   experience: "",
-    //   employer: "",
-    //   isTrained: ""
-    // });
 
     this.isTrained = false;
 
@@ -89,21 +169,12 @@ export class CreatecandidateComponent {
     }
   }
 
-  markers: marker[] = []
-
   zoom: number = 15;
 
-  lat: number = 33.6844;
-  lng: number = 73.0479;
+  lat: number;
+  lng: number;
   locationChosen = false;
 
-  mapClicked($event: any) {
-    this.markers.push({
-      lat: $event.coords.lat,
-      lng: $event.coords.lng
-    });
-    console.log(this.markers);
-  }
 
   onSubmitCreateCandidate(){
     if(this.tiers.length == 0){
@@ -124,8 +195,9 @@ export class CreatecandidateComponent {
         isTrained: one.isTrained,
         gender: this.gender,
         location: {
-          coordinates: [this.markers[0].lng, this.markers[0].lat]
+          coordinates: [this.coords[0], this.coords[1]]
         },
+        city: this.city,
         education: this.education
       })
     }
@@ -135,6 +207,7 @@ export class CreatecandidateComponent {
       cnic: this.cnic,
       phone: this.phone,
       age: this.age,
+      area: this.address,
       employmentStatus: this.employmentStatus,
       email: this.email,
       criteria: criteria
@@ -154,7 +227,3 @@ export class CreatecandidateComponent {
   }
 }
 
-interface marker {
-	lat: number;
-	lng: number;
-}

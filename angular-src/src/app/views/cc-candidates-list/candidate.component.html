@@ -26,9 +26,9 @@
               <th>ID</th>
               <th>Full Name</th>
               <th>Primary Skill</th>
-              <th>City</th>
               <th>Phone No</th>
               <th>CNIC No</th>
+              <th>Address</th>
               <th>Operations</th>
             </tr>
           </thead>
@@ -37,9 +37,9 @@
               <td>{{ candidate._id }}</td>
               <td>{{ candidate.fullName }}</td>
               <td>{{ candidate.primarySkill }}</td>
-              <td>{{ candidate.city }}</td>
               <td>{{ candidate.phone }}</td>
               <td>{{ candidate.cnic }}</td>
+              <td>{{ candidate.area }}</td>
               <td>
                 <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
               </td>

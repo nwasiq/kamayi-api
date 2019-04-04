@@ -49,6 +49,7 @@ export class CandidateviewComponent {
           this.cnic = user.cnic;
           this.employmentStatus = user.employmentStatus;
           this.primarySkill = user.primarySkill;
+          this.area = user.area;
         }
       })
     }
