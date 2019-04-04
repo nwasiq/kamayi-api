@@ -106,6 +106,10 @@ export class CreatecandidateComponent {
   }
 
   onSubmitCreateCandidate(){
+    if(this.tiers.length == 0){
+      alert("No criteria added.");
+      return;
+    }
     let criteria: any = [];
     if (Object.keys(educationType).indexOf(this.education) == -1) {
       alert('Education not accepted'); //education not in required list of educations
