@@ -11,6 +11,8 @@ import { GetLatlong } from '../../../services/getCoords';
 })
 export class CreatecandidateComponent {
 
+  educationOf = ['Informal','Primary','Middle','Matric','O-Levels','Intermediate','A-Levels','Bachelors','Masters'];
+
   name: string;
   education: any;
   city: string;
@@ -19,12 +21,12 @@ export class CreatecandidateComponent {
   cnic: string;
   gender: string;
   age: string;
-  employmentStatus: boolean;
+  employmentStatus: any;
 
   tiers: any = [];
 
   genderOf = ["Male", "Female"];
-  employementOf = ["true", "false"];
+  employementOf = ["Employed", "Unemployed"];
 
   occupation: string;
   experience: string;
@@ -202,6 +204,9 @@ export class CreatecandidateComponent {
         education: this.education
       })
     }
+
+    this.employmentStatus = this.employmentStatus == "Employed" ? true: false;
+    
     const createCandidate = {
       primarySkill: this.tiers[0].occupation,
       fullName: this.name,

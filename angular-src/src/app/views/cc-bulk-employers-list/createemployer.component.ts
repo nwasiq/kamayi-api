@@ -11,6 +11,11 @@ import { GetLatlong } from '../../../services/getCoords';
 })
 export class CreateemployerComponent {
 
+  industryOf = ['Automobile Parts & Accessories','Cable & Electrical Goods','Cement','Chemical','Close - End Mutual Fund','Commercial Banks','Engineering','Fertilizer',
+  'Food & Personal Care Products','Glass & Ceramics','Insurance','Inv. Banks / Inv. Cos. / Securities Cos.','Jute','Leasing Companies','Leather & Tanneries','Miscellaneous',
+  'Modarabas','Oil & Gas Exploration Companies','Oil & Gas Marketing Companies','Paper & Board','Pharmaceuticals','Real Estate Investment Trust','Refinery','Sugar & Allied Industries',
+  'Synthetic & Rayon','Technology & Communication','Textile Composite','Textile Spinning','Textile Weaving','Tobacco','Transport','Vanaspati & Allied Industries','Woollen'];
+
   name: string;
   industry: any;
   phoneNo: string;
@@ -116,6 +121,7 @@ export class CreateemployerComponent {
     let employerid = localStorage.getItem('employerid');
     console.log(employerid);
     if(employerid){
+      console.log("shouldn't be here");
       localStorage.removeItem('empolyerid');
       this.crudService.retrieveOne("bulkemployers", employerid).subscribe(user => {
         if(user.message){

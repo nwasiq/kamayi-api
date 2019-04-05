@@ -68,7 +68,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Education</label>
-                                        <input class="form-control" [(ngModel)]="education" name="education" type="text" style="border-color: #707070" required>
+                                        <select class="form-control" name="education" [(ngModel)]="education" style="border-color: #707070; text-transform: capitalize;" required>
+                                            <option *ngFor="let x of educationOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
