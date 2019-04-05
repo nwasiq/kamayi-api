@@ -1,17 +1,36 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CrudService } from '../../../services/crud/crud.service';
 
 @Component({
   templateUrl: 'employers.component.html'
 })
 export class EmployersComponent {
 
-  candidatesInfo = [
-    {id: '1', candidateName: 'Ahmed Ilyas', primarySkill: 'Mechnical', location: 'Lahore', contactNo: '03001234567', institute: 'Hunar Kada', cnicNo: '67405694949'},
-    {id: '2', candidateName: 'Honda Atlas', primarySkill: 'Electrical', location: 'Islamabad', contactNo: '03331234567', institute: 'NIIT', cnicNo: '115655884949'},
-    {id: '3', candidateName: 'Ahmed Ilyas', primarySkill: 'Mechnical', location: 'Karachi', contactNo: '03211234567', institute: 'Hunar Kada', cnicNo: '67405694949'},
-    {id: '4', candidateName: 'Honda Atlas', primarySkill: 'Electrical', location: 'Peshawar', contactNo: '03451234567', institute: 'NIIT', cnicNo: '115655884949'}
-  ]
+  employersInfo: any;
 
-  constructor() { }
+  constructor(
+    private crudService: CrudService,
+    private route: Router
+  ) { }
+
+  ngOnInit(){
+    this.crudService.retrieveAll("employers").subscribe(data => {
+      if(data.message)
+      {
+        alert(data.message);
+      }
+      else
+      {
+        this.employersInfo = data.employers;
+        console.log(this.employersInfo);
+      }
+    });
+  }
+
+  onViewEmployer(employer){
+    localStorage.setItem("employerid", employer._id);
+    this.route.navigate(['/cc-employers-list/employersview']);
+  }
 
 }

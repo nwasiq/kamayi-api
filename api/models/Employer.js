@@ -11,6 +11,7 @@ var EmployerSchema = new schema({
     pocPhone: String,
     pocDesignation: String,
     pocAddress: String,
+    pocCity: String,
     companyName: String,
     companyPhone: String,
     industry: {

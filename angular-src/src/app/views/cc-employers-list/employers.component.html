@@ -25,23 +25,25 @@
           <thead>
             <tr style="background: #BFFFCE;">
               <th>ID</th>
-              <th>Employers Name</th>
-              <th>Primary Skill</th>
-              <th>Location</th>
-              <th>Contact No</th>
-              <th>Institute</th>
-              <th>CNIC No</th>
+              <th>Company Name</th>
+              <th>Industry</th>
+              <th>Company Contact</th>
+              <th>City</th>
+              <th>POC</th>
+              <th>Operations</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let candidate of candidatesInfo | filter:search">
-              <td>{{ candidate.id }}</td>
-              <td>{{ candidate.candidateName }}</td>
-              <td>{{ candidate.primarySkill }}</td>
-              <td>{{ candidate.location }}</td>
-              <td>{{ candidate.contactNo }}</td>
-              <td>{{ candidate.institute }}</td>
-              <td>{{ candidate.cnicNo }}</td>
+            <tr *ngFor="let employer of employersInfo | filter:search">
+              <td>{{ employer._id }}</td>
+              <td>{{ employer.companyName }}</td>
+              <td>{{ employer.industry }}</td>
+              <td>{{ employer.companyPhone }}</td>
+              <td>{{ employer.location.city }}</td>
+              <td>{{ employer.fullName }}</td>
+              <td>
+                <span (click)="onViewEmployer(employer)" style="cursor: pointer;" class="badge badge-success">View</span>
+              </td>
             </tr>
           </tbody>
         </table>

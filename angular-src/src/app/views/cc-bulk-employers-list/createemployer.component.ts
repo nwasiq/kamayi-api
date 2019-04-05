@@ -21,6 +21,7 @@ export class CreateemployerComponent {
   formattedAddress: string;
   area: string;
   tempFunc: any;
+  city: string;
 
   pocName: string;
   designation: string;
@@ -43,6 +44,7 @@ export class CreateemployerComponent {
     this.coords = await GetLatlong(this.address);
     this.lat = this.coords[1];
     this.lng = this.coords[0];
+    this.city = this.getCity(place);
     this.zone.run(() => this.formattedAddress = place['formatted_address']);
   }
 
@@ -140,31 +142,33 @@ export class CreateemployerComponent {
   onSubmitCreateEmployer(){
 
     const createEmployer = {
-      name: this.name,
+      companyName: this.name,
       industry: this.industry,
-      phoneNo: this.phoneNo,
+      companyPhone: this.phoneNo,
       website: this.website,
       location: {
-        coordinates: [this.coords[0], this.coords[1]]
+        lat: this.coords[1],
+        long: this.coords[0],
+        city: this.city,
       },
-      pocName: this.pocName,
-      designation: this.designation,
+      fullName: this.pocName,
+      pocDesignation: this.designation,
       email: this.email,
-      mobileNo: this.mobileNo,
+      pocPhone: this.mobileNo,
       pocAddress: this.pocAddress,
-      pocCity: this.pocCity,
+      pocCity: this.pocCity
     }
     console.log(createEmployer);
-    // this.crudService.create(createCandidate, "candidates").subscribe(data => {
-    //   if(data.message)
-    //   {
-    //     alert(data.message);
-    //   }
-    //   else
-    //   {
-    //     alert("Candidate Created!");
-    //     this.route.navigate(['/cc-employers-list/employer']);
-    //   }
-    // });
+    this.crudService.create(createEmployer, "employers").subscribe(data => {
+      if(data.message)
+      {
+        alert(data.message);
+      }
+      else
+      {
+        alert("Employer Created!");
+        this.route.navigate(['/cc-employers-list/employers']);
+      }
+    });
   }
 }
