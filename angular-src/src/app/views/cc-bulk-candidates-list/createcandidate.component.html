@@ -76,7 +76,9 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Current Employment Status</label>
-                                        <input class="form-control" [(ngModel)]="employmentStatus" name="employmentStatus" type="text" style="border-color: #707070" required>
+                                        <select class="form-control" name="employmentStatus" [(ngModel)]="employmentStatus" style="border-color: #707070; text-transform: capitalize;" required>
+                                            <option *ngFor="let x of employementOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +114,6 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div style="height: 400px; display: block; margin: 0 auto;">
-                                            <!-- (mapClick)="mapClicked($event)" -->
                                             <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [scrollwheel]="false" style="height: 390px;">
                                                 <agm-marker [latitude]="lat" [longitude]="lng">
                                                 </agm-marker>

@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-    <form (submit)="onSubmitEmployersData()" ngNativeValidate>
+    <form (submit)="onSubmitCreateEmployer()" ngNativeValidate>
         <div class="row" style="margin-top: 2em;">
             <div class="col-lg-12">
                 <div class="card">
@@ -58,11 +58,14 @@
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-4">
-                            <div class="input-group col-md-4">
+                            <div class="input-group col-md-10">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Primary Location</label>
-                                        <input class="form-control" [(ngModel)]="primaryLocation" name="primaryLocation" type="text" style="border-color: #707070" required>
+                                        <p>
+                                            <AutocompleteComponent (setAddress)="getAddress($event)" adressType="geocode" style="border-color: #707070"></AutocompleteComponent>
+                                        </p>
+                                        <b>Address: </b> {{formattedAddress}}
                                     </div>
                                 </div>
                             </div>
@@ -72,9 +75,9 @@
                             <div class="input-group col-md-12">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <div style="height: 500px; display: block; margin: 0 auto;">
-                                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [zoomControl]="false" (mapClick)="mapClicked($event)" style="height: 490px;">
-                                                <agm-marker *ngFor="let m of markers" [latitude]="m.lat" [longitude]="m.lng">
+                                        <div style="height: 400px; display: block; margin: 0 auto;">
+                                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [scrollwheel]="false" style="height: 390px;">
+                                                <agm-marker [latitude]="lat" [longitude]="lng">
                                                 </agm-marker>
                                             </agm-map>
                                         </div>
@@ -137,7 +140,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Address</label>
-                                        <input class="form-control" [(ngModel)]="address" name="address" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="pocAddress" name="pocAddress" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +148,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">City</label>
-                                        <input class="form-control" [(ngModel)]="city" name="city" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="pocCity" name="pocCity" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>

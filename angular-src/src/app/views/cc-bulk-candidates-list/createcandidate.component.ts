@@ -24,6 +24,7 @@ export class CreatecandidateComponent {
   tiers: any = [];
 
   genderOf = ["Male", "Female"];
+  employementOf = ["true", "false"];
 
   occupation: string;
   experience: string;
