@@ -29,7 +29,7 @@ export class CreatecandidateComponent {
   employementOf = ["Employed", "Unemployed"];
 
   occupation: string;
-  experience: string;
+  experience: number;
   employer: string;
   isTrained: boolean;
   coords: any;
@@ -150,7 +150,7 @@ export class CreatecandidateComponent {
   }
 
   appendCriteria(){
-    if(!this.occupation || !this.experience || !this.employer)
+    if(!this.occupation || !this.employer)
     {
       alert("Please fill all criteria fields");
       return;
@@ -205,6 +205,7 @@ export class CreatecandidateComponent {
       })
     }
 
+    //inline coding
     this.employmentStatus = this.employmentStatus == "Employed" ? true: false;
     
     const createCandidate = {

@@ -30,7 +30,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Age</label>
-                                        <input class="form-control" [(ngModel)]="age" name="age" type="number" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="age" name="age" type="number" style="border-color: #707070" max="100" required>
                                     </div>
                                 </div>
                             </div>
@@ -238,7 +238,7 @@
                                         <p>Experience</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="number" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="number" style="border-color: #707070" min="0" required>
                                     </div>
                                 </div>
                             </div>
