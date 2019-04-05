@@ -226,7 +226,9 @@
                                         <p>Occupation</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="occupation" name="occupation" type="skill" style="border-color: #707070" required>
+                                        <select class="form-control" name="occupation" [(ngModel)]="occupation" style="border-color: #707070; text-transform: capitalize;" required>
+                                            <option *ngFor="let x of occupationList" [ngValue]="x.name" style="text-transform: capitalize;">{{x.name}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -269,6 +271,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="col-xs-6 col-sm-2" style="margin-top: 1em;">
                             <div class="col-xs-6 col-sm-12">
                             </div>
@@ -279,6 +282,18 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 2em;">
+            <div class="input-group mb-12">
+                <div class="input-group col-md-12">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="company">Comments</label>
+                            <textarea class="form-control" [(ngModel)]="comment" name="comment" type="text" style="border-color: #707070" required></textarea>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candidate.service';
 import { convertToNumber } from  '../../../services/convertEducation';
@@ -10,6 +10,8 @@ import { GetLatlong } from '../../../services/getCoords';
   templateUrl: 'createcandidate.component.html'
 })
 export class CreatecandidateComponent {
+
+  candidateid: string;
 
   educationOf = ['Informal','Primary','Middle','Matric','O-Levels','Intermediate','A-Levels','Bachelors','Masters'];
 
@@ -38,9 +40,14 @@ export class CreatecandidateComponent {
   area: string;
   tempFunc: any;
 
+  occupationList: any = [];
+
+  comment: string;
+
   constructor(
     private crudService: CrudService,
     private route: Router,
+    private activatedRoute: ActivatedRoute,
     private bulkCandidateService: BulkCandidateService,
     public zone: NgZone
   ) { }
@@ -127,13 +134,20 @@ export class CreatecandidateComponent {
 
   ngOnInit(){
 
+    this.crudService.retrieveAll('occupations').subscribe(data => {
+      this.occupationList = data.occupations;
+    });
+
     this.isTrained = false;
 
-    let candidateid = localStorage.getItem('candidateid');
-    console.log(candidateid);
-    if(candidateid){
+    this.activatedRoute.params.subscribe( params =>
+      this.candidateid = params['id']
+    );
+    console.log(this.candidateid);
+
+    if(this.candidateid){
       localStorage.removeItem('candidateid');
-      this.crudService.retrieveOne("bulkcandidates", candidateid).subscribe(user => {
+      this.crudService.retrieveOne("bulkcandidates", this.candidateid).subscribe(user => {
         if(user.message){
           alert(user.message);
           this.route.navigate(['/cc-bulk-candidates-list/bulkcandidates']);
@@ -189,6 +203,14 @@ export class CreatecandidateComponent {
       alert('Education not accepted'); //education not in required list of educations
       return;
     }
+    let hasOtherSkill = false;
+    for(let x of this.tiers){
+      if(x.occupation == "Other")
+      {
+        hasOtherSkill = true;
+        break;
+      }
+    }
     this.education = convertToNumber(this.education);
     for (let one of this.tiers){
       criteria.push({
@@ -217,7 +239,9 @@ export class CreatecandidateComponent {
       area: this.address,
       employmentStatus: this.employmentStatus,
       email: this.email,
-      criteria: criteria
+      criteria: criteria,
+      hasOtherSkill: hasOtherSkill,
+      comment: this.comment
     }
     console.log(createCandidate);
     this.crudService.create(createCandidate, "candidates").subscribe(data => {

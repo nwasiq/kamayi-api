@@ -20,39 +20,19 @@
               <th>Company Contact</th>
               <th>City</th>
               <th>POC</th>
+              <th>Operation</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let employers of employersInfo | filter:search">
+              <td>{{ employers.id }}</td>
+              <td>{{ employers.companyName }}</td>
+              <td>{{ employers.industry }}</td>
+              <td>{{ employers.location }}</td>
+              <td>{{ employers.contactNo }}</td>
+              <td>{{ employers.poc }}</td>
               <td>
-                <button type="button" class="btn btn-success mr-1" (click)="onViewEmployer(employer)" style="border: none; background: none; color: black;">
-                  {{ employers.id }}
-                </button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-success mr-1" (click)="onViewEmployer(employer)" style="border: none; background: none; color: black;">
-                  {{ employers.companyName }}
-                </button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-success mr-1" (click)="onViewEmployer(employer)" style="border: none; background: none; color: black;">
-                  {{ employers.industry }}
-                </button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-success mr-1" (click)="onViewEmployer(employer)" style="border: none; background: none; color: black;">
-                  {{ employers.location }}
-                </button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-success mr-1" (click)="onViewEmployer(employer)" style="border: none; background: none; color: black;">
-                  {{ employers.contactNo }}
-                </button>
-              </td>
-              <td>
-                <button type="button" class="btn btn-success mr-1" (click)="onViewEmployer(employer)" style="border: none; background: none; color: black;">
-                  {{ employers.poc }}
-                </button>
+                <span (click)="onViewEmployer(employer)" style="cursor: pointer;" class="badge badge-warning">Update</span>
               </td>
             </tr>
           </tbody>

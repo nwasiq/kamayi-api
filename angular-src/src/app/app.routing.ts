@@ -46,6 +46,10 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: 'admin-create-occupation',
+        loadChildren: './views/admin-create-occupation/base.module#BaseModule'
+      },
+      {
         path: 'admin-users-list',
         loadChildren: './views/admin-users-list/base.module#BaseModule'
       },

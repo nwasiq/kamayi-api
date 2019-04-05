@@ -29,6 +29,7 @@
               <th>Phone No</th>
               <th>CNIC No</th>
               <th>Address</th>
+              <th>Other Skill</th>
               <th>Operations</th>
             </tr>
           </thead>
@@ -40,6 +41,7 @@
               <td>{{ candidate.phone }}</td>
               <td>{{ candidate.cnic }}</td>
               <td>{{ candidate.area }}</td>
+              <td>{{ candidate.hasOtherSkill }}</td>
               <td>
                 <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
               </td>

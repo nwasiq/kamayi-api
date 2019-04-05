@@ -19,7 +19,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'employersview',
+        path: 'employersview/:id',
         component: EmployersviewComponent,
         data: {
           title: 'User View'

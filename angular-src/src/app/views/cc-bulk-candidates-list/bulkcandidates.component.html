@@ -21,44 +21,20 @@
                   <th>City</th>
                   <th>Phone No</th>
                   <th>CNIC No</th>
+                  <th>Operation</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let candidate of candidatesInfo | filter:search">
+                <td>{{ candidate._id }}</td>
+                <td>{{ candidate.fullName }}</td>
+                <td> {{ candidate.education }} </td>
+                <td>{{ candidate.primarySkill }}</td>
+                <td>{{ candidate.city }}</td>
+                <td>{{ candidate.phone }} </td>
+                <td> {{ candidate.cnic }}</td>
                 <td>
-                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
-                    {{ candidate._id }}
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
-                    {{ candidate.fullName }}
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
-                    {{ candidate.education }}
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
-                    {{ candidate.primarySkill }}
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
-                    {{ candidate.city }}
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
-                    {{ candidate.phone }}
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-success mr-1" (click)="onViewCandidate(candidate)" style="border: none; background: none; color: black;">
-                    {{ candidate.cnic }}
-                  </button>
+                  <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-warning">Update</span>
                 </td>
               </tr>
             </tbody>

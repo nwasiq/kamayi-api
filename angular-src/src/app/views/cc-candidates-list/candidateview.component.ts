@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { CandidateService } from '../../../services/candidate/candidate.service';
 import { convertToString } from '../../../services/convertEducation';
@@ -8,6 +8,8 @@ import { convertToString } from '../../../services/convertEducation';
   templateUrl: 'candidateview.component.html'
 })
 export class CandidateviewComponent {
+
+  candidateid: string;
 
   name: string;
   email: string;
@@ -24,19 +26,24 @@ export class CandidateviewComponent {
   gender: string;
   education: string;
 
+  comment: string;
+
   constructor(
     private crudService: CrudService,
     private route: Router,
+    private activatedRoute: ActivatedRoute,
     private candidateService: CandidateService
   ) { }
 
   ngOnInit(){
 
-    let candidateid = localStorage.getItem('candidateid');
-    console.log(candidateid);
+    this.activatedRoute.params.subscribe( params =>
+        this.candidateid = params['id']
+      );
+    console.log(this.candidateid);
 
-    if(candidateid){
-      this.crudService.retrieveOne("candidates", candidateid).subscribe(user => {
+    if(this.candidateid){
+      this.crudService.retrieveOne("candidates", this.candidateid).subscribe(user => {
         if(user.message){
           alert(user.message);
           this.route.navigate(['/cc-candidates-list/candidate']);
@@ -50,6 +57,7 @@ export class CandidateviewComponent {
           this.employmentStatus = user.employmentStatus;
           this.primarySkill = user.primarySkill;
           this.area = user.area;
+          this.comment = user.comment;
         }
       })
     }

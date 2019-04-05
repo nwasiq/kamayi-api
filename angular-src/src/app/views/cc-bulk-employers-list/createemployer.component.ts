@@ -1,15 +1,15 @@
 import { Component, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candidate.service';
-import { convertToNumber } from  '../../../services/convertEducation';
-import { educationType } from '../../enums'
 import { GetLatlong } from '../../../services/getCoords';
 
 @Component({
   templateUrl: 'createemployer.component.html'
 })
 export class CreateemployerComponent {
+
+  employerid: string;
 
   industryOf = ['Automobile Parts & Accessories','Cable & Electrical Goods','Cement','Chemical','Close - End Mutual Fund','Commercial Banks','Engineering','Fertilizer',
   'Food & Personal Care Products','Glass & Ceramics','Insurance','Inv. Banks / Inv. Cos. / Securities Cos.','Jute','Leasing Companies','Leather & Tanneries','Miscellaneous',
@@ -116,27 +116,29 @@ export class CreateemployerComponent {
   //end
   
 
-  ngOnInit(){
+  // ngOnInit(){
 
-    let employerid = localStorage.getItem('employerid');
-    console.log(employerid);
-    if(employerid){
-      console.log("shouldn't be here");
-      localStorage.removeItem('empolyerid');
-      this.crudService.retrieveOne("bulkemployers", employerid).subscribe(user => {
-        if(user.message){
-          alert(user.message);
-          this.route.navigate(['/cc-bulk-employers-list/bulkemployers']);
-        }
-        else{
-          this.name = user.fullName;
-          this.industry = user.industry;
-          this.phoneNo = user.phoneNo;
-          this.website = user.website;
-        }
-      })
-    }
-  }
+    // this.activatedRoute.params.subscribe( params =>
+    // this.employerid = params['id']
+    // );
+    // console.log(this.employerid);
+  //   if(this.employerid){
+  //     console.log("shouldn't be here");
+  //     localStorage.removeItem('empolyerid');
+  //     this.crudService.retrieveOne("bulkemployers", this.employerid).subscribe(user => {
+  //       if(user.message){
+  //         alert(user.message);
+  //         this.route.navigate(['/cc-bulk-employers-list/bulkemployers']);
+  //       }
+  //       else{
+  //         this.name = user.fullName;
+  //         this.industry = user.industry;
+  //         this.phoneNo = user.phoneNo;
+  //         this.website = user.website;
+  //       }
+  //     })
+  //   }
+  // }
 
   zoom: number = 15;
 

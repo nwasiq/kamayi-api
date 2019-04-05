@@ -83,5 +83,10 @@ export const navItems: NavData[] = [
     name: 'Candidates',
     url: '/admin-candidate-list/candidate',
     icon: 'icon-people'
+  },
+  {
+    name: 'Occupations',
+    url: '/admin-create-occupation/createoccupation',
+    icon: 'fa fa-address-card'
   }
 ];

@@ -19,7 +19,9 @@ var CandidateSchema = new schema({
         vacancy: { type: schema.Types.ObjectId, ref: 'vacancy' },
         status: String, //initial status: not contacted, then schedule interview', then 'interview scheduled', then 'interviewed', 'rejected', 'hired', 'joined'
         interviewDate: Date //if status is 'interview scheduled', then use this
-    }]
+    }],
+    hasOtherSkill: Boolean, // If skill not in occupation list
+    comment: String
 });
 
  CandidateSchema.pre('remove', async function() {

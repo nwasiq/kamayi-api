@@ -19,6 +19,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'createemployer/:id',
+        component: CreateemployerComponent,
+        data: {
+          title: 'Create Employer'
+        }
+      },
+      {
         path: 'createemployer',
         component: CreateemployerComponent,
         data: {

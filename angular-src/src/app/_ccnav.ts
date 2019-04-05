@@ -46,6 +46,23 @@ export const ccnavItems: CcnavData[] = [
     icon: 'fa fa-handshake-o'
   },
   {
+    name: 'Organic Signup',
+    url: '/cc-bulk-candidates-list',
+    icon: 'fa fa-database',
+    children: [
+      {
+        name: 'Signup - Candidates',
+        url: '/cc-bulk-candidates-list/createcandidate',
+        icon: 'icon-list'
+      },
+      {
+        name: 'Signup - Employers',
+        url: '/cc-bulk-employers-list/createemployer',
+        icon: 'icon-list'
+      }
+    ]
+  },
+  {
     name: 'Bulk - Candidates',
     url: '/cc-bulk-candidates-list/bulkcandidates',
     icon: 'icon-people'

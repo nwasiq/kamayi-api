@@ -8,11 +8,11 @@ import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candi
 })
 export class BulkemployersComponent {
 
-  employersInfo = [
-    {id: '1', companyName: 'Honda Atlas', industry: 'Cars', location: 'Islamabad', contactNo: '03331234567', poc: 'Ahmad Ali'},
-    {id: '2', companyName: 'Osaka Batteries', industry: 'Batteries', location: 'Lahore', contactNo: '03001234567', poc: 'Ilyas Muhammad'},
-    {id: '3', companyName: 'Toyota GLI', industry: 'Cars', location: 'Peshawar', contactNo: '03451234567', poc: 'Anwar Ali'}
-  ]
+  // employersInfo = [
+  //   {id: '1', companyName: 'Honda Atlas', industry: 'Cars', location: 'Islamabad', contactNo: '03331234567', poc: 'Ahmad Ali'},
+  //   {id: '2', companyName: 'Osaka Batteries', industry: 'Batteries', location: 'Lahore', contactNo: '03001234567', poc: 'Ilyas Muhammad'},
+  //   {id: '3', companyName: 'Toyota GLI', industry: 'Cars', location: 'Peshawar', contactNo: '03451234567', poc: 'Anwar Ali'}
+  // ]
 
   constructor(
     private crudService: CrudService,
@@ -36,8 +36,8 @@ export class BulkemployersComponent {
 
   onViewEmployer(employer){
 
-    // localStorage.setItem("employerid", employer._id);
-    this.router.navigate(['/cc-bulk-employers-list/createemployer']);
+    localStorage.setItem("employerid", employer._id);
+    this.router.navigate(['/cc-bulk-employers-list/createemployer/' + employer._id]);
   }
 
 }
