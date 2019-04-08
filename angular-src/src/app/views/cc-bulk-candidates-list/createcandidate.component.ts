@@ -44,6 +44,15 @@ export class CreatecandidateComponent {
 
   comment: string;
 
+  singleSelect: any = [];
+  dropdownOptions: any = [];
+
+  config = {
+    displayKey: "name", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
+
   constructor(
     private crudService: CrudService,
     private route: Router,
@@ -192,6 +201,10 @@ export class CreatecandidateComponent {
   lng: number;
   locationChosen = false;
 
+  selectionChanged(val){
+    // console.log(val.value.name);
+    this.occupation = val.value.name;
+  }
 
   onSubmitCreateCandidate(){
     if(this.tiers.length == 0){

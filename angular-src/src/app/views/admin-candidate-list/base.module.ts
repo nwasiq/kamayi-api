@@ -13,12 +13,16 @@ import { BaseRoutingModule } from './base-routing.module';
 //Search
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
+// Select dropdown with search
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    SelectDropDownModule
   ],
   declarations: [
     CandidateComponent,

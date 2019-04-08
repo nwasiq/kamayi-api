@@ -19,12 +19,16 @@ import { AgmCoreModule } from '@agm/core';
 // Autocomplete
 import { AutocompleteComponent } from './google-places.component';
 
+// Select dropdown with search
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
+    SelectDropDownModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
     })

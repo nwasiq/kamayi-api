@@ -226,9 +226,10 @@
                                         <p>Occupation</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <select class="form-control" name="occupation" [(ngModel)]="occupation" style="border-color: #707070; text-transform: capitalize;" required>
+                                        <!-- <select class="form-control" name="occupation" [(ngModel)]="occupation" style="border-color: #707070; text-transform: capitalize;" required>
                                             <option *ngFor="let x of occupationList" [ngValue]="x.name" style="text-transform: capitalize;">{{x.name}}</option>
-                                        </select>
+                                        </select> -->
+                                        <ngx-select-dropdown (change)="selectionChanged($event)" [multiple]="false"  [config]="config" [options]="occupationList" [config]="config"></ngx-select-dropdown>
                                     </div>
                                 </div>
                             </div>

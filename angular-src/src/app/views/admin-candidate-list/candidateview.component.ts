@@ -30,6 +30,17 @@ export class CandidateviewComponent {
 
   comment: string;
 
+  singleSelect: any = [];
+  dropdownOptions: any = [];
+
+  selectedOccupation: any;
+
+  config = {
+    displayKey: "name", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
+
   constructor(
     private crudService: CrudService,
     private route: Router,
@@ -89,12 +100,32 @@ export class CandidateviewComponent {
     });
   }
 
-  onSubmitUpdateCandidate(id){
-    var occupation = (<HTMLInputElement>document.getElementById(id)).value;
-    // alert(occupation);
-    let updateObj = {
-      occupation: occupation
+  selectionChanged(val, id){
+    for(let x of this.totalCriteria)
+    {
+      if(x._id == id)
+      {
+        x.occupation = val.value.name;
+        break;
+      }
     }
+    console.log(val, id);
+  }
+
+  onSubmitUpdateCandidate(id){
+    let updateObj = {
+      occupation: ""
+    };
+    for(let x of this.totalCriteria)
+    {
+      if(x._id == id)
+      {
+        updateObj.occupation = x.occupation
+        break;
+      }
+    }
+    
+    console.log(updateObj);
     this.crudService.update(updateObj, "criterias", id).subscribe(data => {
       if(!data.message){
         alert("Criteria updated!");
