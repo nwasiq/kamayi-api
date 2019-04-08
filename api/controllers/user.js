@@ -2,7 +2,7 @@
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const config = require('../../config/database');
+const config = require('../../config/globalVars');
 const Employer = require('../models/Employer');
 const Vacancy = require('../models/Vacancy');
 

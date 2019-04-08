@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: 'Openvacancy.component.html'
+  templateUrl: 'openvacancy.component.html'
 })
 export class OpenvacancyComponent {
 }

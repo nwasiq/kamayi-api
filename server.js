@@ -6,7 +6,8 @@ var express    = require('express'),
 	bodyParser = require('body-parser');
 const cors     = require('cors');
 const path     = require('path');
-const config   = require('./config/database');
+const config   = require('./config/globalVars');
+require('dotenv').config(); // include environment variables
 
 /**
  * Model loading
@@ -29,7 +30,7 @@ app.use(cors());
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect(config.localDatabase, {
+mongoose.connect(process.env.DB_HOST + process.env.DB_NAME, {
 	useNewUrlParser: true,
 	useCreateIndex: true
 });
