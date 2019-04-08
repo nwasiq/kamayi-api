@@ -19,7 +19,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'Candidateview',
+        path: 'candidateview/:id',
         component: CandidateviewComponent,
         data: {
           title: 'Candidate View'

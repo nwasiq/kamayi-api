@@ -1,4 +1,5 @@
-import { } from '@types/googlemaps';
+// import { } from '@types/googlemaps';
+/// <reference types="@types/googlemaps" />
 
 export function GetLatlong(address)
 {
