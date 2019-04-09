@@ -11,7 +11,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Name</label>
+                                        <label for="company">Name <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="name" name="name" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
@@ -19,7 +19,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Gender</label>
+                                        <label for="company">Gender <span style="color: red; font-weight: bold;">*</span></label>
                                         <select class="form-control" name="gender" [(ngModel)]="gender" style="border-color: #707070; text-transform: capitalize;" required>
                                             <option *ngFor="let x of genderOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
                                         </select>
@@ -29,7 +29,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Age</label>
+                                        <label for="company">Age <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="age" name="age" type="number" style="border-color: #707070" max="100" required>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Contact No</label>
+                                        <label for="company">Contact No <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="phone" name="phone" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Email</label>
+                                        <label for="company">Email <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" required>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">CNIC</label>
+                                        <label for="company">CNIC <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" (keypress)="keyPress($event)" maxlength="13" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Education</label>
+                                        <label for="company">Education <span style="color: red; font-weight: bold;">*</span></label>
                                         <select class="form-control" name="education" [(ngModel)]="education" style="border-color: #707070; text-transform: capitalize;" required>
                                             <option *ngFor="let x of educationOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
                                         </select>
@@ -77,7 +77,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Current Employment Status</label>
+                                        <label for="company">Current Employment Status <span style="color: red; font-weight: bold;">*</span></label>
                                         <select class="form-control" name="employmentStatus" [(ngModel)]="employmentStatus" style="border-color: #707070; text-transform: capitalize;" required>
                                             <option *ngFor="let x of employementOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
                                         </select>
@@ -102,7 +102,7 @@
                             <div class="input-group col-md-10">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Primary Location</label>
+                                        <label for="company">Primary Location <span style="color: red; font-weight: bold;">*</span></label>
                                         <p>
                                             <AutocompleteComponent (setAddress)="getAddress($event)" adressType="geocode" style="border-color: #707070"></AutocompleteComponent>
                                         </p>
@@ -223,12 +223,9 @@
                                     <div class="col-md-1">
                                     </div>
                                     <div class="col-md-5">
-                                        <p>Occupation</p>
+                                        <p>Occupation <span style="color: red; font-weight: bold;">*</span></p>
                                     </div>
                                     <div class="col-md-6">
-                                        <!-- <select class="form-control" name="occupation" [(ngModel)]="occupation" style="border-color: #707070; text-transform: capitalize;" required>
-                                            <option *ngFor="let x of occupationList" [ngValue]="x.name" style="text-transform: capitalize;">{{x.name}}</option>
-                                        </select> -->
                                         <ngx-select-dropdown (change)="selectionChanged($event)" [multiple]="false"  [config]="config" [options]="occupationList" [config]="config"></ngx-select-dropdown>
                                     </div>
                                 </div>
@@ -238,7 +235,7 @@
                                     <div class="col-md-1">
                                     </div>
                                     <div class="col-md-5">
-                                        <p>Experience</p>
+                                        <p>Experience <span style="color: red; font-weight: bold;">*</span></p>
                                     </div>
                                     <div class="col-md-6">
                                         <input class="form-control" [(ngModel)]="experience" name="experience" type="number" style="border-color: #707070" min="0" required>
@@ -252,7 +249,7 @@
                                     <div class="col-md-1">
                                     </div>
                                     <div class="col-md-5">
-                                        <p>Employer</p>
+                                        <p>Employer <span style="color: red; font-weight: bold;">*</span></p>
                                     </div>
                                     <div class="col-md-6">
                                         <input class="form-control" [(ngModel)]="employer" name="employer" type="text" style="border-color: #707070" required>
@@ -264,7 +261,7 @@
                                     <div class="col-md-1">
                                     </div>
                                     <div class="col-md-5">
-                                        <p>Is Trained</p>
+                                        <p>Is Trained <span style="color: red; font-weight: bold;">*</span></p>
                                     </div>
                                     <div class="col-md-6">
                                         <input [(ngModel)]="isTrained" name="isTrained" type="checkbox" style="width: 30px; height: 30px;">
@@ -293,7 +290,7 @@
                 <div class="input-group col-md-12">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="company">Comments</label>
+                            <label for="company">Comments <span style="color: red; font-weight: bold;">*</span></label>
                             <textarea class="form-control" [(ngModel)]="comment" name="comment" type="text" style="border-color: #707070" required></textarea>
                         </div>
                     </div>
