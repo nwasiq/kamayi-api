@@ -57,7 +57,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">CNIC</label>
-                                        <input class="form-control" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" (keypress)="keyPress($event)" maxlength="15" [(ngModel)]="cnic" name="cnic" type="text" placeholder="12345-1234567-1" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
