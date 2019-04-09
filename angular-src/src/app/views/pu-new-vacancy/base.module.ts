@@ -12,6 +12,9 @@ import { BaseRoutingModule } from './base-routing.module';
 //agm
 import { AgmCoreModule } from '@agm/core';
 
+// Autocomplete
+import { AutocompleteComponent } from './google-places.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +25,8 @@ import { AgmCoreModule } from '@agm/core';
     })
   ],
   declarations: [
-    NewvacancyComponent
+    NewvacancyComponent,
+    AutocompleteComponent
   ]
 })
 export class BaseModule { }
