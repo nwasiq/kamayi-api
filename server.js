@@ -4,6 +4,7 @@ var express    = require('express'),
 	mongoose   = require('mongoose'),
 	passport   = require('passport'),
 	bodyParser = require('body-parser');
+	compression = require('compression');
 const cors     = require('cors');
 const path     = require('path');
 const config   = require('./config/globalVars');
@@ -26,6 +27,7 @@ mongoose.plugin(schema => {
 
 require('./api/middlewares/authenticate')(passport);
 
+app.use(compression());
 app.use(cors());
 
 // mongoose instance connection url connection
