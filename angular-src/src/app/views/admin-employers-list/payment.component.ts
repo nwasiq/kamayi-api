@@ -7,7 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class PaymentComponent {
 
   public successModal;
-
+  search:any;
   paymentID: number;
   companyID: number;
   companyName: string;

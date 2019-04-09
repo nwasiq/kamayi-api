@@ -7,7 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class AssignmentComponent {
 
   public successModal;
-
+  search: any;
   assignedOfficer: string;
   officerID: number;
   assignedCompanies: number;

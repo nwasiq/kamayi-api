@@ -12,7 +12,7 @@ export class UsersComponent {
   email: string;
   role: string;
   phone: string;
-
+  search: any;
   usersInfo: any;
 
   constructor(

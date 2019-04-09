@@ -7,8 +7,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 export class JobdeletionComponent {
 
   public successModal;
-
-  idVacancy: number;
+  search: any;
+  idVacancy: number;  
   titleVacancy: string;
   vacancyDesc: string;
   nameCompany: string;

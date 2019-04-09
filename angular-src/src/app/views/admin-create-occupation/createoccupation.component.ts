@@ -11,7 +11,7 @@ export class CreateoccupationComponent {
   occupation: string;
 
   occupationsInfo: any;
-
+  search: any;
   constructor(
     private route: Router,
     private crudService: CrudService
