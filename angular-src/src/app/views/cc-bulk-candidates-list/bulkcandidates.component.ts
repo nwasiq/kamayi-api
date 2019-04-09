@@ -18,7 +18,7 @@ export class BulkcandidatesComponent {
   city: string; 
   email: string;
   primarySkill: string;
-
+  search: any;
   fileToUpload: File;
 
   candidatesInfo: any;

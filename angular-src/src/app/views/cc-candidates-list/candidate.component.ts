@@ -8,7 +8,7 @@ import { CrudService } from '../../../services/crud/crud.service';
 export class CandidateComponent {
 
   candidatesInfo: any;
-
+  search: any;
   constructor(
     private crudService: CrudService,
     private route: Router
