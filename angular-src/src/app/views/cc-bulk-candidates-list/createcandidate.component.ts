@@ -150,7 +150,6 @@ export class CreatecandidateComponent {
       event.preventDefault();
     }
   }
-  
 
   ngOnInit(){
 
@@ -227,6 +226,12 @@ export class CreatecandidateComponent {
       alert('Education not accepted'); //education not in required list of educations
       return;
     }
+
+    if(this.cnic.length < 13)
+    {
+      alert("CNIC should be of length 13.");
+    }
+
     let hasOtherSkill = false;
     for(let x of this.tiers){
       if(x.occupation == "Other")
