@@ -33,7 +33,7 @@ export class UserviewComponent {
     this.username = user.username;
   }
 
-  // onSubmitCreateUser(){
+  onSubmitCreateUser(){
   //   if (this.confirmPassword == this.password) 
   //   {
   //     const userData = {
@@ -60,5 +60,5 @@ export class UserviewComponent {
   //   {
   //     alert("Passwords don't match.");
   //   }
-  // }
+  }
 }

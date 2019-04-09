@@ -18,6 +18,18 @@ export class NewvacancyComponent {
   mobileNo: string;
   ageRange: string;
   city: string;
+  occupation: string;
+  employer: string;
+  type: string;
+  totalSlots: string;
+  minExp: string;
+  genderReq: string;
+  comments: string;
+  insurance: string;
+  transport: string;
+  accomodation: string;
+  food: string;
+  socailSecurity: string;
 
   constructor() { }
 

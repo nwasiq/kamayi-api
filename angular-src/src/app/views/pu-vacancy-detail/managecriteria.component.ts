@@ -5,6 +5,17 @@ import { Component } from '@angular/core';
 })
 export class ManagecriteriaComponent {
 
+  gender: string;
+  education: string;
+  experience: string;
+  city: string;
+  location: string;
+  unemployed: string;
+  educationWeight: string;
+  experienceWeight: string;
+  locationWeight: string;
+  generateWeighted: string;
+  
   constructor() { }
 
   candidatesInfo: any[] = [
