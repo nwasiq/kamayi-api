@@ -20,7 +20,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Full Name</label>
+                                        <label for="company">Full Name <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="fullname" name="fullname" type="text" style="border-color: #707070" placeholder="Full Name" required>
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Username</label>
+                                        <label for="company">Username <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="username" name="username" type="text" style="border-color: #707070" placeholder="Username" required>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Role</label>
+                                        <label for="company">Role <span style="color: red; font-weight: bold;">*</span></label>
                                         <select class="form-control" name="role" [(ngModel)]="role" style="border-color: #707070; text-transform: capitalize;" required>
                                             <option *ngFor="let x of roleOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
                                         </select>
@@ -52,7 +52,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Email</label>
+                                        <label for="company">Email <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" placeholder="Email" required>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Password</label>
+                                        <label for="company">Password <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="password" name="password" type="password" style="border-color: #707070" placeholder="Password" required>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Confirm Password</label>
+                                        <label for="company">Confirm Password <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="confirmPassword" name="confirmPassword" type="password" style="border-color: #707070" placeholder="Confirm Password" required>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Phone</label>
+                                        <label for="company">Phone <span style="color: red; font-weight: bold;">*</span></label>
                                         <input class="form-control" [(ngModel)]="phone" name="phone" type="text" style="border-color: #707070" placeholder="+92511234567" required>
                                     </div>
                                 </div>
