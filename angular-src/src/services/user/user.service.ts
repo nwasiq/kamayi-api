@@ -33,6 +33,16 @@ export class UserService {
       .map(res => res.json());
   }
 
+  getDashboardDetails() {
+    return this.http.get(this.localhostString + 'users/dashboard', { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  getDashboardDetailsById(id) {
+    return this.http.get(this.localhostString + 'users/' + id + '/dashboard', { headers: this.headers })
+      .map(res => res.json());
+  }
+
   storeUserData(token, user) {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));

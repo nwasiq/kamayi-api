@@ -21,7 +21,7 @@ router.post('', checkAuthToken(), crudController.create);
 router.get('', checkAuthToken(), crudController.findAll);
 router.get('/unassigned', checkAuthToken(), permission.permit('admin'), employerController.getUnassignedEmployers);
 router.get('/:entityId', checkAuthToken(), crudController.findOne);
-router.put('/:entityId', checkAuthToken(), permission.permit('admin', 'placement'), permission.authenticatePlacementOfficerUpdate(), crudController.update);
+router.put('/:entityId', checkAuthToken(), permission.permit('admin', 'superAdmin', 'placement'), permission.authenticatePlacementOfficerUpdate(), crudController.update);
 router.delete('/:entityId', checkAuthToken(), crudController.delete);
 router.post('/:employerId/vacancies', checkAuthToken(), vacancyController.createVacancyForEmployer);
 router.get('/:employerId/vacancies', checkAuthToken(), vacancyController.findVacanciesForEmployer);

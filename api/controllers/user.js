@@ -76,6 +76,28 @@ exports.getDashboardFields = async function(req, res){
     }
 }
 
+exports.getDashboardFieldsById = async function(req, res){
+    let id = req.params.userId;
+    let dashboard = {};
+    try{
+        let user = await User.findOne({role: 'placement', _id: id});
+        if(!user){
+            return res.status(404).send({
+                message: "Placement user with ID " + id + " not found"
+            });
+        }
+        let employers = await Employer.find({ placementOfficer: id }).distinct('_id');
+        dashboard['assignedEmployers'] = employers.length;
+        dashboard['openVacancies'] = await Vacancy.find({ employer: { $in: employers }, status: 'Active' }).count();
+        res.send(dashboard);
+    } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
 exports.getEmployersAssignedForPlacementOfficer = async function(req, res) {
 
     let placementId = req.params.placementId;

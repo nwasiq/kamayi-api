@@ -12,12 +12,24 @@ export class AssignmentComponent {
   public successModal;
   search: any;
   assignedOfficer: string;
-  officerID: number;
-  assignedCompanies: number;
-  openVacancies: number;
 
   employersInfo: any = [];
   placementUsers: any = [];
+
+  modalEmployerId: any;
+
+  singleSelect: any = [];
+  dropdownOptions: any = [];
+
+  officerid: string;
+  assignedCompany: string;
+  openVacancy: string;
+
+  config = {
+    displayKey: "fullName", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
 
   constructor(
     private userService: UserService,
@@ -41,16 +53,20 @@ export class AssignmentComponent {
 
   onAssignPO(){
     const assignPO = {
-      assignOfficer: this.assignedOfficer,
-      officerID: this.officerID,
-      assignedCompanies: this.assignedCompanies,
-      openVacancies: this.openVacancies
+      placementOfficer: this.officerid
     }
     console.log(assignPO);
+    this.crudService.update(assignPO, "employers", this.modalEmployerId).subscribe(data => {
+      if(!data.message){
+        alert("Successfully assigned.");
+        window.location.reload();
+      }
+    })
   }
 
-  displayPlacementUser()
+  displayPlacementUser(employer)
   {
+    this.modalEmployerId = employer._id;
     this.userService.getPlacementUsers().subscribe(data => {
       if(data.message)
       {
@@ -59,9 +75,25 @@ export class AssignmentComponent {
       else
       {
         this.placementUsers = data;
-        console.log(this.placementUsers);
+
+        if(employer.placementOfficer){
+        /**
+         * if placement user already there for employer, pre select placement user name from placement
+         * user list (like done in occupations) and show his dashboard stats
+         */
+        }
       }
-    });
+    });  
   }
 
+  selectionChanged(val){
+    console.log(val);
+    this.userService.getDashboardDetailsById(val.value._id).subscribe(data => {
+      console.log(data);
+      this.officerid = val.value._id;
+      this.assignedCompany = data.assignedEmployers;
+      this.openVacancy = data.openVacancies;
+    })
+    // this.occupation = val.value.name;
+  }
 }
