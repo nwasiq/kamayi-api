@@ -230,6 +230,7 @@ export class CreatecandidateComponent {
     if(this.cnic.length < 13)
     {
       alert("CNIC should be of length 13.");
+      return;
     }
 
     let hasOtherSkill = false;
