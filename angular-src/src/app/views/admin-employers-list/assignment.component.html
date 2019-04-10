@@ -20,23 +20,26 @@
                   <th>Company Name</th>
                   <th>Industry</th>
                   <th>Location</th>
-                  <th>Contact No</th>
-                  <th>POC</th>
+                  <th>POC Name</th>
+                  <th>POC Contact No</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody >
                 <tr *ngFor="let employer of employersInfo | filter:search">
-                  <td>{{ employer.id }}</td>
+                  <td>{{ employer._id }}</td>
                   <td>{{ employer.companyName }}</td>
                   <td>{{ employer.industry }}</td>
-                  <td>{{ employer.location }}</td>
-                  <td>{{ employer.contactNo }}</td>
-                  <td>{{ employer.poc }}</td>
+                  <td>{{ employer.location.city }}</td>
+                  <td>{{ employer.fullName }}</td>
+                  <td>{{ employer.pocPhone }}</td>
                   <td>
-                    <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
-                      {{ employer.status }}
-                    </button>
+                    <span *ngIf="employer.isAssigned == 'Unassigned'" style="cursor: pointer;" class="badge badge-warning" data-toggle="modal" (click)="successModal.show(); displayPlacementUser();">
+                      {{employer.isAssigned}}
+                    </span>
+                    <span *ngIf="employer.isAssigned == 'Assigned'" style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show(); displayPlacementUser();">
+                        {{employer.isAssigned}}
+                      </span>
                   </td>
                 </tr>
               </tbody>
@@ -60,23 +63,23 @@
                   <th>Company Name</th>
                   <th>Industry</th>
                   <th>Location</th>
-                  <th>Contact No</th>
-                  <th>POC</th>
+                  <th>POC Name</th>
+                  <th>POC Contact No</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody *ngFor="let employer of employersInfo | filter:search">
-                <tr *ngIf="employer.status == 'Unassigned'">
-                  <td>{{ employer.id }}</td>
-                  <td>{{ employer.companyName }}</td>
-                  <td>{{ employer.industry }}</td>
-                  <td>{{ employer.location }}</td>
-                  <td>{{ employer.contactNo }}</td>
-                  <td>{{ employer.poc }}</td>
+                <tr *ngIf="employer.isAssigned == 'Unassigned'">
+                    <td>{{ employer._id }}</td>
+                    <td>{{ employer.companyName }}</td>
+                    <td>{{ employer.industry }}</td>
+                    <td>{{ employer.location.city }}</td>
+                    <td>{{ employer.fullName }}</td>
+                    <td>{{ employer.pocPhone }}</td>
                   <td>
-                    <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
-                      {{ employer.status }}
-                    </button>
+                    <span style="cursor: pointer;" class="badge badge-warning" data-toggle="modal" (click)="successModal.show(); displayPlacementUser();">
+                        {{employer.isAssigned}}
+                    </span>
                   </td>
                 </tr>
               </tbody>
@@ -100,23 +103,23 @@
                   <th>Company Name</th>
                   <th>Industry</th>
                   <th>Location</th>
-                  <th>Contact No</th>
-                  <th>POC</th>
+                  <th>POC Name</th>
+                  <th>POC Contact No</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody *ngFor="let employer of employersInfo | filter:search">
-                <tr *ngIf="employer.status == 'Assigned'">
-                  <td>{{ employer.id }}</td>
+                <tr *ngIf="employer.isAssigned == 'Assigned'">
+                  <td>{{ employer._id }}</td>
                   <td>{{ employer.companyName }}</td>
                   <td>{{ employer.industry }}</td>
-                  <td>{{ employer.location }}</td>
-                  <td>{{ employer.contactNo }}</td>
-                  <td>{{ employer.poc }}</td>
+                  <td>{{ employer.location.city }}</td>
+                  <td>{{ employer.fullName }}</td>
+                  <td>{{ employer.pocPhone }}</td>
                   <td>
-                    <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
-                      {{ employer.status }}
-                    </button>
+                    <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show(); displayPlacementUser();">
+                        {{employer.isAssigned}}
+                    </span>
                   </td>
                 </tr>
               </tbody>
@@ -147,7 +150,7 @@
               </div>
               <div class="col-md-6">
                 <select class="form-control" name="assignedOfficer" [(ngModel)]="assignedOfficer" id="assignedOfficer" style="border-color: #707070" required>
-                  <option *ngFor="let x of pOfficers" [ngValue]="x">{{x}}</option>
+                  <option *ngFor="let x of placementUsers" [ngValue]="x.fullName">{{x.fullName}}</option>
                 </select>
               </div>
             </div>

@@ -1,5 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import {UserService } from '../../../services/user/user.service';
+import {CrudService } from '../../../services/crud/crud.service';
+import {EmployerService } from '../../../services/employer/employer.service';
 
 @Component({
   templateUrl: 'assignment.component.html'
@@ -13,15 +16,28 @@ export class AssignmentComponent {
   assignedCompanies: number;
   openVacancies: number;
 
-  constructor() { }
+  employersInfo: any = [];
+  placementUsers: any = [];
 
-  employersInfo = [
-    {id: '1', companyName: 'Honda Atlas', industry: 'Cars', location: 'Islamabad', contactNo: '03331234567', poc: 'Ahmad Ali', status: 'Unassigned'},
-    {id: '2', companyName: 'Osaka Batteries', industry: 'Batteries', location: 'Lahore', contactNo: '03001234567', poc: 'Ilyas Muhammad', status: 'Unassigned'},
-    {id: '3', companyName: 'Toyota GLI', industry: 'Cars', location: 'Peshawar', contactNo: '03451234567', poc: 'Anwar Ali', status: 'Assigned'}
-  ];
+  constructor(
+    private userService: UserService,
+    private employerService: EmployerService,
+    private crudService: CrudService
+  ) { }
 
-  pOfficers = ["Salman Ahmad", "Zain Zaidi", "Umair Alee", "Wasiq"];
+  ngOnInit(){
+    this.crudService.retrieveAll("employers").subscribe(data => {
+      if(data.message)
+      {
+        alert(data.message);
+      }
+      else
+      {
+        this.employersInfo = data.employers;
+        console.log(this.employersInfo);
+      }
+    });
+  }
 
   onAssignPO(){
     const assignPO = {
@@ -31,6 +47,21 @@ export class AssignmentComponent {
       openVacancies: this.openVacancies
     }
     console.log(assignPO);
+  }
+
+  displayPlacementUser()
+  {
+    this.userService.getPlacementUsers().subscribe(data => {
+      if(data.message)
+      {
+        alert(data.message);
+      }
+      else
+      {
+        this.placementUsers = data;
+        console.log(this.placementUsers);
+      }
+    });
   }
 
 }

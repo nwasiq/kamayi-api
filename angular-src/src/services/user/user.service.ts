@@ -13,15 +13,23 @@ export class UserService {
   isProd: boolean = environment.production;
   localhostString: string;
   headers: any;
+  token: any;
 
   constructor(private http: HttpInterceptor) {
     this.localhostString = this.isProd ? "" : "http://localhost:3000/";
     this.headers = new Headers();
     this.headers.append('Content-Type', 'application/json');
+    this.token = localStorage.getItem('token');
+    this.headers.append('Authorization', this.token);
   }
 
   userLogin(user) {
     return this.http.post(this.localhostString + 'users/login', user, { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  getPlacementUsers() {
+    return this.http.get(this.localhostString + 'users/role/placement', { headers: this.headers })
       .map(res => res.json());
   }
 
