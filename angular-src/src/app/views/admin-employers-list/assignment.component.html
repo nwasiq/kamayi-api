@@ -149,7 +149,7 @@
                 <b>Assigned Officer</b>
               </div>
               <div class="col-md-6">
-                <ngx-select-dropdown (change)="selectionChanged($event)" [multiple]="false"  [config]="config" [options]="placementUsers" [config]="config"></ngx-select-dropdown>
+                <ngx-select-dropdown (change)="selectionChanged($event)" [ngModelOptions]="{standalone: true}" [(ngModel)]="officerName" [multiple]="false"  [config]="config" [options]="placementUsers" [config]="config" placeholder="Select Placement Officer"></ngx-select-dropdown>
               </div>
             </div>
           </div>

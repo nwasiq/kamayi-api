@@ -82,7 +82,7 @@ export class CandidateviewComponent {
 
   viewCriteria(){
     this.showDiv = true;
-    let candidateid = localStorage.getItem('candidateid');
+    let candidateid = this.candidateid;
     this.candidateService.getCriteriaForCandidate(candidateid).subscribe(data => {
       if(data.message)
       {

@@ -24,6 +24,7 @@ export class AssignmentComponent {
   officerid: string;
   assignedCompany: string;
   openVacancy: string;
+  officerName: string;
 
   config = {
     displayKey: "fullName", //if objects array passed which key to be displayed defaults to description
@@ -49,6 +50,15 @@ export class AssignmentComponent {
         console.log(this.employersInfo);
       }
     });
+
+    this.userService.getPlacementUsers().subscribe(data => {
+      if (data.message) {
+        alert(data.message);
+      }
+      else {
+        this.placementUsers = data;
+      }
+    }); 
   }
 
   onAssignPO(){
@@ -66,24 +76,31 @@ export class AssignmentComponent {
 
   displayPlacementUser(employer)
   {
-    this.modalEmployerId = employer._id;
-    this.userService.getPlacementUsers().subscribe(data => {
-      if(data.message)
-      {
-        alert(data.message);
-      }
-      else
-      {
-        this.placementUsers = data;
-
-        if(employer.placementOfficer){
-        /**
-         * if placement user already there for employer, pre select placement user name from placement
-         * user list (like done in occupations) and show his dashboard stats
-         */
+    this.officerName = "Select";
+    this.officerid = "";
+    this.assignedCompany = "";
+    this.openVacancy = "";
+    if (!employer.placementOfficer){
+      this.officerName = null;
+    }
+    else{
+      this.officerid = employer.placementOfficer;
+      for (let officer of this.placementUsers) {
+        if (officer._id == employer.placementOfficer) {
+          this.officerName = officer.fullName;
+          break;
         }
       }
-    });  
+      this.userService.getDashboardDetailsById(this.officerid).subscribe(data => {
+        this.assignedCompany = data.assignedEmployers;
+        this.openVacancy = data.openVacancies;
+      })
+    }
+
+      /**
+       * Populate assigned employers and open vacancies
+       */
+    this.modalEmployerId = employer._id; 
   }
 
   selectionChanged(val){

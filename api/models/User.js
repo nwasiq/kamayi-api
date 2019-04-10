@@ -46,7 +46,7 @@ UserSchema.pre('findOneAndUpdate', async function() {
 UserSchema.pre('remove', async function(){
     if(this.role == 'placement'){
         const EmployerModel = mongoose.model("employer");
-        await EmployerModel.updateMany({placementOfficer: this._id}, {$unset: {placementOfficer: 1}});
+        await EmployerModel.updateMany({ placementOfficer: this._id }, { $unset: { placementOfficer: 1 }, $set: { isAssigned: "Unassigned"}});
     }
     else if(this.role == 'superAdmin'){
         throw new Error('super admin cannot be deleted');
