@@ -128,6 +128,18 @@ exports.importExcel = async function (req, res) {
                     n--;
                     continue;
                 }
+                else{
+                    /**
+                     * cnic needs to be of length 13 always
+                     */
+                    result[n].cnic = result[n].cnic.split('-').join('');
+                    if (result[n].cnic.length != 13)
+                    {
+                        result.splice(n, 1);
+                        n--;
+                        continue;
+                    }
+                }
                 if (allowedEducations.indexOf(result[n].education) == -1) {
                     delete result[n].education; //education not in required list of educations
                 }
