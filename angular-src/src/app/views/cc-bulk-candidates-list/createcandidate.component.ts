@@ -233,14 +233,24 @@ export class CreatecandidateComponent {
       return;
     }
 
+    let commentReq = false;
     let hasOtherSkill = false;
     for(let x of this.tiers){
       if(x.occupation == "Other")
       {
         hasOtherSkill = true;
+        commentReq = true;
         break;
       }
     }
+console.log(commentReq);
+console.log(this.comment === "");
+    if(commentReq && (this.comment === "" || this.comment === undefined ))
+    {
+      alert("Comment is required if 'Other' skill is entered.");
+      return;
+    }
+
     this.education = convertToNumber(this.education);
     for (let one of this.tiers){
       criteria.push({
