@@ -19,6 +19,7 @@ import { CrudService } from '../services/crud/crud.service';
 import { UserService } from '../services/user/user.service';
 import { BulkCandidateService } from '../services/bulkCandidate/bulk-candidate.service';
 import { AuthGuard } from '../services/authGuard/auth.guard';
+import { EmployerService } from '../services/employer/employer.service';
  
 // Import containers
 import { DefaultLayoutComponent } from './containers';
@@ -84,6 +85,7 @@ import { HttpInterceptor } from '../services/httpInterceptor';
     AuthGuard, 
     HttpInterceptor,
     UserService,
+    EmployerService,
     BulkCandidateService, 
     {
     provide: LocationStrategy,

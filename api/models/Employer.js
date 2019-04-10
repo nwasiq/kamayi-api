@@ -24,6 +24,10 @@ var EmployerSchema = new schema({
         long: Number,
         city: String
     },
+    isAssigned: {
+        type: String,
+        default: "Unassigned"
+    },
     placementOfficer: {
         type: schema.Types.ObjectId, ref: 'user'
     }
@@ -48,6 +52,7 @@ EmployerSchema.pre('findOneAndUpdate', async function () {
         if (!user) {
             throw new Error('No placement officer found with id: ' + this._update.placementOfficer);
         }
+        this._update.isAssigned = "Assigned";
     }
 });
 
