@@ -1,85 +1,91 @@
 import { Component } from '@angular/core';
+import { CrudService } from '../../../services/crud/crud.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { convertToString } from  '../../../services/convertEducation';
 
 @Component({
   templateUrl: 'vacancydetails.component.html'
 })
 export class VacancydetailsComponent {
 
-  skillsetType: string;
-  company: string;
-  name: string;
-  description: string;
+  vacancyId: string;
+
+  title: string;
   occupation: string;
+  company: string;
+  description: string;
   employer: string;
 
-  primaryLocation: string;
+  area: string;
+  zoom: number = 15;
+
+  lat: number;
+  lng: number;
+  locationChosen = false;
 
   salary: string
   designation: string;
-  type: string;
+  
   requiredEducation: string;
-  mobileNo: string;
-  totalSlots: string;
-  ageRange: string;
-  city: string;
+  pocNumber: string;
+  hired: string;
+  openings: string;
   minExp: string;
+  city: string;
   genderReq: string;
   comments: string;
 
-  insurance: string;
-  transport: string;
   accomodation: string;
+  transport: string;
+  insurance: string;
   food: string;
-  socailSecurity: string;
+  socialSecurity: string;
 
-  constructor() { }
+  constructor(
+    private route: Router,
+    private activatedRoute: ActivatedRoute,
+    private crudService: CrudService
+  ) { }
 
-  markers: marker[] = []
+  ngOnInit(){
 
-  zoom: number = 15;
+    this.activatedRoute.params.subscribe( params =>
+      this.vacancyId = params['id']
+    );
+    console.log(this.vacancyId);
 
-  lat: number = 33.6844;
-  lng: number = 73.0479;
-  locationChosen = false;
-
-  mapClicked($event: any) {
-    this.markers.push({
-      lat: $event.coords.lat,
-      lng: $event.coords.lng
-    });
-    console.log(this.markers);
+    this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
+      console.log(data);
+      if(data.message){
+        alert(data.message);
+        this.route.navigate(['/pu-open-vacancy/openvacancy']);
+      }
+      else
+      {
+        this.crudService.retrieveOne("employers", data.employer).subscribe(data2 => {
+          this.title = data.title;
+          this.description = data.description;
+          this.occupation = data.occupation;
+          this.employer = data2.companyName;
+          this.area = data.area;
+          this.lng = data.location.coordinates[0];
+          this.lat = data.location.coordinates[1];
+          this.salary = data.salary;
+          this.designation = data.designation;
+          this.requiredEducation = convertToString(data.educationRequirement);
+          this.pocNumber = data.pocNumber;
+          this.minExp = data.experience;
+          this.city = data.city;
+          this.insurance = data.benefits.insurance;
+          this.transport = data.benefits.transportation;
+          this.accomodation = data.benefits.accomodation;
+          this.food = data.benefits.food;
+          this.socialSecurity = data.benefits.socialSecurity;
+          this.hired = data.hired;
+          this.openings = data.openings;
+        })
+      }
+    })
   }
 
-  onSubmitVacancyDetails(){
-    const employersData = {
-      name: this.name,
-      description: this.description,
-      occupation: this.occupation,
-      employer: this.employer,
-      salary: this.salary,
-      designation: this.designation,
-      type: this.type,
-      requiredEducation: this.requiredEducation,
-      mobileNo: this.mobileNo,
-      totalSlots: this.totalSlots,
-      ageRange: this.ageRange,
-      city: this.city,
-      minExp: this.minExp,
-      genderReq: this.genderReq,
-      comments: this.comments,
-      insurance: this.insurance,
-      transport: this.transport,
-      accomodation:this.accomodation,
-      food: this.food,
-      socailSecurity: this.socailSecurity,
-      primaryLocation: this.primaryLocation
-
-    }
-    console.log(employersData);
-  }
-}
-
-interface marker {
-	lat: number;
-	lng: number;
 }

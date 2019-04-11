@@ -25,4 +25,14 @@ export class EmployerService {
     return this.http.get(this.localhostString + 'employers/unassigned', { headers: this.headers })
       .map(res => res.json());
   }
+
+  getVacanciesForEmployer(id){
+    return this.http.get(this.localhostString + 'employers/' + id + '/vacancies', { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  createVacancyForEmployer(id, vacancyObj){
+    return this.http.post(this.localhostString + 'employers/' + id + '/vacancies', vacancyObj, { headers: this.headers })
+      .map(res => res.json());
+  }
 }

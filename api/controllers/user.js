@@ -109,7 +109,7 @@ exports.getEmployersAssignedForPlacementOfficer = async function(req, res) {
             });
         }
         let employers = await Employer.find({placementOfficer: placementId});
-        res.send(employers)
+        res.send({employers:employers})
     } catch(err){
         res.status(500).send({
             message: "A server error occurred",
@@ -129,7 +129,7 @@ exports.getOpenVacanciesForPlacementOfficer = async function (req, res) {
             });
         }
         let employers = await Employer.find({ placementOfficer: placementId }).distinct('_id');
-        let vacancies = await Vacancy.find({ employer: { $in: employers }, status: 'Active'});
+        let vacancies = await Vacancy.find({ employer: { $in: employers }, status: 'Active'}).populate('employer');
         res.send(vacancies)
     } catch (err) {
         res.status(500).send({

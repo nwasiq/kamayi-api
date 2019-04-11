@@ -20,6 +20,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //agm
 import { AgmCoreModule } from '@agm/core';
 
+// Autocomplete
+import { AutocompleteComponent } from './google-places.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -35,7 +38,8 @@ import { AgmCoreModule } from '@agm/core';
     ManageshortlistComponent,
     ManagecriteriaComponent,
     VacancydetailslistComponent,
-    VacancydetailsComponent
+    VacancydetailsComponent,
+    AutocompleteComponent
   ]
 })
 export class BaseModule { }

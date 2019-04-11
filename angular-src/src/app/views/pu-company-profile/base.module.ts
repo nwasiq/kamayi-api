@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
-
-import { CompanyvacanciesComponent } from './companyvacancies.component';
 import { CompanyprofileComponent } from './companyprofile.component';
 
 // Components Routing
@@ -27,7 +25,6 @@ import { AgmCoreModule } from '@agm/core';
     })
   ],
   declarations: [
-    CompanyvacanciesComponent,
     CompanyprofileComponent
   ]
 })

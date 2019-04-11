@@ -20,7 +20,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Name</label>
-                                        <input class="form-control" [(ngModel)]="name" name="name" type="text" style="border-color: #707070" placeholder="Osaka Batteries" required>
+                                        <input class="form-control" [(ngModel)]="name" name="name" type="text" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -28,7 +28,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Industry</label>
-                                        <input class="form-control" [(ngModel)]="industry" name="industry" type="text" style="border-color: #707070" placeholder="Electrical Manufactures" required>
+                                        <input class="form-control" [(ngModel)]="industry" name="industry" type="text" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Phone No</label>
-                                        <input class="form-control" [(ngModel)]="phoneNo" name="phoneNo" type="text" style="border-color: #707070" placeholder="+92511234567" required>
+                                        <input class="form-control" [(ngModel)]="phoneNo" name="phoneNo" type="text" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Website</label>
-                                        <input class="form-control" [(ngModel)]="website" name="website" type="text" style="border-color: #707070" placeholder="www.osakabatteries" required>
+                                        <input class="form-control" [(ngModel)]="website" name="website" type="text" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Set Location
+                        <i class="fa fa-align-justify"></i> Location
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-4">
@@ -70,14 +70,14 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="company">Primary Location</label>
-                                        <input class="form-control" [(ngModel)]="primaryLocation" name="primaryLocation" type="text" style="border-color: #707070" placeholder="340, F-11 Markaz, Islamabad, Pakistan" required>
+                                        <input class="form-control" [(ngModel)]="city" name="city" type="text" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <!-- <div class="col-md-2">
                                     <div class="form-group">
                                         <span class="btn" style="margin-top: 1.75em;border-radius: 50%; border: 1px solid #707070; background: #ADFFB7; cursor: pointer;"><i class="fa fa-pencil"></i></span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
@@ -86,8 +86,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div style="height: 500px; display: block; margin: 0 auto;">
-                                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [zoomControl]="false" (mapClick)="mapClicked($event)" style="height: 490px;">
-                                                <agm-marker *ngFor="let m of markers" [latitude]="m.lat" [longitude]="m.lng">
+                                            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [scrollwheel]="false" style="height: 390px;">
+                                                <agm-marker [latitude]="lat" [longitude]="lng">
                                                 </agm-marker>
                                             </agm-map>
                                         </div>
@@ -113,7 +113,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Name</label>
-                                        <input class="form-control" [(ngModel)]="pocName" name="pocName" type="text" style="border-color: #707070" placeholder="Ahmed Azher" required>
+                                        <input class="form-control" [(ngModel)]="pocName" name="pocName" type="text" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Designation</label>
-                                        <input class="form-control" [(ngModel)]="designation" name="designation" type="text" style="border-color: #707070" placeholder="Marketing Manager" required>
+                                        <input class="form-control" [(ngModel)]="designation" name="designation" type="text" style="border-color: #707070"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Email</label>
-                                        <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" placeholder="ahmed.azher@gmail.com" required>
+                                        <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Mobile</label>
-                                        <input class="form-control" [(ngModel)]="mobileNo" name="mobileNo" type="text" style="border-color: #707070" placeholder="+923001234567" required>
+                                        <input class="form-control" [(ngModel)]="mobileNo" name="mobileNo" type="text" style="border-color: #707070" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +150,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Address</label>
-                                        <input class="form-control" [(ngModel)]="address" name="address" type="text" style="border-color: #707070" placeholder="Office no 3, Osaka Batteries, F" required>
+                                        <input class="form-control" [(ngModel)]="address" name="address" type="text" style="border-color: #707070"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">City</label>
-                                        <input class="form-control" [(ngModel)]="city" name="city" type="text" style="border-color: #707070" placeholder="Islamabad" required>
+                                        <input class="form-control" [(ngModel)]="pocCity" name="pocCity" type="text" style="border-color: #707070"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +168,50 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 0.5em;">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Company Vacancies
+                    </div>
+    
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped table-responsive-sm">
+                            <thead>
+                                <tr style="background: #BFFFCE;">
+                                <th>ID</th>
+                                <th>Company Name</th>
+                                <th>Title</th>
+                                <th>Occupation</th>
+                                <th>Designation</th>
+                                <th>Gender</th>
+                                <th>City</th>
+                                <th>Operations</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let vacancy of employerVacancies | filter:search">
+                                <tr>
+                                <td>{{ vacancy._id }}</td>
+                                <td>{{ vacancy.employer.companyName }}</td>
+                                <td>{{ vacancy.title }}</td>
+                                <td>{{ vacancy.occupation }}</td>
+                                <td>{{ vacancy.designation }}</td>
+                                <td>{{ vacancy.gender }}</td>
+                                <td>{{ vacancy.city }}</td>
+                                <td>
+                                    <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="viewVacancyDetails(vacancy);">
+                                    View
+                                    </span>
+                                </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--/.col-->
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
             <div class="input-group mb-12">
                 <div class="input-group col-md-9">
                 </div>
@@ -176,7 +219,7 @@
                     <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Create Profile</button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </form>
     <!--/.row-->
 </div>

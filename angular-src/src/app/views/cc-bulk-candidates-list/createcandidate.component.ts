@@ -11,8 +11,6 @@ import { GetLatlong } from '../../../services/getCoords';
 })
 export class CreatecandidateComponent {
 
-  // cnicPattern=/^[0-9+]{5}-[0-9+]{7}-[0-9]{1}$/;
-
   candidateid: string;
 
   educationOf = ['Informal','Primary','Middle','Matric','O-Levels','Intermediate','A-Levels','Bachelors','Masters'];

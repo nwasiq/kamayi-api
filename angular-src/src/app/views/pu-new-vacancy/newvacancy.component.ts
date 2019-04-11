@@ -1,30 +1,40 @@
 import { Component, NgZone } from '@angular/core';
 import { GetLatlong } from '../../../services/getCoords';
+import { CrudService } from '../../../services/crud/crud.service';
+import { UserService } from '../../../services/user/user.service';
+import { Router } from '@angular/router';
+import { convertToNumber } from  '../../../services/convertEducation';
+import { EmployerService } from '../../../services/employer/employer.service';
 
 @Component({
   templateUrl: 'newvacancy.component.html'
 })
 export class NewvacancyComponent {
 
-  name: string;
+  genderOf = ["Male", "Female", "Any"];
+  typeOf = ["fullTime", "partTime"];
+  educationOf = ['Informal','Primary','Middle','Matric','O-Levels','Intermediate','A-Levels','Bachelors','Masters'];
+  education: any;
+
+  placementUserID: string;
+
+  title: string;
   description: string;
   occupation: string;
-  employer: string;
+  assignedEmployers: any = [];
 
   primaryLocation: string;
 
-  salary: string
+  salary: number
   designation: string;
   requiredEducation: string;
   mobileNo: string;
   ageRange: string;
-  cityDetail: string;
   
   type: string;
-  totalSlots: string;
-  minExp: string;
+  totalSlots: number;
+  minExp: number;
   genderReq: string;
-  comments: string;
   insurance: boolean;
   transport: boolean;
   accomodation: boolean;
@@ -37,9 +47,29 @@ export class NewvacancyComponent {
   area: string;
   city: string;
   tempFunc: any;
+  vacancyEmployerId: any;
+  selectedOccupation: any;
+
+  occupationList: any = [];
+
+  config1 = {
+    displayKey: "name", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
+
+  config2 = {
+    displayKey: "companyName", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
 
   constructor(
-    public zone: NgZone
+    public zone: NgZone,
+    private userService: UserService,
+    private crudService: CrudService,
+    private route: Router,
+    private employerService: EmployerService
   ) { }
 
   zoom: number = 15;
@@ -132,39 +162,83 @@ export class NewvacancyComponent {
     this.accomodation = false;
     this.food = false;
     this.socailSecurity = false;
+
+    this.crudService.retrieveAll('occupations').subscribe(data => {
+      this.occupationList = data.occupations;
+    });
+
+    this.placementUserID = JSON.parse(localStorage.getItem('user'))._id;
+    let userid = this.placementUserID;
+
+    this.userService.getEmployersForPlacementUser(userid).subscribe(data => {
+      if(data.message)
+      {
+        alert(data.message);
+      }
+      else
+      {
+        if(data.employers.length == 0)
+        {
+          alert("No employers assigned to you");
+          this.route.navigate(['/pudashboard']);
+        }
+        this.assignedEmployers = data.employers;
+      }
+    });
+
+  }
+
+  employerSelectionChanged(val){
+    this.vacancyEmployerId = val.value._id;
+    this.mobileNo = val.value.pocPhone;
+    console.log(this.vacancyEmployerId);
+  }
+
+  occupationSelectionChanged(val){
+    this.selectedOccupation = val.value.name;
+    console.log(this.selectedOccupation);
   }
 
   onSubmitCreateVacancy(){
+    this.education = convertToNumber(this.requiredEducation);
     const vacancyData = {
-      name: this.name,
+      title: this.title,
+      occupation: this.selectedOccupation,
       description: this.description,
-      occupation: this.occupation,
-      employer: this.employer,
+      city: this.city,
+      area: this.address,
       location: {
         coordinates: [this.coords[0], this.coords[1]]
       },
       salary: this.salary,
-      designation: this.designation,
-      type: this.type,
-      requiredEducation: this.requiredEducation,
-      mobileNo: this.mobileNo,
-      totalSlots: this.totalSlots,
-      ageRange: this.ageRange,
-      cityDetail: this.cityDetail,
-      minExp: this.minExp,
-      genderReq: this.genderReq,
-      comments: this.comments,
-      insurance: this.insurance,
-      transport: this.transport,
-      accomodation: this.accomodation,
-      food: this.food,
-      socailSecurity: this.socailSecurity
+      openings: this.totalSlots,
+      jobType: this.type,
+      experience: this.minExp,
+      educationRequirement: this.education,
+      gender: this.genderReq,
+      benefits: {
+        insurance: this.insurance,
+        transportation: this.transport,
+        accomodation: this.accomodation,
+        food: this.food,
+        socialSecurity: this.socailSecurity
+      },
+      employer: this.vacancyEmployerId,
+      pocNumber: this.mobileNo,
+      designation: this.designation
     }
-    console.log(vacancyData);
+    // console.log(vacancyData);
+    this.employerService.createVacancyForEmployer(this.vacancyEmployerId, vacancyData).subscribe(data => {
+      // console.log(data);
+      if(data.message)
+      {
+        alert(data.message);
+      }
+      else
+      {
+        alert("Vacancy Created!");
+        this.route.navigate(['/pu-open-vacancy/openvacancy']);
+      }
+    })
   }
-}
-
-interface marker {
-	lat: number;
-	lng: number;
 }

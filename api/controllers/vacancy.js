@@ -33,7 +33,7 @@ exports.findVacanciesForEmployer = async function (req, res) {
                 message: "Employer not found with id " + req.params.employerId
             });
         }
-        let vacancies = await Vacancy.find({ employer: req.params.employerId });
+        let vacancies = await Vacancy.find({ employer: req.params.employerId }).populate('employer');
         if (vacancies.length == 0) {
             return res.status(404).send({
                 message: "Vacancies not found for this employer "

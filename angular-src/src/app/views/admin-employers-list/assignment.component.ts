@@ -86,7 +86,6 @@ export class AssignmentComponent {
       this.officerid = employer.placementOfficer;
       for (let officer of this.placementUsers) {
         if (officer._id == employer.placementOfficer) {
-          console.log("Here");
           this.officerName = officer.fullName;
           break;
         }

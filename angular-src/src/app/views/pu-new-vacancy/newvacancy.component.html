@@ -1,6 +1,14 @@
 <div class="animated fadeIn">
+    <div class="row" style="margin-top: 2em;">
+        <div class="col-lg-12">
+            <label>
+                <h5>New Vacancy</h5>
+                <hr>
+            </label>
+        </div>
+    </div>
     <form (submit)="onSubmitCreateVacancy()" ngNativeValidate>
-        <div class="row" style="margin-top: 2em;">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
@@ -11,8 +19,8 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Name</label>
-                                        <input class="form-control" [(ngModel)]="name" name="name" type="text" style="border-color: #707070" placeholder="Electrician Required" required>
+                                        <label for="company">Title</label>
+                                        <input class="form-control" [(ngModel)]="title" name="title" type="text" style="border-color: #707070" placeholder="Electrician Required" required>
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +39,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Occupation</label>
-                                        <input class="form-control" [(ngModel)]="occupation" name="occupation" type="text" style="border-color: #707070" placeholder="Electrician and Mechanical" required>
+                                        <!-- <input class="form-control" [(ngModel)]="occupation" name="occupation" type="text" style="border-color: #707070" placeholder="Electrician and Mechanical" required> -->
+                                        <ngx-select-dropdown (change)="occupationSelectionChanged($event)" [multiple]="false"  [config]="config1" [options]="occupationList" [config]="config"></ngx-select-dropdown>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +48,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Employer</label>
-                                        <input class="form-control" [(ngModel)]="employer" name="employer" type="text" style="border-color: #707070" placeholder="Osaka Batteries" required>
+                                        <!-- <input class="form-control" [(ngModel)]="employer" name="employer" type="text" style="border-color: #707070" placeholder="Osaka Batteries" required> -->
+                                        <ngx-select-dropdown (change)="employerSelectionChanged($event)" [multiple]="false"  [config]="config2" [options]="assignedEmployers" [config]="config" placeholder="Select Employer"></ngx-select-dropdown>
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +118,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Salary</label>
-                                        <input class="form-control" [(ngModel)]="salary" name="salary" type="text" style="border-color: #707070" placeholder="PKR 20,000" required>
+                                        <input class="form-control" [(ngModel)]="salary" name="salary" type="number" style="border-color: #707070" placeholder="PKR 20,000" required>
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +134,10 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Type</label>
-                                        <input class="form-control" [(ngModel)]="type" name="type" type="text" style="border-color: #707070" placeholder="Full-Time" required>
+                                        <!-- <input class="form-control" [(ngModel)]="type" name="type" type="text" style="border-color: #707070" placeholder="Full-Time" required> -->
+                                        <select class="form-control" name="type" [(ngModel)]="type" style="border-color: #707070; text-transform: capitalize;" required>
+                                            <option *ngFor="let x of typeOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -135,14 +148,17 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Required Education</label>
-                                        <input class="form-control" [(ngModel)]="requiredEducation" name="requiredEducation" type="text" style="border-color: #707070" placeholder="Graduate" required>
+                                        <!-- <input class="form-control" [(ngModel)]="requiredEducation" name="requiredEducation" type="text" style="border-color: #707070" placeholder="Graduate" required> -->
+                                        <select class="form-control" name="education" [(ngModel)]="education" style="border-color: #707070; text-transform: capitalize;" required>
+                                            <option *ngFor="let x of educationOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Mobile No</label>
+                                        <label for="company">Company POC</label>
                                         <input class="form-control" [(ngModel)]="mobileNo" name="mobileNo" type="text" style="border-color: #707070" placeholder="+923451234567" required>
                                     </div>
                                 </div>
@@ -151,33 +167,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Total Slots</label>
-                                        <input class="form-control" [(ngModel)]="totalSlots" name="totalSlots" type="text" style="border-color: #707070" placeholder="900"  required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-4">
-                            <div class="input-group col-md-4">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="company">Age Range</label>
-                                        <input class="form-control" [(ngModel)]="ageRange" name="ageRange" type="text" style="border-color: #707070" placeholder="18 - 40" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group col-md-4">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="company">City</label>
-                                        <input class="form-control" [(ngModel)]="cityDetail" name="cityDetail" type="text" style="border-color: #707070" placeholder="Islamabad" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-group col-md-4">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="company">Min. Exp</label>
-                                        <input class="form-control" [(ngModel)]="minExp" name="minExp" type="text" style="border-color: #707070" placeholder="5" required>
+                                        <input class="form-control" [(ngModel)]="totalSlots" name="totalSlots" type="number" style="border-color: #707070" placeholder="900"  required>
                                     </div>
                                 </div>
                             </div>
@@ -187,15 +177,26 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Gender Req.</label>
-                                        <input class="form-control" [(ngModel)]="genderReq" name="genderReq" type="text" style="border-color: #707070" placeholder="Any" required>
+                                        <!-- <input class="form-control" [(ngModel)]="genderReq" name="genderReq" type="text" style="border-color: #707070" placeholder="Any" required> -->
+                                        <select class="form-control" name="genderReq" [(ngModel)]="genderReq" style="border-color: #707070; text-transform: capitalize;" required>
+                                            <option *ngFor="let x of genderOf" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="input-group col-md-8">
+                            <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Comments</label>
-                                        <textarea class="form-control" [(ngModel)]="comments" name="comments" type="text" style="border-color: #707070" placeholder="Any" required></textarea>
+                                        <label for="company">City</label>
+                                        <input class="form-control" [(ngModel)]="city" name="city" type="text" style="border-color: #707070" placeholder="Islamabad" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="company">Min. Exp</label>
+                                        <input class="form-control" [(ngModel)]="minExp" name="minExp" type="number" style="border-color: #707070" placeholder="5" required>
                                     </div>
                                 </div>
                             </div>

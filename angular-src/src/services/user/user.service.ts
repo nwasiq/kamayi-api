@@ -33,6 +33,11 @@ export class UserService {
       .map(res => res.json());
   }
 
+  getEmployersForPlacementUser(id) {
+    return this.http.get(this.localhostString + 'users/placementusers/'+ id +'/employers', { headers: this.headers })
+      .map(res => res.json());
+  }
+
   getDashboardDetails() {
     return this.http.get(this.localhostString + 'users/dashboard', { headers: this.headers })
       .map(res => res.json());
@@ -40,6 +45,11 @@ export class UserService {
 
   getDashboardDetailsById(id) {
     return this.http.get(this.localhostString + 'users/' + id + '/dashboard', { headers: this.headers })
+      .map(res => res.json());
+  }
+
+  getOpenVacanciesForPlacementUser(id) {
+    return this.http.get(this.localhostString + 'users/placementusers/' + id + '/vacancies', { headers: this.headers })
       .map(res => res.json());
   }
 

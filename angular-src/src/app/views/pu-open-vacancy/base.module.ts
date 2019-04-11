@@ -12,11 +12,15 @@ import { BaseRoutingModule } from './base-routing.module';
 //agm
 import { AgmCoreModule } from '@agm/core';
 
+//Search
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
+    Ng2SearchPipeModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
     })

@@ -1,63 +1,83 @@
 import { Component } from '@angular/core';
+import { CrudService } from '../../../services/crud/crud.service';
+import { EmployerService } from '../../../services/employer/employer.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   templateUrl: 'companyprofile.component.html'
 })
 export class CompanyprofileComponent {
 
+  employerID: string;
+
   name: string;
   industry: string;
   phoneNo: string;
   website: string;
 
-  primaryLocation: string;
+  city: string;
 
   pocName: string
   designation: string;
   email: string;
   mobileNo: string;
   address: string;
-  city: string;
+  pocCity: string;
 
-  constructor() { }
+  employerVacancies: any = [];
 
-  markers: marker[] = []
+  constructor(
+    private route: Router,
+    private activatedRoute: ActivatedRoute,
+    private crudService: CrudService,
+    private employerService: EmployerService
+  ) { }
 
   zoom: number = 15;
 
-  lat: number = 33.6844;
-  lng: number = 73.0479;
+  lat: number;
+  lng: number;
   locationChosen = false;
 
-  mapClicked($event: any) {
-    this.markers.push({
-      lat: $event.coords.lat,
-      lng: $event.coords.lng
-    });
-    console.log(this.markers);
+  ngOnInit(){
+
+    this.activatedRoute.params.subscribe( params =>
+      this.employerID = params['id']
+    );
+    console.log(this.employerID);
+
+    this.crudService.retrieveOne("employers",this.employerID).subscribe(data => {
+      console.log(data);
+      if(data.message){
+        alert(data.message);
+        this.route.navigate(['/pu-assigned-employers/employers']);
+      }
+      else
+      {
+        this.employerService.getVacanciesForEmployer(this.employerID).subscribe(data2 => {
+          this.name = data.companyName;
+          this.industry = data.industry;
+          this.phoneNo = data.companyPhone;
+          this.website = data.website;
+          this.city = data.location.city;
+          this.lng = data.location.long;
+          this.lat = data.location.lat;
+          this.pocName = data.fullName
+          this.designation = data.pocDesignation;
+          this.email = data.email;
+          this.mobileNo = data.pocPhone;
+          this.address = data.pocAddress;
+          this.pocCity = data.pocCity;
+          this.employerVacancies = data2;
+        })
+      }
+    })
   }
 
-  onSubmitCompanyProfile(){
-    const employersData = {
-      name: this.name,
-      industry: this.industry,
-      phoneNo: this.phoneNo,
-      website: this.website,
-      pocName: this.pocName,
-      designation: this.designation,
-      email: this.email,
-      mobileNo: this.mobileNo,
-      address: this.address,
-      city: this.city,
-      location: this.markers,
-      primaryLocation: this.primaryLocation
-
-    }
-    console.log(employersData);
+  viewVacancyDetails(vacancy)
+  {
+    console.log(vacancy._id);
+    this.route.navigate(['/pu-vacancy-detail/vacancydetails/' + vacancy._id]);
   }
-}
 
-interface marker {
-	lat: number;
-	lng: number;
 }

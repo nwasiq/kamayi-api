@@ -57,7 +57,8 @@ var VacancySchema = new schema({
     employer: {
         type: schema.Types.ObjectId, ref: 'employer'
     },
-    pocNumber: String
+    pocNumber: String,
+    designation: String
 
 });
 

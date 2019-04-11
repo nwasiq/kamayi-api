@@ -34,7 +34,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'vacancydetails',
+        path: 'vacancydetails/:id',
         component: VacancydetailsComponent,
         data: {
           title: 'Vacancy Details'

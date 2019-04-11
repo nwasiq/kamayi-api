@@ -27,20 +27,24 @@
               <th>Company Name</th>
               <th>Industry</th>
               <th>Location</th>
-              <th>Contact No</th>
-              <th>POC</th>
-              <th>Assignment Date</th>
+              <th>POC Name</th>
+              <th>POC Contact No</th>
+              <th>Operation</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let candidate of candidatesInfo | filter:search">
-              <td>{{ candidate.id }}</td>
-              <td>{{ candidate.companyName }}</td>
-              <td>{{ candidate.industry }}</td>
-              <td>{{ candidate.location }}</td>
-              <td>{{ candidate.contactNo }}</td>
-              <td>{{ candidate.poc }}</td>
-              <td>{{ candidate.assignmentDate }}</td>
+          <tbody *ngFor="let employer of employersInfo | filter:search">
+            <tr>
+              <td>{{ employer._id }}</td>
+              <td>{{ employer.companyName }}</td>
+              <td>{{ employer.industry }}</td>
+              <td>{{ employer.location.city }}</td>
+              <td>{{ employer.fullName }}</td>
+              <td>{{ employer.pocPhone }}</td>
+              <td>
+                <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="viewEmployerDetails(employer);">
+                  View
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
