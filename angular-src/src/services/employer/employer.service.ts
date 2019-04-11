@@ -11,28 +11,35 @@ export class EmployerService {
 
   isProd: boolean = environment.production;
   localhostString: string;
-  headers: any;
 
   constructor(private http: HttpInterceptor) {
     this.localhostString = this.isProd ? "" : "http://localhost:3000/";
-    this.headers = new Headers();
-    let token = localStorage.getItem('token');
-    this.headers.append('Content-Type', 'application/json');
-    this.headers.append('Authorization', token);
   }
 
   getUnassignedEmployers(){
-    return this.http.get(this.localhostString + 'employers/unassigned', { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.get(this.localhostString + 'employers/unassigned', { headers: headers })
       .map(res => res.json());
   }
 
   getVacanciesForEmployer(id){
-    return this.http.get(this.localhostString + 'employers/' + id + '/vacancies', { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.get(this.localhostString + 'employers/' + id + '/vacancies', { headers: headers })
       .map(res => res.json());
   }
 
   createVacancyForEmployer(id, vacancyObj){
-    return this.http.post(this.localhostString + 'employers/' + id + '/vacancies', vacancyObj, { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + 'employers/' + id + '/vacancies', vacancyObj, { headers: headers })
       .map(res => res.json());
   }
 }

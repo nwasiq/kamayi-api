@@ -144,7 +144,7 @@ exports.getUsersByRole = async function(req, res){
     try{
         let users = await User.find({role: role});
         if (users.length == 0) {
-            return res.status(400).send({
+            return res.send({
                 message: "Users not found with role: " + role
             });
         }

@@ -52,10 +52,7 @@ export class AssignmentComponent {
     });
 
     this.userService.getPlacementUsers().subscribe(data => {
-      if (data.message) {
-        alert(data.message);
-      }
-      else {
+      if (!data.message) {
         this.placementUsers = data;
       }
     }); 

@@ -11,38 +11,53 @@ export class CrudService {
 
   isProd: boolean = environment.production;
   localhostString: string;
-  headers: any;
 
   constructor(private http: HttpInterceptor) {
     this.localhostString = this.isProd ? "" : "http://localhost:3000/";
-    this.headers = new Headers();
-    this.headers.append('Content-Type', 'application/json');
-    let token = localStorage.getItem('token');
-    this.headers.append('Authorization', token);
   }
 
   create(obj, model){
-    return this.http.post(this.localhostString + model, obj, { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + model, obj, { headers: headers })
       .map(res => res.json());
   }
 
   retrieveOne(model, id) {
-    return this.http.get(this.localhostString + model + '/' + id, { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.get(this.localhostString + model + '/' + id, { headers: headers })
       .map(res => res.json());
   }
 
   retrieveAll(model) {
-    return this.http.get(this.localhostString + model, { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.get(this.localhostString + model, { headers: headers })
       .map(res => res.json());
   }
 
   update(obj, model, id) {
-    return this.http.put(this.localhostString + model + '/' + id, obj, { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.put(this.localhostString + model + '/' + id, obj, { headers: headers })
       .map(res => res.json());
   }
 
   delete(model, id) {
-    return this.http.delete(this.localhostString + model + '/' + id, { headers: this.headers })
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.delete(this.localhostString + model + '/' + id, { headers: headers })
       .map(res => res.json());
   }
 }
