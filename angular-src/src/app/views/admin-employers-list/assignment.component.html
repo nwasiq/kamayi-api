@@ -146,14 +146,26 @@
           <div class="col-md-12 mb-4">
             <div class="row">
               <div class="col-md-6">
-                <b>Assigned Officer</b>
+                <b>Select Officer</b>
               </div>
               <div class="col-md-6">
-                <ngx-select-dropdown (change)="selectionChanged($event)" [ngModelOptions]="{standalone: true}" [(ngModel)]="officerName" [multiple]="false"  [config]="config" [options]="placementUsers" [config]="config" placeholder="Select Placement Officer"></ngx-select-dropdown>
+                <ngx-select-dropdown (change)="selectionChanged($event)" [multiple]="false"  [config]="config" [options]="placementUsers" [config]="config" placeholder="Select Placement Officer"></ngx-select-dropdown>
               </div>
             </div>
           </div>
           <div class="col-md-12 mb-4">
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-5">
+                <p>Assigned Officer</p>
+              </div>
+              <div class="col-md-5">
+                <input class="form-control" [(ngModel)]="officerName" name="officerName" type="text" style="border-color: #707070" readonly>
+              </div>
+              <div class="col-md-1">
+              </div>
+            </div>
             <div class="row">
               <div class="col-md-1">
               </div>

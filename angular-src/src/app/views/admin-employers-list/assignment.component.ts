@@ -76,7 +76,6 @@ export class AssignmentComponent {
 
   displayPlacementUser(employer)
   {
-    this.officerName = "Select";
     this.officerid = "";
     this.assignedCompany = "";
     this.openVacancy = "";
@@ -87,6 +86,7 @@ export class AssignmentComponent {
       this.officerid = employer.placementOfficer;
       for (let officer of this.placementUsers) {
         if (officer._id == employer.placementOfficer) {
+          console.log("Here");
           this.officerName = officer.fullName;
           break;
         }
@@ -107,6 +107,7 @@ export class AssignmentComponent {
     console.log(val);
     this.userService.getDashboardDetailsById(val.value._id).subscribe(data => {
       console.log(data);
+      this.officerName = val.value.fullName;
       this.officerid = val.value._id;
       this.assignedCompany = data.assignedEmployers;
       this.openVacancy = data.openVacancies;
