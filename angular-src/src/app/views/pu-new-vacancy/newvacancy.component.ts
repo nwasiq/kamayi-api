@@ -191,12 +191,12 @@ export class NewvacancyComponent {
   employerSelectionChanged(val){
     this.vacancyEmployerId = val.value._id;
     this.mobileNo = val.value.pocPhone;
-    console.log(this.vacancyEmployerId);
+    // console.log(this.vacancyEmployerId);
   }
 
   occupationSelectionChanged(val){
     this.selectedOccupation = val.value.name;
-    console.log(this.selectedOccupation);
+    // console.log(this.selectedOccupation);
   }
 
   onSubmitCreateVacancy(){

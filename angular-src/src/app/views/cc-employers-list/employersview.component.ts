@@ -33,7 +33,7 @@ export class EmployersviewComponent {
     this.activatedRoute.params.subscribe( params =>
       this.employerid = params['id']
       );
-      console.log(this.employerid);
+      // console.log(this.employerid);
 
     if(this.employerid){
       this.crudService.retrieveOne("employers", this.employerid).subscribe(user => {

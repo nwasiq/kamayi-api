@@ -23,7 +23,7 @@ export class CandidateComponent {
       else
       {
         this.candidatesInfo = data.candidates;
-        console.log(this.candidatesInfo);
+        // console.log(this.candidatesInfo);
       }
     });
   }

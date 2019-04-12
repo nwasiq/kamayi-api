@@ -42,8 +42,8 @@ export class LoginComponent implements OnInit {
     }
     this.userService.userLogin(user).subscribe(data => {
       this.userService.storeUserData(data.token, data.user);
-      console.log(JSON.parse(localStorage.getItem('user')));
-      console.log(data);
+      // console.log(JSON.parse(localStorage.getItem('user')));
+      // console.log(data);
       if(data['user']['role'] == "placement")
       {
         this.router.navigate(['pudashboard']);

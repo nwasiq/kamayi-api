@@ -52,10 +52,10 @@ export class VacancydetailsComponent {
     this.activatedRoute.params.subscribe( params =>
       this.vacancyId = params['id']
     );
-    console.log(this.vacancyId);
+    // console.log(this.vacancyId);
 
     this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       if(data.message){
         alert(data.message);
         this.route.navigate(['/pu-open-vacancy/openvacancy']);

@@ -47,7 +47,7 @@ export class AssignmentComponent {
       else
       {
         this.employersInfo = data.employers;
-        console.log(this.employersInfo);
+        // console.log(this.employersInfo);
       }
     });
 
@@ -62,7 +62,7 @@ export class AssignmentComponent {
     const assignPO = {
       placementOfficer: this.officerid
     }
-    console.log(assignPO);
+    // console.log(assignPO);
     this.crudService.update(assignPO, "employers", this.modalEmployerId).subscribe(data => {
       if(!data.message){
         alert("Successfully assigned.");
@@ -100,9 +100,9 @@ export class AssignmentComponent {
   }
 
   selectionChanged(val){
-    console.log(val);
+    // console.log(val);
     this.userService.getDashboardDetailsById(val.value._id).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.officerName = val.value.fullName;
       this.officerid = val.value._id;
       this.assignedCompany = data.assignedEmployers;

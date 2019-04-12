@@ -166,7 +166,7 @@ export class CreateemployerComponent {
       pocAddress: this.pocAddress,
       pocCity: this.pocCity
     }
-    console.log(createEmployer);
+    // console.log(createEmployer);
     this.crudService.create(createEmployer, "employers").subscribe(data => {
       if(data.message)
       {

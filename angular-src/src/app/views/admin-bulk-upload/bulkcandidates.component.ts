@@ -43,7 +43,7 @@ export class BulkcandidatesComponent {
   fileChangeEvent(fileInput: any) {
     let fileList: FileList = fileInput.target.files;
     this.fileToUpload = fileList[0];
-    console.log(this.fileToUpload);
+    // console.log(this.fileToUpload);
   }
 
   onUpload(){

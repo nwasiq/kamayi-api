@@ -39,7 +39,7 @@ export class DefaultLayoutComponent implements OnDestroy {
   ngOnInit(){
     this.name = JSON.parse(localStorage.getItem('user')).fullName;
     this.role = JSON.parse(localStorage.getItem('user')).role;
-    console.log("Name: " + this.name);
+    // console.log("Name: " + this.name);
   }
 
   onViewUser(user){

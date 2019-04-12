@@ -21,7 +21,7 @@ export class OpenvacancyComponent {
     let userid = this.placementUserID;
 
     this.userService.getOpenVacanciesForPlacementUser(userid).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       if(data.message)
       {
         alert(data.message);

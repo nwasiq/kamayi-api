@@ -23,7 +23,7 @@ export class EmployersComponent {
       else
       {
         this.employersInfo = data.employers;
-        console.log(this.employersInfo);
+        // console.log(this.employersInfo);
       }
     });
   }

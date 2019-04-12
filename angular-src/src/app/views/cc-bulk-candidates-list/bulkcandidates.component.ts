@@ -31,7 +31,7 @@ export class BulkcandidatesComponent {
 
   ngOnInit(){
     this.bulkCandidateService.getBulkCandiesByStatus('false').subscribe(data => {
-      console.log(data);
+      // console.log(data);
       if(data.message)
       {
         alert(data.message);

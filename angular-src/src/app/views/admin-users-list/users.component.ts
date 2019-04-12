@@ -41,7 +41,7 @@ export class UsersComponent {
     }
     else
     {
-      console.log(user._id);
+      // console.log(user._id);
       this.crudService.delete("users", user._id).subscribe(data => {
         alert(data.message);
         window.location.reload();

@@ -40,7 +40,7 @@ export class CandidateviewComponent {
     this.activatedRoute.params.subscribe( params =>
         this.candidateid = params['id']
       );
-    console.log(this.candidateid);
+    // console.log(this.candidateid);
 
     if(this.candidateid){
       this.crudService.retrieveOne("candidates", this.candidateid).subscribe(user => {
@@ -79,7 +79,7 @@ export class CandidateviewComponent {
         data[i].count = i+1;
       }
       this.totalCriteria = data;
-      console.log(this.totalCriteria);
+      // console.log(this.totalCriteria);
     });
   }
 }

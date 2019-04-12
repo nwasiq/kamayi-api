@@ -160,7 +160,7 @@ export class CreatecandidateComponent {
     this.activatedRoute.params.subscribe( params =>
       this.candidateid = params['id']
     );
-    console.log(this.candidateid);
+    // console.log(this.candidateid);
 
     if(this.candidateid){
       localStorage.removeItem('candidateid');
@@ -193,7 +193,7 @@ export class CreatecandidateComponent {
       employer: this.employer,
       isTrained: this.isTrained
     });
-    console.log(this.tiers);
+    // console.log(this.tiers);
   }
 
   deleteCriteria(row){
@@ -241,8 +241,8 @@ export class CreatecandidateComponent {
         break;
       }
     }
-console.log(commentReq);
-console.log(this.comment === "");
+// console.log(commentReq);
+// console.log(this.comment === "");
     if(commentReq && (this.comment === "" || this.comment === undefined ))
     {
       alert("Comment is required if 'Other' skill is entered.");
@@ -281,7 +281,7 @@ console.log(this.comment === "");
       hasOtherSkill: hasOtherSkill,
       comment: this.comment
     }
-    console.log(createCandidate);
+    // console.log(createCandidate);
     this.crudService.create(createCandidate, "candidates").subscribe(data => {
       if(data.message)
       {
