@@ -25,11 +25,11 @@ export class VacancyService {
       .map(res => res.json());
   }
 
-  getShortListForVacancy(vacancyid){
+  getShortListForVacancy(vacancyid, occupationName){
     let headers = new Headers();
     let token = localStorage.getItem('token');
     headers.append('Authorization', token);
-    return this.http.get(this.localhostString + 'vacancys/'+ vacancyid + '/shortlist', { headers: headers })
+    return this.http.get(this.localhostString + 'vacancys/'+ vacancyid + '/shortlist/' + occupationName, { headers: headers })
       .map(res => res.json());
   }
 
@@ -39,6 +39,15 @@ export class VacancyService {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', token);
     return this.http.post(this.localhostString + 'vacancys/'+ vacancyid + '/shortlist',candidatesIDs, { headers: headers })
+      .map(res => res.json());
+  }
+
+  updateStatusForShortList(updateObj, vacancyid){
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + 'vacancys/'+ vacancyid + '/candidates',updateObj, { headers: headers })
       .map(res => res.json());
   }
 

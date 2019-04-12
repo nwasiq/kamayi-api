@@ -4,12 +4,12 @@
             <label>
                 <h3>Manage Applications for Vacancy</h3>
                 <hr style="margin-bottom: 0rem; margin-top: -0.5rem;">
-                <p>Electricians required | Osaka Batteries</p>
+                <p>{{ occupation }} | {{ employer }}</p>
             </label>
         </div>
         <div class="col-lg-4" style="text-align: right;">
             <label>
-                <h5><span style="color: #20C90E; font-size: 40px; font-weight: bold;">40</span>/100</h5>
+                <h5><span style="color: #20C90E; font-size: 40px; font-weight: bold;">{{ hired }}</span>/{{ openings }}</h5>
             </label>
         </div>
     </div>
@@ -24,24 +24,28 @@
                 <table class="table table-bordered table-striped table-responsive-sm">
                     <thead>
                     <tr style="background: #BFFFCE;">
+                        <th>
+                            <input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/>
+                        </th>
                         <th>ID</th>
                         <th>Candidate Name</th>
                         <th>Skill</th>
-                        <th>Distance</th>
                         <th>Education</th>
-                        <th>Relative Experience</th>
+                        <th>Relevant Exp</th>
                         <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let candidate of candidatesInfo">
-                        <td>{{ candidate.id }}</td>
-                        <td>{{ candidate.candidateName }}</td>
-                        <td>{{ candidate.skill }}</td>
-                        <td>{{ candidate.distance }}</td>
+                        <td>
+                            <input type="checkbox" name="candidatecb[]" value="{{candidate.candidate._id}}" [(ngModel)]="candidate.state"/>
+                        </td>
+                        <td>{{ candidate.candidate._id }}</td>
+                        <td>{{ candidate.candidate.fullName }}</td>
+                        <td>{{ candidate.candidate.primarySkill }}</td>
                         <td>{{ candidate.education }}</td>
-                        <td>{{ candidate.relativeExp }}</td>
-                        <td>{{ candidate.status }}</td>
+                        <td>{{ candidate.experience }}</td>
+                        <td>{{ candidate.candidate.vacancyStatus[0].status }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -66,19 +70,19 @@
             <div class="input-group col-md-5">
                 <div class="input-group col-md-9">
                     <label class="form-check-label" for="inlineRadio2" style="margin-top: 1.5em;"> Set Selected Status (10):</label>&emsp;
-                    <select class="form-control" name="sortBy" [(ngModel)]="sortBy" style="border-color: #707070; width: 50%; margin-bottom: 2em; margin-top: 1em;" required>
-                        <option *ngFor="let x of sortBy" [ngValue]="x">{{x}}</option>
+                    <select class="form-control" name="statusName" [(ngModel)]="statusName" style="border-color: #707070; width: 50%; margin-bottom: 2em; margin-top: 1em;" required>
+                        <option *ngFor="let x of status" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
                     </select>
                 </div>
                 <div class="input-group col-md-3">
-                    <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 35px; border-color: #707070">OK</button>
+                    <button (click)="updateShortList()" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 35px; border-color: #707070">OK</button>
                 </div>
             </div>
         </div>
     </div>
     <!--/.row-->
 
-    <div class="row">
+    <div class="row" *ngIf="statusName === 'Interview Scheduled'">
         <div class="input-group mb-12" style="margin-bottom: 2em;">
             <div class="input-group col-md-7">
             </div>
@@ -86,9 +90,6 @@
                 <div class="input-group col-md-9">
                     <label class="form-check-label" for="inlineRadio2" style="margin-top: 0.5em;"> Schedule Interview (10):</label>&emsp;
                     <angular2-date-picker style="width: 50%;" [(ngModel)]="date" [settings]="settings"></angular2-date-picker>
-                </div>
-                <div class="input-group col-md-3">
-                    <button type="submit" class="btn pull-right" style="margin-bottom: 2em; font-weight: bold; border-radius: 50px; width: 100%; height: 35px; border-color: #707070">OK</button>
                 </div>
             </div>
         </div>

@@ -274,7 +274,6 @@ exports.createCandidateShortlist = async function (req, res) {
         
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId);
-        console.log(vacancy);
         if (!vacancy) {
             return res.status(404).send({
                 message: "Vacancy not found with id " + req.params.vacancyId
@@ -299,6 +298,7 @@ exports.createCandidateShortlist = async function (req, res) {
 exports.findVacancyShortlist = async function (req, res) {
     try {
         let vacancyId = req.params.vacancyId;
+        let occupationName = req.params.occupation;
         let vacancy = await Vacancy.findById(vacancyId);
         if (!vacancy) {
             return res.status(404).send({
@@ -319,7 +319,7 @@ exports.findVacancyShortlist = async function (req, res) {
             }
         }
         let candidates = await Candidate.find(candidateQuery, { _id: 1 });
-        let candidatesWithCriteria = await Criteria.find({ candidate: { $in: candidates } })
+        let candidatesWithCriteria = await Criteria.find({ candidate: { $in: candidates } , occupation: occupationName})
             .populate('candidate');
         res.send(candidatesWithCriteria);
 

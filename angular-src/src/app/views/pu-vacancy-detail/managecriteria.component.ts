@@ -250,6 +250,7 @@ export class ManagecriteriaComponent {
 
   viewShortList(){
     this.route.navigate(['/pu-vacancy-detail/manageshortlist/' + this.vacancyId]);
+    localStorage.setItem('occupation', this.occupation);
   }
 
   createShortList(){
@@ -285,6 +286,7 @@ export class ManagecriteriaComponent {
       {
         alert("Shortlist created successfully.");
         this.route.navigate(['/pu-vacancy-detail/manageshortlist/' + this.vacancyId]);
+        localStorage.setItem('occupation', this.occupation);
       }
     })
   }
