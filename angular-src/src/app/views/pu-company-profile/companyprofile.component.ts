@@ -44,10 +44,10 @@ export class CompanyprofileComponent {
     this.activatedRoute.params.subscribe( params =>
       this.employerID = params['id']
     );
-    console.log(this.employerID);
+    // console.log(this.employerID);
 
     this.crudService.retrieveOne("employers",this.employerID).subscribe(data => {
-      console.log(data);
+      // console.log(data);
       if(data.message){
         alert(data.message);
         this.route.navigate(['/pu-assigned-employers/employers']);
@@ -76,7 +76,7 @@ export class CompanyprofileComponent {
 
   viewVacancyDetails(vacancy)
   {
-    console.log(vacancy._id);
+    // console.log(vacancy._id);
     this.route.navigate(['/pu-vacancy-detail/vacancydetails/' + vacancy._id]);
   }
 

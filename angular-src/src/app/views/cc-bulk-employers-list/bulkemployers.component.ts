@@ -36,7 +36,7 @@ export class BulkemployersComponent {
 
   onViewEmployer(employer){
 
-    localStorage.setItem("employerid", employer._id);
+    // localStorage.setItem("employerid", employer._id);
     this.router.navigate(['/cc-bulk-employers-list/createemployer/' + employer._id]);
   }
 

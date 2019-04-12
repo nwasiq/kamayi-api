@@ -29,7 +29,7 @@ export class EmployersComponent {
   }
 
   onViewEmployer(employer){
-    localStorage.setItem("employerid", employer._id);
+    // localStorage.setItem("employerid", employer._id);
     this.route.navigate(['/cc-employers-list/employersview/' + employer._id]);
   }
 

@@ -45,7 +45,7 @@ export class BulkcandidatesComponent {
   
   onViewCandidate(candidate){
 
-    localStorage.setItem("candidateid", candidate._id);
+    // localStorage.setItem("candidateid", candidate._id);
     this.router.navigate(['/cc-bulk-candidates-list/createcandidate/' + candidate._id]);
   }
 }

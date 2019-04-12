@@ -22,7 +22,7 @@ export class EmployersComponent {
 
     this.userID = JSON.parse(localStorage.getItem('user'))._id;
     let userid = this.userID;
-    console.log(userid);
+    // console.log(userid);
 
     this.userService.getEmployersForPlacementUser(userid).subscribe(data => {
       if(data.message)
@@ -37,14 +37,14 @@ export class EmployersComponent {
           return;
         }
         this.employersInfo = data.employers;
-        console.log(this.employersInfo);
+        // console.log(this.employersInfo);
       }
     });
   }
 
   viewEmployerDetails(employer)
   {
-    localStorage.setItem("employerid", employer._id);
+    // localStorage.setItem("employerid", employer._id);
     this.route.navigate(['/pu-company-profile/companyprofile/' + employer._id]);
   }
 

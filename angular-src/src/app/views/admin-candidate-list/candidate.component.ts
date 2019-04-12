@@ -29,7 +29,7 @@ export class CandidateComponent {
   }
 
   onViewCandidate(candidate){
-    localStorage.setItem("candidateid", candidate._id);
+    // localStorage.setItem("candidateid", candidate._id);
     this.route.navigate(['/admin-candidate-list/candidateview/' + candidate._id]);
   }
 
