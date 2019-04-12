@@ -52,7 +52,7 @@ export class VacancydetailsComponent {
     this.activatedRoute.params.subscribe( params =>
       this.vacancyId = params['id']
     );
-    // console.log(this.vacancyId);
+    console.log(this.vacancyId);
 
     this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
       // console.log(data);
@@ -86,6 +86,10 @@ export class VacancydetailsComponent {
         })
       }
     })
+  }
+
+  viewVacancyApplicationList(){
+    this.route.navigate(['/pu-vacancy-detail/vacancydetailslist/' + this.vacancyId]);
   }
 
 }

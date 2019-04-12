@@ -13,21 +13,21 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'manageshortlist',
+        path: 'manageshortlist/:id',
         component: ManageshortlistComponent,
         data: {
           title: 'Manage Short List'
         }
       },
       {
-        path: 'managecriteria',
+        path: 'managecriteria/:id',
         component: ManagecriteriaComponent,
         data: {
           title: 'Manage Criteria'
         }
       },
       {
-        path: 'vacancydetailslist',
+        path: 'vacancydetailslist/:id',
         component: VacancydetailslistComponent,
         data: {
           title: 'Vacancy Details List'

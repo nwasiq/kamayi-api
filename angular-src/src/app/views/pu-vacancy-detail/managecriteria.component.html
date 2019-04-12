@@ -4,12 +4,12 @@
             <label>
                 <h3>Manage Applications for Vacancy</h3>
                 <hr style="margin-bottom: 0rem; margin-top: -0.5rem;">
-                <p>Electricians required | Osaka Batteries</p>
+                <p>{{ occupation }} | {{ employer }}</p>
             </label>
         </div>
         <div class="col-lg-4" style="text-align: right;">
             <label>
-                <h5><span style="color: #20C90E; font-size: 40px; font-weight: bold;">40</span>/100</h5>
+                <h5><span style="color: #20C90E; font-size: 40px; font-weight: bold;">{{ hired }}</span>/{{ openings }}</h5>
             </label>
         </div>
     </div>
@@ -66,16 +66,16 @@
                                     <label class="form-check-label" for="inlineRadio1"> - </label>
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <input class="form-check-input" type="text" name="educationWeight" [(ngModel)]="educationWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                    <input class="form-check-input" type="number" name="educationWeight" [(ngModel)]="educationWeight" style="width: 25%; margin-bottom: 0.25em;">
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <input class="form-check-input" type="text" name="experienceWeight" [(ngModel)]="experienceWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                    <input class="form-check-input" type="number" name="experienceWeight" [(ngModel)]="experienceWeight" style="width: 25%; margin-bottom: 0.25em;">
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
                                     <label class="form-check-label" for="inlineRadio2"> - </label>
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <input class="form-check-input" type="text" name="locationWeight" [(ngModel)]="locationWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                    <input class="form-check-input" type="number" name="locationWeight" [(ngModel)]="locationWeight" style="width: 25%; margin-bottom: 0.25em;">
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
                                     <label class="form-check-label" for="inlineRadio3"> - </label>
@@ -91,8 +91,8 @@
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
                                     <label class="form-check-label" for="inlineRadio2"> Sort By:</label>&emsp;
-                                    <select class="form-control" name="sortBy" [(ngModel)]="sortBy" style="border-color: #707070; width: 50%; margin-bottom: 0.5em;" required>
-                                        <option *ngFor="let x of sortBy" [ngValue]="x">{{x}}</option>
+                                    <select class="form-control" name="sort" [(ngModel)]="sort" style="border-color: #707070; width: 50%; margin-bottom: 0.5em;" required>
+                                        <option *ngFor="let x of sortBy" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
@@ -103,7 +103,7 @@
                                     
                                 </div>
                                 <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <button type="submit" class="btn pull-right" style="font-weight: bold; border-radius: 50px; width: 100%; height: 40px; border-color: #707070">Generate List</button>
+                                    <button (click)="generateList()" class="btn pull-right" style="font-weight: bold; border-radius: 50px; width: 100%; height: 40px; border-color: #707070">Generate List</button>
                                 </div>
                             </div>
                         </div>
@@ -134,23 +134,21 @@
                         <th>Occupation</th>
                         <th>City</th>
                         <th>Education</th>
-                        <th>Relative Experience</th>
-                        <th>Status</th>
+                        <th>Relative Exp</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr *ngFor="let candidate of candidatesInfo ; let i = index">
                         <td>
-                            <input type="checkbox" name="candidatecb[]" value="{{candidate.id}}" [(ngModel)]="candidate.state"/>
+                            <input type="checkbox" name="candidatecb[]" value="{{candidate.candidate._id}}" [(ngModel)]="candidate.state"/>
                         </td>
-                        <td>{{ candidate.id }}</td>
-                        <td>{{ candidate.candidateName }}</td>
+                        <td>{{ candidate.candidate._id }}</td>
+                        <td>{{ candidate.candidate.fullName }}</td>
                         <td>{{ candidate.gender }}</td>
                         <td>{{ candidate.occupation }}</td>
                         <td>{{ candidate.city }}</td>
                         <td>{{ candidate.education }}</td>
-                        <td>{{ candidate.relativeExp }}</td>
-                        <td>{{ candidate.status }}</td>
+                        <td>{{ candidate.experience }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -162,10 +160,13 @@
     <!--/.row-->
     <div class="row">
         <div class="input-group mb-12">
-            <div class="input-group col-md-9">
+            <div class="input-group col-md-3">
+                <button (click)="viewShortList()" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">View Short List</button>
+            </div>
+            <div class="input-group col-md-6">
             </div>
             <div class="input-group col-md-3">
-                    <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Short List Selected</button>
+                <button (click)="createShortList()" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Short List Selected</button>
             </div>
         </div>
     </div>

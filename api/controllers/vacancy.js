@@ -250,7 +250,8 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
                 }
             );
         }
-        aggregateOperation.push({ $skip: paging.skip }, { $limit: paging.limit });
+        if(req.query.page != undefined && req.query.limit != undefined)
+            aggregateOperation.push({ $skip: paging.skip }, { $limit: paging.limit });
         let shortListCriteria = await Criteria.aggregate(aggregateOperation);
         let shortListCandidates = await Criteria.populate(shortListCriteria, { path: "candidate" });
         res.send({
@@ -270,8 +271,10 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
 exports.createCandidateShortlist = async function (req, res) {
     try {
         let candidateIds = req.body.candidateIds;
+        
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId);
+        console.log(vacancy);
         if (!vacancy) {
             return res.status(404).send({
                 message: "Vacancy not found with id " + req.params.vacancyId

@@ -18,7 +18,16 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Vacancy Description
+                    <div class="row">
+                        <div class="input-group mb-12">
+                            <div class="input-group col-md-9">
+                                <i class="fa fa-align-justify" style="margin-top: 0.4em;"></i>&emsp; Vacancy Description
+                            </div>
+                            <div class="input-group col-md-3">
+                                <button (click)="viewVacancyApplicationList()" class="btn pull-right" style="font-weight: bold; border-radius: 50px; width: 100%; height: 40px; border-color: #707070">Application List</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="input-group mb-2">
