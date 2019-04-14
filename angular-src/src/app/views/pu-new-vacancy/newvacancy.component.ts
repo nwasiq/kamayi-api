@@ -212,6 +212,7 @@ export class NewvacancyComponent {
       },
       salary: this.salary,
       openings: this.totalSlots,
+      totalSlots: this.totalSlots,
       jobType: this.type,
       experience: this.minExp,
       educationRequirement: this.education,

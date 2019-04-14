@@ -36,6 +36,7 @@ var VacancySchema = new schema({
         type: Number,
         default: 0
     },
+    totalSlots: Number,
     jobType: {
         type: String,
         enum: ['fullTime', 'partTime']
