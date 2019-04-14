@@ -35,21 +35,24 @@
                   <th>ID</th>
                   <th>Candidate Name</th>
                   <th>Skill</th>
-                  <th>Location</th>
-                  <th>Contact No</th>
-                  <th>CNIC</th>
+                  <th>Education</th>
+                  <th>Relevant Exp</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let candidate of candidatesInfo">
-                  <td>{{ candidate.id }}</td>
-                  <td>{{ candidate.candidateName }}</td>
-                  <td>{{ candidate.skill }}</td>
-                  <td>{{ candidate.location }}</td>
-                  <td>{{ candidate.contactNo }}</td>
-                  <td>{{ candidate.cnic }}</td>
-                  <td>{{ candidate.status }}</td>
+                  <td>{{ candidate.candidate._id }}</td>
+                  <td>{{ candidate.candidate.fullName }}</td>
+                  <td>{{ candidate.candidate.primarySkill }}</td>
+                  <td>{{ candidate.education }}</td>
+                  <td>{{ candidate.experience }}</td>
+                  <td *ngIf="candidate.candidate.status == 'Interview Scheduled'">
+                      {{ candidate.candidate.interviewTime | date:'yyyy-MM-dd' }}
+                  </td>
+                  <td *ngIf="candidate.candidate.status != 'Interview Scheduled'">
+                      {{ candidate.candidate.status }}
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
+import { VacancyService } from '../../../services/vacancy/vacancy.service';
+import { convertToString } from  '../../../services/convertEducation';
 
 @Component({
   templateUrl: 'vacancydetailslist.component.html'
@@ -13,17 +15,23 @@ export class VacancydetailslistComponent {
   occupation: string;
   employer: string;
 
-  candidatesInfo = [
-    {id: '1', candidateName: 'Ahmed Ilyas', skill: 'Electrician', location: 'Islamabad', contactNo: '03331234567', cnic: '1730112345678', status: 'Interviewed'},
-    {id: '2', candidateName: 'Osaka Batteries', skill: 'Mechanic', location: 'Lahore', contactNo: '03001234567', cnic: '1730112345678', status: 'Hired'},
-    {id: '3', candidateName: 'Ahmed Ilyas', skill: 'Electrician', location: 'Peshawar', contactNo: '03451234567', cnic: '1730112345678', status: 'Rejected'}
-  ]
+  date: Date = new Date();
+  
+  statusName: string;
+  vacancyOccupation: any;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private route: Router,
+    private activatedRoute: ActivatedRoute,
+    private vacancyService: VacancyService,
     private crudService: CrudService
   ) { }
+
+  candidatesInfo: any[] = [];
+
+  status = ['Schedule Interview', 'Interview Scheduled', 'Interviewed', 'Rejected', 'Hired', 'Joined'];
+
+  shortListCandidatesIds: any = [];
 
   ngOnInit(){
 
@@ -46,6 +54,31 @@ export class VacancydetailslistComponent {
         })
       }
     })
+
+    let occupation = localStorage.getItem('occupation');
+    this.vacancyService.getShortListForVacancy(this.vacancyId, occupation).subscribe(data => {
+      if(data.length == 0){
+        alert("No candidates are shortlisted.");
+        return;
+      }
+      for(let candidate of data){
+        candidate.education = convertToString(candidate.education);
+        for(let i = 0; i < candidate.candidate.vacancyStatus.length; i++){
+          if(this.vacancyId == candidate.candidate.vacancyStatus[i].vacancy){
+            if(candidate.candidate.vacancyStatus[i].status == 'Interview Scheduled'){
+              candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
+              candidate.candidate.interviewTime = candidate.candidate.vacancyStatus[i].interviewDate;
+            }
+            else{
+              candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
+            }
+            break;
+          }
+        }
+      }
+      this.candidatesInfo = data;
+      console.log(data);
+    });
   }
 
   viewManageVacancy(){
