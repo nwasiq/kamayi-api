@@ -20,7 +20,6 @@ export class BulkCandidateService {
     // console.log('import bulk candies', file)
     let headers = new Headers();
     let token = localStorage.getItem('token');
-    headers.append('Content-Type', 'application/json');
     headers.append('Authorization', token);
     return this.http.post(this.localhostString + 'bulkcandidates', file, { headers: headers })
       .map(res => res.json());
