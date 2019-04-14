@@ -9,6 +9,7 @@ export class OpenvacancyComponent {
 
   placementUserID: string;
   assignedEmployers: any = [];
+  search: string;
 
   constructor(
     private userService: UserService,

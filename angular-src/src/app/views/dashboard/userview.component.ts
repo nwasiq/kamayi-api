@@ -32,4 +32,8 @@ export class UserviewComponent {
     this.role = user.role;
     this.username = user.username;
   }
+
+  onSubmitCreateUser(){
+    
+  }
 }

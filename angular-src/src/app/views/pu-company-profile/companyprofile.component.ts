@@ -23,6 +23,7 @@ export class CompanyprofileComponent {
   mobileNo: string;
   address: string;
   pocCity: string;
+  search: string;
 
   employerVacancies: any = [];
 
@@ -78,6 +79,10 @@ export class CompanyprofileComponent {
   {
     // console.log(vacancy._id);
     this.route.navigate(['/pu-vacancy-detail/vacancydetails/' + vacancy._id]);
+  }
+
+  onSubmitCompanyProfile(){
+    
   }
 
 }
