@@ -243,6 +243,9 @@ export class ManagecriteriaComponent {
         return;
       }
       console.log(data);
+      for(let candidate of data.candidates){
+        candidate.education = convertToString(candidate.education);
+      }
       this.candidatesInfo = data.candidates;
       // console.log(this.candidatesInfo);
     });

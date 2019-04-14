@@ -45,7 +45,12 @@
                         <td>{{ candidate.candidate.primarySkill }}</td>
                         <td>{{ candidate.education }}</td>
                         <td>{{ candidate.experience }}</td>
-                        <td>{{ candidate.candidate.vacancyStatus[0].status }}</td>
+                        <td *ngIf="candidate.candidate.status == 'Interview Scheduled'">
+                            {{ candidate.candidate.interviewTime | date:'yyyy-MM-dd' }}
+                        </td>
+                        <td *ngIf="candidate.candidate.status != 'Interview Scheduled'">
+                            {{ candidate.candidate.status }}
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -59,11 +64,11 @@
         <div class="input-group mb-12">
             <div class="input-group col-md-6">
                 <div class="input-group col-md-6">
-                    <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Generate List</button>
+                    <button (click)="goToGeneratedList()" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Generate List</button>
                 </div>
-                <div class="input-group col-md-6">
+                <!-- <div class="input-group col-md-6">
                     <button type="submit" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px; border-color: #707070">Short List Selected</button>
-                </div>
+                </div> -->
             </div>
             <div class="input-group col-md-1">
             </div>

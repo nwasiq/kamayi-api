@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { VacancyService } from '../../../services/vacancy/vacancy.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
+import { convertToString } from  '../../../services/convertEducation';
 
 @Component({
   templateUrl: 'manageshortlist.component.html'
@@ -72,6 +73,21 @@ export class ManageshortlistComponent {
         alert("No candidates are shortlisted.");
         return;
       }
+      for(let candidate of data){
+        candidate.education = convertToString(candidate.education);
+        for(let i = 0; i < candidate.candidate.vacancyStatus.length; i++){
+          if(this.vacancyId == candidate.candidate.vacancyStatus[i].vacancy){
+            if(candidate.candidate.vacancyStatus[i].status == 'Interview Scheduled'){
+              candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
+              candidate.candidate.interviewTime = candidate.candidate.vacancyStatus[i].interviewDate;
+            }
+            else{
+              candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
+            }
+            break;
+          }
+        }
+      }
       this.candidatesInfo = data;
       console.log(data);
     });
@@ -100,7 +116,7 @@ export class ManageshortlistComponent {
     let updateObj = {
       status: this.statusName,
       ids: this.shortListCandidatesIds,
-      interviewDate: ''
+      interviewDate: new Date
     }
     
     if(this.statusName == 'Interview Scheduled')
@@ -114,9 +130,14 @@ export class ManageshortlistComponent {
       }
       else{
         alert("Successfully updated status.");
+        window.location.reload();
       }
     })
     console.log(updateObj);
+  }
+
+  goToGeneratedList(){
+    this.route.navigate(['/pu-vacancy-detail/managecriteria/' + this.vacancyId]);
   }
 
 }
