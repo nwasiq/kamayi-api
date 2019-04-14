@@ -30,6 +30,7 @@ export class VacancydetailsComponent {
   pocNumber: string;
   hired: string;
   openings: string;
+  totalSlots: number;
   minExp: string;
   city: string;
   genderReq: string;
@@ -83,6 +84,7 @@ export class VacancydetailsComponent {
           this.socialSecurity = data.benefits.socialSecurity;
           this.hired = data.hired;
           this.openings = data.openings;
+          this.totalSlots = data.totalSlots;
         })
       }
     })

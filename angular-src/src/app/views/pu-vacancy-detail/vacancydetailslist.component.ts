@@ -12,6 +12,7 @@ export class VacancydetailslistComponent {
   vacancyId: any;
   hired: number;
   openings: number;
+  totalSlots: number;
   occupation: string;
   employer: string;
 
@@ -51,6 +52,7 @@ export class VacancydetailslistComponent {
           this.employer = data2.companyName;
           this.hired = data.hired;
           this.openings = data.openings;
+          this.totalSlots = data.totalSlots;
         })
       }
     })

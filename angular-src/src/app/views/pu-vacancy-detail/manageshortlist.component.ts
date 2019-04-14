@@ -12,6 +12,7 @@ export class ManageshortlistComponent {
   vacancyId: any;
   hired: number;
   openings: number;
+  totalSlots: number;
   occupation: string;
   employer: string;
 
@@ -63,6 +64,7 @@ export class ManageshortlistComponent {
           this.employer = data2.companyName;
           this.hired = data.hired;
           this.openings = data.openings;
+          this.totalSlots = data.totalSlots;
         })
       }
     })

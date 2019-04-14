@@ -2,11 +2,11 @@
   <h3 style="margin-top: 1em;">Tasks</h3>
   <div class="row" style="border: 1px solid #707070">
 
-    <div class="col-sm-4 col-lg-3" style="padding: 30px;">
+    <div class="col-sm-4 col-lg-3" style="padding: 30px; cursor: pointer;" routerLink="/admin-employers-list/assignment">
       <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
         <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
           <div style="font-family: inherit; font-size: 35px;">Employer Assignment</div>
-          <div class="text-value" style="font-size: 50px; font-weight: bold">7</div>
+          <div class="text-value" style="font-size: 50px; font-weight: bold">{{ employerAssignments }}</div>
           <div style="font-size: 15px;">New Pending Employer</div>
           <div style="font-size: 15px;">Assignments</div>
         </div>
@@ -17,7 +17,7 @@
       <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
         <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
           <div style="font-family: inherit; font-size: 35px;">Payment Confirmation</div>
-          <div class="text-value" style="font-size: 50px; font-weight: bold">6</div>
+          <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
           <div style="font-size: 15px;">New Unverified</div>
           <div style="font-size: 15px;">Payments</div>
         </div>
@@ -28,7 +28,7 @@
       <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
         <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
           <div style="font-family: inherit; font-size: 35px;">Job Deletion Approvals</div>
-          <div class="text-value" style="font-size: 50px; font-weight: bold">3</div>
+          <div class="text-value" style="font-size: 50px; font-weight: bold">{{ vacancyArchiveApprovals }}</div>
           <div style="font-size: 15px;">New Pending Job</div>
           <div style="font-size: 15px;">Deletion Approvals</div>
         </div>

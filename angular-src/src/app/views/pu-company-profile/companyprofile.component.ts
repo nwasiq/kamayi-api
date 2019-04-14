@@ -54,20 +54,20 @@ export class CompanyprofileComponent {
       }
       else
       {
+        this.name = data.companyName;
+        this.industry = data.industry;
+        this.phoneNo = data.companyPhone;
+        this.website = data.website;
+        this.city = data.location.city;
+        this.lng = data.location.long;
+        this.lat = data.location.lat;
+        this.pocName = data.fullName
+        this.designation = data.pocDesignation;
+        this.email = data.email;
+        this.mobileNo = data.pocPhone;
+        this.address = data.pocAddress;
+        this.pocCity = data.pocCity;
         this.employerService.getVacanciesForEmployer(this.employerID).subscribe(data2 => {
-          this.name = data.companyName;
-          this.industry = data.industry;
-          this.phoneNo = data.companyPhone;
-          this.website = data.website;
-          this.city = data.location.city;
-          this.lng = data.location.long;
-          this.lat = data.location.lat;
-          this.pocName = data.fullName
-          this.designation = data.pocDesignation;
-          this.email = data.email;
-          this.mobileNo = data.pocPhone;
-          this.address = data.pocAddress;
-          this.pocCity = data.pocCity;
           this.employerVacancies = data2;
         })
       }

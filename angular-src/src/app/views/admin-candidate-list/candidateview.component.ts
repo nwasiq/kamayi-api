@@ -127,7 +127,24 @@ export class CandidateviewComponent {
     
     // console.log(updateObj);
     this.crudService.update(updateObj, "criterias", id).subscribe(data => {
-      if(!data.message){
+      let otherCriteria = false;
+      for(let x of this.totalCriteria){
+        if(x.occupation == 'Other'){
+          otherCriteria = true;
+          break;
+        }
+      }
+      if(!otherCriteria){
+        let updateObj2 = {
+          primarySkill: this.totalCriteria[0].occupation,
+          hasOtherSkill: false
+        }
+        this.crudService.update(updateObj2, "candidates", this.candidateid).subscribe(data2 => {
+          alert("Criteria updated!");
+        })
+      }
+      else
+      {
         alert("Criteria updated!");
       }
     })
