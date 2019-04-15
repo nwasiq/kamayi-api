@@ -2,7 +2,6 @@
 
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const config = require('../../config/globalVars');
 const Employer = require('../models/Employer');
 const Vacancy = require('../models/Vacancy');
 
@@ -19,7 +18,11 @@ exports.login = async function(req, res) {
         }
         let isMatch = await User.comparePassword(user, password, user.password);
         if (isMatch) {
-            const token = jwt.sign(user.toJSON(), config.secret, {
+            let userPayload = {
+                _id: user._id,
+                password: user.password
+            };
+            const token = jwt.sign(userPayload, process.env.SECRET, {
                 expiresIn: 604800 // 1 week
             });
             /**
