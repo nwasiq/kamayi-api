@@ -20,13 +20,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.userService.getDashboardDetails().subscribe(data => {
     console.log(data);
-    if(data['role'] != "admin" || data['role'] != 'superAdmin')
-    {
-      alert('Permission Denied.');
-      this.userService.logout();
-      this.route.navigate(['']);
-      return;
-    }
+    
     this.employerAssignments = data.employerAssignments;
     this.vacancyArchiveApprovals = data.vacancyArchiveApprovals;
     })
