@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { Router } from '@angular/router';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -13,15 +13,22 @@ export class DashboardComponent implements OnInit {
   vacancyArchiveApprovals: number;
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private route: Router
   ) {}
 
   ngOnInit() {
     this.userService.getDashboardDetails().subscribe(data => {
-      this.employerAssignments = data.employerAssignments;
-      this.vacancyArchiveApprovals = data.vacancyArchiveApprovals;
-
-      // console.log(data);
+    console.log(data);
+    if(data['role'] != "admin" || data['role'] != 'superAdmin')
+    {
+      alert('Permission Denied.');
+      this.userService.logout();
+      this.route.navigate(['']);
+      return;
+    }
+    this.employerAssignments = data.employerAssignments;
+    this.vacancyArchiveApprovals = data.vacancyArchiveApprovals;
     })
   }
 }
