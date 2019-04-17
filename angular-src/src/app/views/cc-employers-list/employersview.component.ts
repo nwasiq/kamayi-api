@@ -45,7 +45,7 @@ export class EmployersviewComponent {
       this.busy = this.crudService.retrieveOne("employers", this.employerid).subscribe(user => {
         if(user.message){
           // alert(user.message);
-          this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.show(user.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
           this._flashMessagesService.grayOut(true);
           this.route.navigate(['/cc-employers-list/employers']);
         }

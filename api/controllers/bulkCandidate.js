@@ -121,55 +121,55 @@ exports.importExcel = async function (req, res) {
             /**
              * remove empty excel cells, remove eduction if not in list
              */
-            let cnicNumbers = [];
+            let phNumbers = [];
             for (var n = 0; n < result.length; n++) {
-                if (result[n].fullName == null || result[n].fullName == ""){
+                if (result[n].phone == null || result[n].phone == ""){
                     result.splice(n, 1);
                     n--;
                     continue;
                 }
-                // else{
-                //     /**
-                //      * cnic needs to be of length 13 always
-                //      */
-                //     result[n].cnic = result[n].cnic.split('-').join('');
-                //     if (result[n].cnic.length != 13)
-                //     {
-                //         result.splice(n, 1);
-                //         n--;
-                //         continue;
-                //     }
-                // }
+                else{
+                    /**
+                     * possible phone number validation
+                     */
+                    // result[n].phone = result[n].phone.split('-').join('');
+                    // if (result[n].phone.length != 13)
+                    // {
+                    //     result.splice(n, 1);
+                    //     n--;
+                    //     continue;
+                    // }
+                }
                 if (allowedEducations.indexOf(result[n].education) == -1) {
                     delete result[n].education; //education not in required list of educations
                 }
-                // cnicNumbers.push(result[n].cnic);
+                phNumbers.push(result[n].phone);
             }
 
             /**
-             * Check if candidates already exist in DB by cnic numbers
+             * Check if candidates already exist in DB by phone numbers
              */
-            // let candidates = await BulkCandidate.find({ cnic: { $in: cnicNumbers }});
-            let message = "success";
-            // if (candidates.length) {
-            //     if (candidates.length == result.length) {
-            //         return res.status(400).send({
-            //             message: "All candidates in this list are already in the DB",
-            //         });
-            //     }
-            //     message = candidates.length + " candidates in this list are already in the DB";
-            // }
-            // else {
-            //     message = "success";
-            // }
-            // for (var i = 0; i < candidates.length; i++) {
-            //     for (var j = 0; j < result.length; j++) {
-            //         if (candidates[i].cnic == result[j].cnic) {
-            //             result.splice(j, 1);
-            //             break;
-            //         }
-            //     }
-            // }
+            let candidates = await BulkCandidate.find({ phone: { $in: phNumbers }});
+            let message;
+            if (candidates.length) {
+                if (candidates.length == result.length) {
+                    return res.status(400).send({
+                        message: "All candidates in this list are already in the DB",
+                    });
+                }
+                message = candidates.length + " candidates in this list are already in the DB";
+            }
+            else {
+                message = "success";
+            }
+            for (var i = 0; i < candidates.length; i++) {
+                for (var j = 0; j < result.length; j++) {
+                    if (candidates[i].phone == result[j].phone) {
+                        result.splice(j, 1);
+                        break;
+                    }
+                }
+            }
             let bulkInsertedCandidates = await BulkCandidate.insertMany(result);
             res.send({
                 message: message,
