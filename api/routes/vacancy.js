@@ -16,7 +16,7 @@ function checkAuthToken() {
     });
 }
 
-router.get('', checkAuthToken(), crudController.findAll);
+router.get('', checkAuthToken(), vacancyController.getVacanciesWithEmployerInfo);
 router.get('/:entityId', checkAuthToken(), crudController.findOne);
 router.put('/:entityId', checkAuthToken(), permission.permit('admin', 'placement'), permission.authenticateVacancyStatusUpdate(), crudController.update);
 router.delete('/:entityId', checkAuthToken(), crudController.delete);

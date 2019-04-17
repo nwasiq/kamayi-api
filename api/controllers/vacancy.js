@@ -418,8 +418,19 @@ exports.getVacanciesByStatus = async function (req, res) {
     }
 }
 
-/**
- * @todo: add this to middleware vacancy delete middleware: 
- * let update = await Candidate.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
-            { $pull: { vacancyStatus: { vacancy: req.params.vacancyId } } })
- */
+exports.getVacanciesWithEmployerInfo = async function (req, res) {
+    try {
+        let vacancies = await Vacancy.find().populate("employer");
+        if (vacancies.length == 0) {
+            return res.status(404).send({
+                message: "No Vacancies found"
+            })
+        }
+        res.send(vacancies);
+    } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
