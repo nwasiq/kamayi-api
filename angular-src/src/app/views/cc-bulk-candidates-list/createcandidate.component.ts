@@ -155,7 +155,7 @@ export class CreatecandidateComponent {
   }
 
   ngOnInit(){
-
+    this.cnic = "";
     this.crudService.retrieveAll('occupations').subscribe(data => {
       this.occupationList = data.occupations;
     });
@@ -238,7 +238,7 @@ export class CreatecandidateComponent {
       return;
     }
 
-    if(this.cnic.length < 13)
+    if(this.cnic != "" && this.cnic.length < 13)
     {
       this._flashMessagesService.show("CNIC should be of length 13.", { cssClass: 'alert-danger text-center', timeout: 1000 });
       this._flashMessagesService.grayOut(true);
