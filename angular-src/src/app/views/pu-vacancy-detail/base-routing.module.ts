@@ -5,6 +5,7 @@ import { ManageshortlistComponent } from './manageshortlist.component';
 import { ManagecriteriaComponent } from './managecriteria.component';
 import { VacancydetailslistComponent } from './vacancydetailslist.component';
 import { VacancydetailsComponent } from './vacancydetails.component';
+import { CandidateviewComponent } from './candidateview.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,13 @@ const routes: Routes = [
         component: VacancydetailsComponent,
         data: {
           title: 'Vacancy Details'
+        }
+      },
+      {
+        path: 'candidateview/:id',
+        component: CandidateviewComponent,
+        data: {
+          title: 'Candidate Details'
         }
       }
     ]

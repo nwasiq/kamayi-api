@@ -161,4 +161,9 @@ export class ManageshortlistComponent {
     this.route.navigate(['/pu-vacancy-detail/managecriteria/' + this.vacancyId]);
   }
 
+  onViewCandidate(candidate){
+    // localStorage.setItem("candidateid", candidate._id);
+    this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);
+  }
+
 }

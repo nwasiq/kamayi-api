@@ -18,37 +18,43 @@
                 <thead>
                   <tr style="background: #BFFFCE;">
                     <th>ID</th>
-                    <th>Vacancy Title</th>
                     <th>Company Name</th>
-                    <th>PO Name</th>
-                    <th>Deletion Date</th>
-                    <th>Vacancy Type</th>
-                    <th>Filled %</th>
+                    <th>Vacancy Name</th>
+                    <th>Occupation</th>
+                    <th>Designation</th>
+                    <th>City</th>
                     <th>Status</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody >
-                  <tr *ngFor="let jobDeletion of jobDeletionInfo | filter:search">
-                    <td>{{ jobDeletion.id }}</td>
-                    <td>{{ jobDeletion.vacancyTitle }}</td>
-                    <td>{{ jobDeletion.companyName }}</td>
-                    <td>{{ jobDeletion.poName }}</td>
-                    <td>{{ jobDeletion.deletionDate }}</td>
-                    <td>{{ jobDeletion.vacancyType }}</td>
-                    <td>{{ jobDeletion.filled }}</td>
-                    <td>{{ jobDeletion.status }}</td>
-                    <td>
-                      <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
-                        {{ jobDeletion.action }}
-                      </button>
+                  <tr *ngFor="let vacancy of jobDeletionInfo | filter:search">
+                    <td>{{ vacancy._id }}</td>
+                    <td>{{ vacancy.employer.companyName }}</td>
+                    <td>{{ vacancy.title }}</td>
+                    <td>{{ vacancy.occupation }}</td>
+                    <td>{{ vacancy.designation }}</td>
+                    <td>{{ vacancy.city }}</td>
+                    <td *ngIf="vacancy.status == 'Active'">
+                      <span style="cursor: pointer;" class="badge badge-warning" data-toggle="modal" (click)="successModal.show()">
+                        {{ vacancy.status }}
+                      </span>
+                    </td>
+                    <td *ngIf="vacancy.status == 'Completed'">
+                      <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show()">
+                        {{ vacancy.status }}
+                      </span>
+                    </td>
+                    <td *ngIf="vacancy.status == 'Archived'">
+                      <span style="cursor: pointer;" class="badge badge-danger" data-toggle="modal" (click)="successModal.show()">
+                        {{ vacancy.status }}
+                      </span>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </tab>
-          <tab heading="Pending">
+          <tab heading="Completed">
             <div class="col-md-12 mb-4">
               <div class="input-group">
                 <div class="input-group-prepend" style="border: 1px solid #707070; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
@@ -63,37 +69,33 @@
                 <thead>
                   <tr style="background: #BFFFCE;">
                     <th>ID</th>
-                    <th>Vacancy Title</th>
-                    <th>Campaign Name</th>
-                    <th>PO Name</th>
-                    <th>Deletion Date</th>
-                    <th>Vacancy Type</th>
-                    <th>Filled %</th>
+                    <th>Company Name</th>
+                    <th>Vacancy Name</th>
+                    <th>Occupation</th>
+                    <th>Designation</th>
+                    <th>City</th>
                     <th>Status</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
-                <tbody *ngFor="let jobDeletion of jobDeletionInfo | filter:search">
-                  <tr *ngIf="jobDeletion.status == 'Pending'">
-                    <td>{{ jobDeletion.id }}</td>
-                    <td>{{ jobDeletion.vacancyTitle }}</td>
-                    <td>{{ jobDeletion.companyName }}</td>
-                    <td>{{ jobDeletion.poName }}</td>
-                    <td>{{ jobDeletion.deletionDate }}</td>
-                    <td>{{ jobDeletion.vacancyType }}</td>
-                    <td>{{ jobDeletion.filled }}</td>
-                    <td>{{ jobDeletion.status }}</td>
+                <tbody *ngFor="let vacancy of jobDeletionInfo | filter:search">
+                  <tr *ngIf="vacancy.status == 'Completed'">
+                    <td>{{ vacancy._id }}</td>
+                    <td>{{ vacancy.employer.companyName }}</td>
+                    <td>{{ vacancy.title }}</td>
+                    <td>{{ vacancy.occupation }}</td>
+                    <td>{{ vacancy.designation }}</td>
+                    <td>{{ vacancy.city }}</td>
                     <td>
-                      <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
-                        {{ jobDeletion.action }}
-                      </button>
+                      <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show()">
+                        {{ vacancy.status }}
+                      </span>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </tab>
-          <tab heading="Achived/Deleted">
+          <tab heading="Archived/Deleted">
             <div class="col-md-12 mb-4">
               <div class="input-group">
                 <div class="input-group-prepend" style="border: 1px solid #707070; border-top-left-radius: 15px; border-bottom-left-radius: 15px;">
@@ -108,30 +110,26 @@
                 <thead>
                   <tr style="background: #BFFFCE;">
                     <th>ID</th>
-                    <th>Vacancy Title</th>
-                    <th>Campaign Name</th>
-                    <th>PO Name</th>
-                    <th>Deletion Date</th>
-                    <th>Vacancy Type</th>
-                    <th>Filled %</th>
+                    <th>Company Name</th>
+                    <th>Vacancy Name</th>
+                    <th>Occupation</th>
+                    <th>Designation</th>
+                    <th>City</th>
                     <th>Status</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
-                <tbody *ngFor="let jobDeletion of jobDeletionInfo | filter:search">
-                  <tr *ngIf="jobDeletion.status == 'Deleted'">
-                    <td>{{ jobDeletion.id }}</td>
-                    <td>{{ jobDeletion.vacancyTitle }}</td>
-                    <td>{{ jobDeletion.companyName }}</td>
-                    <td>{{ jobDeletion.poName }}</td>
-                    <td>{{ jobDeletion.deletionDate }}</td>
-                    <td>{{ jobDeletion.vacancyType }}</td>
-                    <td>{{ jobDeletion.filled }}</td>
-                    <td>{{ jobDeletion.status }}</td>
+                <tbody *ngFor="let vacancy of jobDeletionInfo | filter:search">
+                  <tr *ngIf="vacancy.status == 'Archived'">
+                    <td>{{ vacancy._id }}</td>
+                    <td>{{ vacancy.employer.companyName }}</td>
+                    <td>{{ vacancy.title }}</td>
+                    <td>{{ vacancy.occupation }}</td>
+                    <td>{{ vacancy.designation }}</td>
+                    <td>{{ vacancy.city }}</td>
                     <td>
-                      <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="successModal.show()" style="border: none; background: none; color: black;">
-                        {{ jobDeletion.action }}
-                      </button>
+                      <span style="cursor: pointer;" class="badge badge-danger" data-toggle="modal" (click)="successModal.show()">
+                        {{ vacancy.status }}
+                      </span>
                     </td>
                   </tr>
                 </tbody>

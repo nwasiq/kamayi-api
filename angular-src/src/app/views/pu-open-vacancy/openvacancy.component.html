@@ -16,41 +16,73 @@
         <input type="search" class="form-control" placeholder="Search..." name="search" [(ngModel)]="search" style="border-color: #707070; border-top-right-radius: 15px;border-bottom-right-radius: 15px;">
       </div>
     </div>
-    <div class="col-md-12 mb-4">
-      <!-- Nav tabs -->
-      <div class="card-body">
-        <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
-        <table class="table table-bordered table-striped table-responsive-sm">
-          <thead>
-            <tr style="background: #BFFFCE;">
-              <th>ID</th>
-              <th>Company Name</th>
-              <th>Title</th>
-              <th>Occupation</th>
-              <th>Designation</th>
-              <th>Gender</th>
-              <th>City</th>
-              <th>Operations</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let vacancy of assignedEmployers | filter:search">
-            <tr>
-              <td>{{ vacancy._id }}</td>
-              <td>{{ vacancy.employer.companyName }}</td>
-              <td>{{ vacancy.title }}</td>
-              <td>{{ vacancy.occupation }}</td>
-              <td>{{ vacancy.designation }}</td>
-              <td>{{ vacancy.gender }}</td>
-              <td>{{ vacancy.city }}</td>
-              <td>
-                <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="viewVacancyDetails(vacancy);">
-                  View
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div><!--/.col-->
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
+            <div class="card-header">
+                <i class="fa fa-align-justify"></i> Vacancy Lists
+            </div>
+            <div class="card-body">
+            <table class="table table-bordered table-striped table-responsive-sm">
+                <thead>
+                  <tr style="background: #BFFFCE;">
+                    <th>
+                        <input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/>
+                    </th>
+                    <th>ID</th>
+                    <th>Company Name</th>
+                    <th>Title</th>
+                    <th>Occupation</th>
+                    <th>Designation</th>
+                    <th>City</th>
+                    <th>Status</th>
+                    <th>Operations</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let vacancy of assignedEmployers | filter:search">
+                  <tr>
+                    <td>
+                        <input type="checkbox" name="vacancycb[]" value="{{vacancy._id}}" [(ngModel)]="vacancy.state"/>
+                    </td>
+                    <td>{{ vacancy._id }}</td>
+                    <td>{{ vacancy.employer.companyName }}</td>
+                    <td>{{ vacancy.title }}</td>
+                    <td>{{ vacancy.occupation }}</td>
+                    <td>{{ vacancy.designation }}</td>
+                    <td>{{ vacancy.city }}</td>
+                    <td>{{ vacancy.status }}</td>
+                    <td>
+                      <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="viewVacancyDetails(vacancy);">
+                        View
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            </div>
+            <!--/.col-->
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-group mb-12">
+        <div class="input-group col-md-6">
+        </div>
+        <div class="input-group col-md-1">
+        </div>
+        <div class="input-group col-md-5">
+            <div class="input-group col-md-9">
+                <label class="form-check-label" for="inlineRadio2" style="margin-top: 1.5em;"> Set Selected Status (10):</label>&emsp;
+                <select class="form-control" name="statusName" [(ngModel)]="statusName" style="border-color: #707070; width: 50%; margin-bottom: 2em; margin-top: 1em;" required>
+                    <option *ngFor="let x of status" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                </select>
+            </div>
+            <div class="input-group col-md-3">
+                <button (click)="updateVacancyStatus()" class="btn pull-right" style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 35px; border-color: #707070">OK</button>
+            </div>
+        </div>
+    </div>
   </div>
 </div>

@@ -49,7 +49,7 @@ export class CandidateviewComponent {
 
     if(this.candidateid){
       this.busy = this.crudService.retrieveOne("candidates", this.candidateid).subscribe(user => {
-        // console.log(user);
+        console.log(user);
         if(user.message){
           // alert(user.message);
           this._flashMessagesService.show(user.message, { cssClass: 'alert-danger text-center', timeout: 1000 });

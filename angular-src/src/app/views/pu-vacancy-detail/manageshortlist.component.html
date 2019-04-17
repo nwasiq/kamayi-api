@@ -34,6 +34,7 @@
                         <th>Education</th>
                         <th>Relevant Exp</th>
                         <th>Status</th>
+                        <th>Operation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,9 @@
                         </td>
                         <td *ngIf="candidate.candidate.status != 'Interview Scheduled'">
                             {{ candidate.candidate.status }}
+                        </td>
+                        <td>
+                            <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
                         </td>
                     </tr>
                     </tbody>

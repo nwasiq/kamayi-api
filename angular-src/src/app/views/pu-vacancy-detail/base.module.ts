@@ -7,6 +7,7 @@ import { ManageshortlistComponent } from './manageshortlist.component';
 import { ManagecriteriaComponent } from './managecriteria.component';
 import { VacancydetailslistComponent } from './vacancydetailslist.component';
 import { VacancydetailsComponent } from './vacancydetails.component';
+import { CandidateviewComponent } from './candidateview.component';
 
 // Date Picker
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
@@ -43,7 +44,8 @@ import {NgBusyModule} from 'ng-busy';
     ManagecriteriaComponent,
     VacancydetailslistComponent,
     VacancydetailsComponent,
-    AutocompleteComponent
+    AutocompleteComponent,
+    CandidateviewComponent
   ]
 })
 export class BaseModule { }

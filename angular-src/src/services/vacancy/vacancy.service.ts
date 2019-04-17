@@ -16,6 +16,14 @@ export class VacancyService {
     this.localhostString = this.isProd ? "" : "http://localhost:3000/";
   }
 
+  getAllVacancies(){
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Authorization', token);
+    return this.http.get(this.localhostString + 'vacancys', { headers: headers })
+      .map(res => res.json());
+  }
+
   getTentativeShortList(vacancyid, uri){
     let headers = new Headers();
     let token = localStorage.getItem('token');
