@@ -123,11 +123,11 @@ exports.importExcel = async function (req, res) {
              */
             let cnicNumbers = [];
             for (var n = 0; n < result.length; n++) {
-                // if (result[n].cnic == null || result[n].cnic == ""){
-                //     result.splice(n, 1);
-                //     n--;
-                //     continue;
-                // }
+                if (result[n].fullName == null || result[n].fullName == ""){
+                    result.splice(n, 1);
+                    n--;
+                    continue;
+                }
                 // else{
                 //     /**
                 //      * cnic needs to be of length 13 always
