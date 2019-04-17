@@ -7,6 +7,7 @@
                         <i class="fa fa-align-justify"></i> Personal Details
                     </div>
                     <div class="card-body">
+                        <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 200}"></div>
                         <div class="input-group mb-4">
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
@@ -48,16 +49,16 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Email <span style="color: red; font-weight: bold;">*</span></label>
-                                        <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" required>
+                                        <label for="company">Email</label>
+                                        <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070">
                                     </div>
                                 </div>
                             </div>
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">CNIC <span style="color: red; font-weight: bold;">*</span></label>
-                                        <input class="form-control" (keypress)="keyPress($event)" maxlength="13" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070" required>
+                                        <label for="company">CNIC</label>
+                                        <input class="form-control" (keypress)="keyPress($event)" maxlength="13" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070">
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +204,7 @@
                             <div class="col-xs-6 col-sm-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span class="btn" (click)="deleteCriteria(tier)" style="border-radius: 50%; border: 1px solid #707070; background: #ef5353; cursor: pointer;"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                        <span class="btn" (click)="deleteCriteria(tier)" style="border-radius: 10px; border: 1px solid #707070; background: #ef5353; cursor: pointer; font-weight: bold">Delete Criteria</span>
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +277,7 @@
                             <div class="col-xs-6 col-sm-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span (click)="appendCriteria()" class="btn pull-right" style="border-radius: 50%; border: 1px solid #707070; background: lightgreen; cursor: pointer;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                        <span (click)="appendCriteria()" class="btn pull-right" style="border-radius: 10px; border: 1px solid #707070; background: lightgreen; cursor: pointer; font-weight: bold">Add Criteria</span>
                                     </div>
                                 </div>
                             </div>

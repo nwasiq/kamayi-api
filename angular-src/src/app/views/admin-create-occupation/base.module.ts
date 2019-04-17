@@ -15,12 +15,16 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
+    NgBusyModule,
     ModalModule.forRoot()
   ],
   declarations: [

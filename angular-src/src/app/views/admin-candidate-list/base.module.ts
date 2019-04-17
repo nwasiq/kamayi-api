@@ -16,13 +16,17 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 // Select dropdown with search
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
-    SelectDropDownModule
+    SelectDropDownModule,
+    NgBusyModule
   ],
   declarations: [
     CandidateComponent,

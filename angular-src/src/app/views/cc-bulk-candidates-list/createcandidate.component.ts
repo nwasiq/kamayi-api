@@ -5,11 +5,15 @@ import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candi
 import { convertToNumber } from  '../../../services/convertEducation';
 import { educationType } from '../../enums'
 import { GetLatlong } from '../../../services/getCoords';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'createcandidate.component.html'
 })
 export class CreatecandidateComponent {
+
+  busy: Subscription;
 
   candidateid: string;
 
@@ -58,7 +62,8 @@ export class CreatecandidateComponent {
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private bulkCandidateService: BulkCandidateService,
-    public zone: NgZone
+    public zone: NgZone,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   // autocomplete address
@@ -164,9 +169,11 @@ export class CreatecandidateComponent {
 
     if(this.candidateid){
       localStorage.removeItem('candidateid');
-      this.crudService.retrieveOne("bulkcandidates", this.candidateid).subscribe(user => {
+      this.busy = this.crudService.retrieveOne("bulkcandidates", this.candidateid).subscribe(user => {
         if(user.message){
-          alert(user.message);
+          // alert(user.message);
+          this._flashMessagesService.show(user.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
           this.route.navigate(['/cc-bulk-candidates-list/bulkcandidates']);
         }
         else{
@@ -183,7 +190,9 @@ export class CreatecandidateComponent {
   appendCriteria(){
     if(!this.occupation || !this.employer)
     {
-      alert("Please fill all criteria fields");
+      // alert("Please fill all criteria fields");
+      this._flashMessagesService.show("Please fill all criteria fields", { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
       return;
     }
     this.tiers.push({
@@ -216,18 +225,24 @@ export class CreatecandidateComponent {
 
   onSubmitCreateCandidate(){
     if(this.tiers.length == 0){
-      alert("No criteria added.");
+      // alert("No criteria added.");
+      this._flashMessagesService.show("No criteria added.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
       return;
     }
     let criteria: any = [];
     if (Object.keys(educationType).indexOf(this.education) == -1) {
-      alert('Education not accepted'); //education not in required list of educations
+      this._flashMessagesService.show('Education not accepted', { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      // alert('Education not accepted');
       return;
     }
 
     if(this.cnic.length < 13)
     {
-      alert("CNIC should be of length 13.");
+      this._flashMessagesService.show("CNIC should be of length 13.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      // alert("CNIC should be of length 13.");
       return;
     }
 
@@ -245,7 +260,9 @@ export class CreatecandidateComponent {
 // console.log(this.comment === "");
     if(commentReq && (this.comment === "" || this.comment === undefined ))
     {
-      alert("Comment is required if 'Other' skill is entered.");
+      // alert("Comment is required if 'Other' skill is entered.");
+      this._flashMessagesService.show("Comment is required if 'Other' skill is entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
       return;
     }
 
@@ -285,11 +302,15 @@ export class CreatecandidateComponent {
     this.crudService.create(createCandidate, "candidates").subscribe(data => {
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
       else
       {
-        alert("Candidate Created!");
+        // alert("Candidate Created!");
+        this._flashMessagesService.show("Candidate Created!", { cssClass: 'alert-success text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/cc-candidates-list/candidate']);
       }
     });

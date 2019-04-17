@@ -3,11 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { VacancyService } from '../../../services/vacancy/vacancy.service';
 import { convertToString } from  '../../../services/convertEducation';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'vacancydetailslist.component.html'
 })
 export class VacancydetailslistComponent {
+
+  busy: Subscription;
 
   vacancyId: any;
   hired: number;
@@ -25,7 +29,8 @@ export class VacancydetailslistComponent {
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private vacancyService: VacancyService,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   candidatesInfo: any[] = [];
@@ -40,9 +45,11 @@ export class VacancydetailslistComponent {
       this.vacancyId = params['id']
     );
     
-    this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
+    this.busy = this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
       if(data.message){
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-open-vacancy/openvacancy']);
       }
       else
@@ -58,9 +65,11 @@ export class VacancydetailslistComponent {
     })
 
     let occupation = localStorage.getItem('occupation');
-    this.vacancyService.getShortListForVacancy(this.vacancyId, occupation).subscribe(data => {
+    this.busy = this.vacancyService.getShortListForVacancy(this.vacancyId, occupation).subscribe(data => {
       if(data.length == 0){
-        alert("No candidates are shortlisted.");
+        this._flashMessagesService.show("No candidates are shortlisted.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        // alert("No candidates are shortlisted.");
         return;
       }
       for(let candidate of data){

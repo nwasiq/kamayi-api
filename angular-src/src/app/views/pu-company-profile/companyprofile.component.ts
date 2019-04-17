@@ -2,11 +2,15 @@ import { Component } from '@angular/core';
 import { CrudService } from '../../../services/crud/crud.service';
 import { EmployerService } from '../../../services/employer/employer.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'companyprofile.component.html'
 })
 export class CompanyprofileComponent {
+
+  busy: Subscription;
 
   employerID: string;
 
@@ -31,7 +35,8 @@ export class CompanyprofileComponent {
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private crudService: CrudService,
-    private employerService: EmployerService
+    private employerService: EmployerService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   zoom: number = 15;
@@ -47,10 +52,12 @@ export class CompanyprofileComponent {
     );
     // console.log(this.employerID);
 
-    this.crudService.retrieveOne("employers",this.employerID).subscribe(data => {
+    this.busy = this.crudService.retrieveOne("employers",this.employerID).subscribe(data => {
       // console.log(data);
       if(data.message){
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-assigned-employers/employers']);
       }
       else

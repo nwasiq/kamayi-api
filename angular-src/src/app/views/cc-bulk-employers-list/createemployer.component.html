@@ -7,6 +7,7 @@
                         <i class="fa fa-align-justify"></i> Company Details
                     </div>
                     <div class="card-body">
+                        <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
                         <div class="input-group mb-4">
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
@@ -123,8 +124,8 @@
                             <div class="input-group col-md-4">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="company">Email <span style="color: red; font-weight: bold;">*</span></label>
-                                        <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" required>
+                                        <label for="company">Email</label>
+                                        <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070">
                                     </div>
                                 </div>
                             </div>

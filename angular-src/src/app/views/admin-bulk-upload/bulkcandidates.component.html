@@ -27,6 +27,7 @@
     <div class="col-md-12 mb-4">
       <!-- Nav tabs -->
       <div class="card-body">
+        <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
         <table class="table table-bordered table-striped table-responsive-sm">
           <thead>
             <tr style="background: #BFFFCE;">

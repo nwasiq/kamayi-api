@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
 import { Router } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'openvacancy.component.html'
 })
 export class OpenvacancyComponent {
+
+  busy: Subscription;
 
   placementUserID: string;
   assignedEmployers: any = [];
@@ -14,6 +18,7 @@ export class OpenvacancyComponent {
   constructor(
     private userService: UserService,
     private route: Router,
+    private _flashMessagesService: FlashMessagesService
   ) {}
 
   ngOnInit(){
@@ -21,17 +26,21 @@ export class OpenvacancyComponent {
     this.placementUserID = JSON.parse(localStorage.getItem('user'))._id;
     let userid = this.placementUserID;
 
-    this.userService.getOpenVacanciesForPlacementUser(userid).subscribe(data => {
+    this.busy = this.userService.getOpenVacanciesForPlacementUser(userid).subscribe(data => {
       // console.log(data);
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
       else
       {
         if(data.length == 0)
         {
-          alert("No vacancy created by you");
+          // alert("No vacancy created by you");
+          this._flashMessagesService.show("No vacancy created by you", { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
           this.route.navigate(['/pudashboard']);
         }
         else

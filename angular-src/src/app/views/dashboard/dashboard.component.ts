@@ -9,6 +9,8 @@ import { UserService } from '../../../services/user/user.service';
 })
 export class DashboardComponent implements OnInit {
 
+  name: string;
+
   employerAssignments: number;
   vacancyArchiveApprovals: number;
 
@@ -18,6 +20,16 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    this.name = JSON.parse(localStorage.getItem('user'));
+    console.log(this.name['role']);
+    if(this.name['role'] != "admin" && this.name['role'] != "superAdmin") 
+    {
+      alert('Permission Denied.');
+      this.userService.logout();
+      this.route.navigate(['']);
+    }
+
     this.userService.getDashboardDetails().subscribe(data => {
     console.log(data);
     

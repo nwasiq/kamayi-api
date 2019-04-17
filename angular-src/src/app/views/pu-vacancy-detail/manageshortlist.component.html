@@ -17,6 +17,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+                <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
                 <div class="card-header">
                     <i class="fa fa-align-justify"></i> Short List
                 </div>

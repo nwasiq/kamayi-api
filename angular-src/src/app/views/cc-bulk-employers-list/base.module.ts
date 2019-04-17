@@ -19,12 +19,16 @@ import { AgmCoreModule } from '@agm/core';
 // Autocomplete
 import { AutocompleteComponent } from './google-places.component';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
+    NgBusyModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
     })

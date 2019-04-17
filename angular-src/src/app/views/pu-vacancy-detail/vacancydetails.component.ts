@@ -2,11 +2,15 @@ import { Component } from '@angular/core';
 import { CrudService } from '../../../services/crud/crud.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { convertToString } from  '../../../services/convertEducation';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'vacancydetails.component.html'
 })
 export class VacancydetailsComponent {
+
+  busy: Subscription;
 
   vacancyId: string;
 
@@ -45,7 +49,8 @@ export class VacancydetailsComponent {
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   ngOnInit(){
@@ -55,10 +60,12 @@ export class VacancydetailsComponent {
     );
     console.log(this.vacancyId);
 
-    this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
+    this.busy = this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
       // console.log(data);
       if(data.message){
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-open-vacancy/openvacancy']);
       }
       else

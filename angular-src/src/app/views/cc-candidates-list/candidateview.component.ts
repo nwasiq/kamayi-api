@@ -3,11 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { CandidateService } from '../../../services/candidate/candidate.service';
 import { convertToString } from '../../../services/convertEducation';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'candidateview.component.html'
 })
 export class CandidateviewComponent {
+
+  busy: Subscription;
 
   candidateid: string;
 
@@ -32,7 +36,8 @@ export class CandidateviewComponent {
     private crudService: CrudService,
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private candidateService: CandidateService
+    private candidateService: CandidateService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   ngOnInit(){
@@ -43,9 +48,11 @@ export class CandidateviewComponent {
     // console.log(this.candidateid);
 
     if(this.candidateid){
-      this.crudService.retrieveOne("candidates", this.candidateid).subscribe(user => {
+      this.busy = this.crudService.retrieveOne("candidates", this.candidateid).subscribe(user => {
         if(user.message){
-          alert(user.message);
+          // alert(user.message);
+          this._flashMessagesService.show(user.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
           this.route.navigate(['/cc-candidates-list/candidate']);
         }
         else{
@@ -69,7 +76,9 @@ export class CandidateviewComponent {
     this.candidateService.getCriteriaForCandidate(this.candidateid).subscribe(data => {
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         return;
       }
       this.education = convertToString(data[0].education);

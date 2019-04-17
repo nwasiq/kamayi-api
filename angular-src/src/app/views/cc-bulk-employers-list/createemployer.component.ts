@@ -3,11 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candidate.service';
 import { GetLatlong } from '../../../services/getCoords';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'createemployer.component.html'
 })
 export class CreateemployerComponent {
+
+  busy: Subscription;
 
   employerid: string;
 
@@ -39,7 +43,8 @@ export class CreateemployerComponent {
     private crudService: CrudService,
     private route: Router,
     private bulkCandidateService: BulkCandidateService,
-    public zone: NgZone
+    public zone: NgZone,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   // autocomplete address
@@ -167,14 +172,18 @@ export class CreateemployerComponent {
       pocCity: this.pocCity
     }
     // console.log(createEmployer);
-    this.crudService.create(createEmployer, "employers").subscribe(data => {
+    this.busy = this.crudService.create(createEmployer, "employers").subscribe(data => {
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
       else
       {
-        alert("Employer Created!");
+        // alert("Employer Created!");
+        this._flashMessagesService.show("Employer Created!", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/cc-employers-list/employers']);
       }
     });

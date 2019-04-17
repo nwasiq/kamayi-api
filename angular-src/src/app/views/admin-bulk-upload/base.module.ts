@@ -10,11 +10,15 @@ import { BulkemployersComponent } from './bulkemployers.component';
 // Components Routing
 import { BaseRoutingModule } from './base-routing.module';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    BaseRoutingModule
+    BaseRoutingModule,
+    NgBusyModule
   ],
   declarations: [
     BulkcandidatesComponent,

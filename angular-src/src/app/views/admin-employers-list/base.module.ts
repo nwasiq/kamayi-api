@@ -24,6 +24,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 // Select dropdown with search
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -32,6 +35,7 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     Ng2SearchPipeModule,
     SelectDropDownModule,
     TabsModule,
+    NgBusyModule,
     ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'

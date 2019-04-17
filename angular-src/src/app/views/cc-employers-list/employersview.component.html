@@ -6,6 +6,7 @@
                   <i class="fa fa-align-justify"></i> Company Details
               </div>
               <div class="card-body">
+                <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 200}"></div>
                   <div class="input-group mb-4">
                       <div class="input-group col-md-4">
                           <div class="col-md-12">

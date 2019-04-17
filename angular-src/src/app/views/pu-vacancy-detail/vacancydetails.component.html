@@ -17,6 +17,7 @@
     <div class="row" style="margin-top: 0.5em;">
         <div class="col-lg-12">
             <div class="card">
+                <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 200}"></div>
                 <div class="card-header">
                     <div class="row">
                         <div class="input-group mb-12">

@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'jobdeletion.component.html'
 })
 export class JobdeletionComponent {
+
+  busy: Subscription;
 
   public successModal;
   search: any;
@@ -22,7 +26,9 @@ export class JobdeletionComponent {
   jobUploadedDate: string;
   deletionComments: string;
 
-  constructor() { }
+  constructor(
+    private _flashMessagesService: FlashMessagesService
+  ) { }
 
   jobDeletionInfo = [
     {id: '1', vacancyTitle: 'Intern Mechanics', companyName: 'Honda Atlas', deletionDate: '01/01/2019', poName: 'Ahmad Ali', vacancyType: 'Electricians', filled:'50%', status: 'Pending', action: 'Verify'},

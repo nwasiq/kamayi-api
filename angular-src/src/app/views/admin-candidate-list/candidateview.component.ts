@@ -3,11 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { CandidateService } from '../../../services/candidate/candidate.service';
 import { convertToString } from '../../../services/convertEducation';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'candidateview.component.html'
 })
 export class CandidateviewComponent {
+  busy: Subscription;
 
   occupationList: any = [];
 
@@ -45,12 +48,13 @@ export class CandidateviewComponent {
     private crudService: CrudService,
     private route: Router,
     private activatedRoute: ActivatedRoute,
-    private candidateService: CandidateService
+    private candidateService: CandidateService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   ngOnInit(){
 
-    this.crudService.retrieveAll('occupations').subscribe(data => {
+    this.busy = this.crudService.retrieveAll('occupations').subscribe(data => {
       this.occupationList = data.occupations;
     });
 
@@ -60,9 +64,11 @@ export class CandidateviewComponent {
     // console.log(this.candidateid);
 
     if(this.candidateid){
-      this.crudService.retrieveOne("candidates", this.candidateid).subscribe(user => {
+      this.busy = this.crudService.retrieveOne("candidates", this.candidateid).subscribe(user => {
         if(user.message){
-          alert(user.message);
+          // alert(user.message);
+          this._flashMessagesService.show(user.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
           this.route.navigate(['/cc-candidates-list/candidate']);
         }
         else{
@@ -83,10 +89,12 @@ export class CandidateviewComponent {
   viewCriteria(){
     this.showDiv = true;
     let candidateid = this.candidateid;
-    this.candidateService.getCriteriaForCandidate(candidateid).subscribe(data => {
+    this.busy = this.candidateService.getCriteriaForCandidate(candidateid).subscribe(data => {
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         return;
       }
       this.education = convertToString(data[0].education);
@@ -126,7 +134,7 @@ export class CandidateviewComponent {
     }
     
     // console.log(updateObj);
-    this.crudService.update(updateObj, "criterias", id).subscribe(data => {
+    this.busy = this.crudService.update(updateObj, "criterias", id).subscribe(data => {
       let otherCriteria = false;
       for(let x of this.totalCriteria){
         if(x.occupation == 'Other'){
@@ -139,13 +147,17 @@ export class CandidateviewComponent {
           primarySkill: this.totalCriteria[0].occupation,
           hasOtherSkill: false
         }
-        this.crudService.update(updateObj2, "candidates", this.candidateid).subscribe(data2 => {
-          alert("Criteria updated!");
+        this.busy = this.crudService.update(updateObj2, "candidates", this.candidateid).subscribe(data2 => {
+          // alert("Criteria updated!");
+          this._flashMessagesService.show("Criteria updated!", { cssClass: 'alert-success text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
         })
       }
       else
       {
-        alert("Criteria updated!");
+        // alert("Criteria updated!");
+        this._flashMessagesService.show("Criteria updated!", { cssClass: 'alert-success text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
     })
   }

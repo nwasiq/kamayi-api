@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
 import { CrudService } from '../../../services/crud/crud.service';
 import { Router } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   templateUrl: 'adduser.component.html'
@@ -21,7 +22,8 @@ export class AdduserComponent {
   constructor(
     private userService: UserService,
     private crudService: CrudService,
-    private route: Router
+    private route: Router,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   onSubmitCreateUser(){
@@ -38,18 +40,24 @@ export class AdduserComponent {
       this.crudService.create(userData, "users").subscribe(data => {
         if(data.message)
         {
-          alert(data.message);
+          // alert(data.message);
+          this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
         }
         else
         {
-          alert("User Created!");
+          // alert("User Created!");
+          this._flashMessagesService.show("User Created!", { cssClass: 'alert-success text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
           this.route.navigate(['/admin-users-list/users']);
         }
       });
     }
     else
     {
-      alert("Passwords don't match.");
+      this._flashMessagesService.show("Passwords don't match.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      // alert("Passwords don't match.");
     }
   }
 }

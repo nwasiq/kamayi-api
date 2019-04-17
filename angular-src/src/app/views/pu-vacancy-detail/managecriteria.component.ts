@@ -3,11 +3,15 @@ import { VacancyService } from '../../../services/vacancy/vacancy.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { convertToString } from  '../../../services/convertEducation';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'managecriteria.component.html'
 })
 export class ManagecriteriaComponent {
+
+  busy: Subscription;
 
   vacancyId: any;
   hired: number;
@@ -45,7 +49,8 @@ export class ManagecriteriaComponent {
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private vacancyService: VacancyService,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   sortBy = ["education", "experience", "location", "none"];
@@ -71,9 +76,11 @@ export class ManagecriteriaComponent {
       this.vacancyId = params['id']
     );
 
-    this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
+    this.busy = this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
       if(data.message){
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-open-vacancy/openvacancy']);
       }
       else
@@ -155,7 +162,9 @@ export class ManagecriteriaComponent {
         && (this.experienceWeight == null || this.experienceWeight == undefined)
         && (this.locationWeight == null || this.locationWeight == undefined))
         {
-          alert("No weights selected.");
+          // alert("No weights selected.");
+          this._flashMessagesService.show("No weights selected.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
           return;
         }
         if(this.education)
@@ -239,9 +248,11 @@ export class ManagecriteriaComponent {
         paramCount++;
       }
     }
-    this.vacancyService.getTentativeShortList(this.vacancyId, uri).subscribe(data => {
+    this.busy = this.vacancyService.getTentativeShortList(this.vacancyId, uri).subscribe(data => {
       if(data.candidates.length == 0){
-        alert("No candidates matched your criteria.");
+        // alert("No candidates matched your criteria.");
+        this._flashMessagesService.show("No candidates matched your criteria.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         return;
       }
       console.log(data);
@@ -261,7 +272,9 @@ export class ManagecriteriaComponent {
   createShortList(){
     if(this.candidatesInfo.length == 0)
     {
-      alert("No candidates to shortlist.");
+      // alert("No candidates to shortlist.");
+      this._flashMessagesService.show("No candidates to shortlist.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
       return;
     }
     
@@ -274,22 +287,28 @@ export class ManagecriteriaComponent {
 
     if(this.shortListCandidatesIds.length == 0)
     {
-      alert("No candidate selected.");
+      // alert("No candidate selected.");
+      this._flashMessagesService.show("No candidate selected.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
       return;
     }
     
     let candidateIDsObject = {
       candidateIds: this.shortListCandidatesIds
     }
-    this.vacancyService.createShortList(candidateIDsObject, this.vacancyId).subscribe(data => {
+    this.busy = this.vacancyService.createShortList(candidateIDsObject, this.vacancyId).subscribe(data => {
       console.log(candidateIDsObject);
       console.log(data);
       if(data.message){
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
       else
       {
-        alert("Shortlist created successfully.");
+        // alert("Shortlist created successfully.");
+        this._flashMessagesService.show("Shortlist created successfully.", { cssClass: 'alert-success text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-vacancy-detail/manageshortlist/' + this.vacancyId]);
         localStorage.setItem('occupation', this.occupation);
       }

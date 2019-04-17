@@ -22,6 +22,9 @@ import { AutocompleteComponent } from './google-places.component';
 // Select dropdown with search
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
     BaseRoutingModule,
     Ng2SearchPipeModule,
     SelectDropDownModule,
+    NgBusyModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
     })

@@ -3,11 +3,15 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import {UserService } from '../../../services/user/user.service';
 import {CrudService } from '../../../services/crud/crud.service';
 import {EmployerService } from '../../../services/employer/employer.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'assignment.component.html'
 })
 export class AssignmentComponent {
+
+  busy: Subscription;
 
   public successModal;
   search: any;
@@ -35,14 +39,17 @@ export class AssignmentComponent {
   constructor(
     private userService: UserService,
     private employerService: EmployerService,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   ngOnInit(){
-    this.crudService.retrieveAll("employers").subscribe(data => {
+    this.busy = this.crudService.retrieveAll("employers").subscribe(data => {
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
       else
       {
@@ -63,10 +70,14 @@ export class AssignmentComponent {
       placementOfficer: this.officerid
     }
     // console.log(assignPO);
-    this.crudService.update(assignPO, "employers", this.modalEmployerId).subscribe(data => {
+    this.busy = this.crudService.update(assignPO, "employers", this.modalEmployerId).subscribe(data => {
       if(!data.message){
-        alert("Successfully assigned.");
-        window.location.reload();
+        // alert("Successfully assigned.");
+        this._flashMessagesService.show("Successfully assigned.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        setTimeout(function(){ 
+          location.reload(); 
+        }, 1000);
       }
     })
   }
@@ -87,7 +98,7 @@ export class AssignmentComponent {
           break;
         }
       }
-      this.userService.getDashboardDetailsById(this.officerid).subscribe(data => {
+      this.busy = this.userService.getDashboardDetailsById(this.officerid).subscribe(data => {
         this.assignedCompany = data.assignedEmployers;
         this.openVacancy = data.openVacancies;
       })

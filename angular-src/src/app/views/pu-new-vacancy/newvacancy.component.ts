@@ -5,11 +5,15 @@ import { UserService } from '../../../services/user/user.service';
 import { Router } from '@angular/router';
 import { convertToNumber } from  '../../../services/convertEducation';
 import { EmployerService } from '../../../services/employer/employer.service';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: 'newvacancy.component.html'
 })
 export class NewvacancyComponent {
+
+  busy: Subscription;
 
   genderOf = ["Male", "Female", "Any"];
   typeOf = ["fullTime", "partTime"];
@@ -69,7 +73,8 @@ export class NewvacancyComponent {
     private userService: UserService,
     private crudService: CrudService,
     private route: Router,
-    private employerService: EmployerService
+    private employerService: EmployerService,
+    private _flashMessagesService: FlashMessagesService
   ) { }
 
   zoom: number = 15;
@@ -170,16 +175,20 @@ export class NewvacancyComponent {
     this.placementUserID = JSON.parse(localStorage.getItem('user'))._id;
     let userid = this.placementUserID;
 
-    this.userService.getEmployersForPlacementUser(userid).subscribe(data => {
+    this.busy = this.userService.getEmployersForPlacementUser(userid).subscribe(data => {
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
       else
       {
         if(data.employers.length == 0)
         {
-          alert("No employers assigned to you");
+          // alert("No employers assigned to you");
+          this._flashMessagesService.show("No employers assigned to you", { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
           this.route.navigate(['/pudashboard']);
         }
         this.assignedEmployers = data.employers;
@@ -229,15 +238,19 @@ export class NewvacancyComponent {
       designation: this.designation
     }
     // console.log(vacancyData);
-    this.employerService.createVacancyForEmployer(this.vacancyEmployerId, vacancyData).subscribe(data => {
+    this.busy = this.employerService.createVacancyForEmployer(this.vacancyEmployerId, vacancyData).subscribe(data => {
       // console.log(data);
       if(data.message)
       {
-        alert(data.message);
+        // alert(data.message);
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
       }
       else
       {
-        alert("Vacancy Created!");
+        // alert("Vacancy Created!");
+        this._flashMessagesService.show("Vacancy Created!", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-open-vacancy/openvacancy']);
       }
     })

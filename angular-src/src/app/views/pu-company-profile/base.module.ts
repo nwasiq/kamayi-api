@@ -14,12 +14,16 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //agm
 import { AgmCoreModule } from '@agm/core';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
+    NgBusyModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
     })
