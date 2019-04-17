@@ -167,6 +167,11 @@ export class ManagecriteriaComponent {
           this._flashMessagesService.grayOut(true);
           return;
         }
+
+        this.education = true;
+        this.experience = true;
+        this.location = true;
+
         if(this.education)
         {
           if(paramCount > 0){
@@ -179,7 +184,9 @@ export class ManagecriteriaComponent {
           }
           else
           {
-            educationUri = "education";
+            this._flashMessagesService.show("Education weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+            this._flashMessagesService.grayOut(true);
+            return;
           }
           uri += educationUri;
           paramCount++;
@@ -196,7 +203,9 @@ export class ManagecriteriaComponent {
           }
           else
           {
-            experienceUri = "experience";
+            this._flashMessagesService.show("Experience weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+            this._flashMessagesService.grayOut(true);
+            return;
           }
           uri += experienceUri;
           paramCount++;
@@ -213,11 +222,20 @@ export class ManagecriteriaComponent {
           }
           else
           {
-            locationUri = "location";
+            this._flashMessagesService.show("Location weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+            this._flashMessagesService.grayOut(true);
+            return;
           }
+
           uri += locationUri;
           paramCount++;
         }
+
+      if ((this.locationWeight + this.experienceWeight + this.educationWeight) != 10) {
+        this._flashMessagesService.show("Sum of the weights needs to be 10.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        return;
+      }
     }
     else
     {
