@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../services/user/user.service';
+import { VacancyService } from '../../../services/vacancy/vacancy.service';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
@@ -24,7 +25,8 @@ export class OpenvacancyComponent {
   constructor(
     private userService: UserService,
     private route: Router,
-    private _flashMessagesService: FlashMessagesService
+    private _flashMessagesService: FlashMessagesService,
+    private vacancyService: VacancyService
   ) {}
 
   checkAll(ev) {
@@ -97,9 +99,16 @@ export class OpenvacancyComponent {
     }
 
     let updateObj = {
-      status: this.statusName,
-      ids: this.shortListVacancysIds
+      vacancyIds: this.shortListVacancysIds
     }
+
+    this.busy = this.vacancyService.updateVacancyStatus(updateObj, this.statusName).subscribe(data => {
+      this._flashMessagesService.show(data.message, { cssClass: 'alert-success text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      setTimeout(function(){ 
+        location.reload(); 
+      }, 1000);
+    })
   
     console.log(updateObj);
   }

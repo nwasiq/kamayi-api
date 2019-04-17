@@ -400,6 +400,25 @@ exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
     }
 }
 
+exports.updateStatusForVacancies = async function(req, res) {
+    let vacancyIds = req.body.vacancyIds;
+    let status = req.params.status;
+    try{
+        await Vacancy.updateMany({_id: {$in: vacancyIds}}, {'$set': {
+                status: status
+            }
+        });
+        res.send({
+            message: "Status updated"
+        })
+    }catch(err){
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
 exports.getVacanciesByStatus = async function (req, res) {
     let status = Vacancy.schema.path('status').enumValues[parseInt(req.params.statusId)];
     try{

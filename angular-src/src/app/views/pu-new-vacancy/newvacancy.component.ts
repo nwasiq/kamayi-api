@@ -249,7 +249,7 @@ export class NewvacancyComponent {
       else
       {
         // alert("Vacancy Created!");
-        this._flashMessagesService.show("Vacancy Created!", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.show("Vacancy Created!", { cssClass: 'alert-success text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-open-vacancy/openvacancy']);
       }

@@ -136,7 +136,6 @@
                         <th>City</th>
                         <th>Education</th>
                         <th>Relevant Exp</th>
-                        <th>Operation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -151,9 +150,6 @@
                         <td>{{ candidate.city }}</td>
                         <td>{{ candidate.education }}</td>
                         <td>{{ candidate.experience }}</td>
-                        <td>
-                            <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
-                        </td>
                     </tr>
                     </tbody>
                 </table>

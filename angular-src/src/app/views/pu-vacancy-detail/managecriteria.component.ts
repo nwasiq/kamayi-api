@@ -315,9 +315,4 @@ export class ManagecriteriaComponent {
     })
   }
 
-  onViewCandidate(candidate){
-    // localStorage.setItem("candidateid", candidate._id);
-    this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);
-  }
-
 }

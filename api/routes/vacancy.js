@@ -25,5 +25,6 @@ router.post('/:vacancyId/shortlist', checkAuthToken(), vacancyController.createC
 router.get('/:vacancyId/shortlist/:occupation', checkAuthToken(), vacancyController.findVacancyShortlist);
 router.post('/:vacancyId/candidates', checkAuthToken(), vacancyController.updateStatusForCandidatesInAVacancy);
 router.get('/status/:statusId', checkAuthToken(), permission.permit('admin'), vacancyController.getVacanciesByStatus);
+router.post('/status/:status', checkAuthToken(), permission.permit('admin', 'placement'), vacancyController.updateStatusForVacancies);
 
 module.exports = router;

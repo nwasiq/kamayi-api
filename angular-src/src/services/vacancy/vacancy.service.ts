@@ -50,6 +50,15 @@ export class VacancyService {
       .map(res => res.json());
   }
 
+  updateVacancyStatus(vacancyIds, status){
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + 'vacancys/status/'+ status,vacancyIds, { headers: headers })
+      .map(res => res.json());
+  }
+
   updateStatusForShortList(updateObj, vacancyid){
     let headers = new Headers();
     let token = localStorage.getItem('token');
