@@ -47,3 +47,11 @@ module.exports.getCandidateByCnic = function (cnic) {
 
     return candidate.findOne(query);
 }
+
+module.exports.getCandidateByPhoneNumber = function (phNumber) {
+    const query = {
+        phone: phNumber
+    };
+
+    return candidate.findOne(query);
+}

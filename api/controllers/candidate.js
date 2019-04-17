@@ -9,10 +9,10 @@ exports.create = async function (req, res) {
         let newCandidate = new Candidate(req.body);
         let candidateCriteria = req.body.criteria;
         delete newCandidate.criteria;
-        let candidate = await Candidate.getCandidateByCnic(newCandidate.cnic);
+        let candidate = await Candidate.getCandidateByPhoneNumber(newCandidate.phone);
         if (candidate) {
             return res.status(400).send({
-                message: "Candidate with this cnic already exists"
+                message: "Candidate with this phone number already exists"
             });
         }
         let savedCandidate = await newCandidate.save();
