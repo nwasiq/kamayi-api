@@ -22,7 +22,7 @@ var geoCodeOptions = {
 exports.importExcel = async function (req, res) {
     req.setTimeout(0);
     const uploadExcel = util.promisify(fileUpload.uploadExcelFile);
-    // try{
+    try{
         await uploadExcel(req, res);
         if (!req.file) {
             return res.status(400).send({
@@ -268,12 +268,12 @@ exports.importExcel = async function (req, res) {
                 excelCandidates: bulkInsertedCandidates
             });
         }
-    // } catch(err) {
-    //     return res.status(500).send({
-    //         message: "A server error occurred",
-    //         err: err
-    //     })
-    // }
+    } catch(err) {
+        return res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
 }
 
 exports.getBulkCandiesByStatus = async function(req, res) {
