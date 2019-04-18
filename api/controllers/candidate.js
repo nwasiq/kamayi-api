@@ -53,6 +53,11 @@ exports.filterCandidates = async function(req, res) {
     let query = req.body.query;
     try{
         let candidates = await Candidate.find(query);
+        if(candidates.length == 0){
+            return res.send({
+                message: "No candidates found"
+            })
+        }
         res.send(candidates);
     } catch (err) {
         res.send(err);

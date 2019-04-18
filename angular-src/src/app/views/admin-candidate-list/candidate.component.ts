@@ -150,7 +150,11 @@ export class CandidateComponent {
     }
 
     this.busy = this.candidateService.filterCandidates(queryObj).subscribe(data => {
-      console.log(data);
+      if(data.message){
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        return;
+      }
       this.searchInfo = data;
       this.setPageSearch(1);
   }); 
