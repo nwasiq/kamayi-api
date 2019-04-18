@@ -52,7 +52,7 @@ exports.importExcel = async function (req, res) {
              *  get candidate excel data in order
              */
             let iterator = 1;
-            let unknownOccupationCandidates = [];
+            let unknownCoordsLocation = [];
             for (let candidate of result) {
                 if (candidate.phone == null || candidate.phone == "") {
                     continue;
@@ -117,7 +117,6 @@ exports.importExcel = async function (req, res) {
 
                 let hasOtherSkill = false;
                 if (allowedOccupations.indexOf(candidate.occupationOne) == -1) {
-                    unknownOccupationCandidates.push(candidate.occupationOne);
                     if ((candidate.occupationTwo != null && candidate.occupationTwo != "") &&
                         allowedOccupations.indexOf(candidate.occupationTwo) != -1) {
                         candidate.occupationOne = candidate.occupationTwo; //occupation not in required list of occupations
@@ -131,7 +130,6 @@ exports.importExcel = async function (req, res) {
                 if ((allowedOccupations.indexOf(candidate.occupationOne) != -1) &&
                     (candidate.occupationTwo != null && candidate.occupationTwo != "") &&
                     (allowedOccupations.indexOf(candidate.occupationTwo) == -1)) {
-                    unknownOccupationCandidates.push(candidate.occupationTwo);
                     candidate.occupationTwo = 'Other';
                 }
 
@@ -145,6 +143,10 @@ exports.importExcel = async function (req, res) {
                     findCoordinatesFor = candidate.city;
                 }
                 let coords = await geocoder.geocode(findCoordinatesFor);
+                if (!coords[0].longitude || !coords[0].latitude){
+                    unknownCoordsLocation.push(candidate.location + ', ' + candidate.city);
+                    continue;
+                }
                 let coordsArray = [];
                 coordsArray.push(coords[0].longitude);
                 coordsArray.push(coords[0].latitude);
@@ -202,8 +204,8 @@ exports.importExcel = async function (req, res) {
             }
             res.send({
                 msg: "Candidates saved!",
-                unknownOccupationCandyCount: unknownOccupationCandidates.length,
-                unknownOccupationCandidates
+                unknownCoordsLocation: unknownCoordsLocation.length,
+                unknownCoordsLocation
             })
         }
         else {
