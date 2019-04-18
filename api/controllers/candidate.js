@@ -49,6 +49,21 @@ exports.findCriteriaForCandidate = async function (req, res) {
     }
 }
 
+exports.filterCandidates = async function(req, res) {
+    let query = req.body.query;
+    try{
+        let candidates = await Candidate.find(query);
+        if(candidates.length == 0){
+            res.status(404).send({
+                message: "No candidate found"
+            })
+        }
+        res.send(candidates);
+    } catch (err) {
+        res.send(err);
+    }
+}
+
 exports.getCandiesWithinArea = function (req, res) {
     let coords = req.body.coords;
     let maxDistance = req.body.distance;

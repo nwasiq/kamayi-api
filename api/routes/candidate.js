@@ -7,6 +7,7 @@ const passport = require('passport');
 
 let candidateController = require('../controllers/candidate');
 let criteriaController = require('../controllers/criteria');
+const permission = require('../middlewares/permission');
 let crudController = require('../controllers/crud');
 
 function checkAuthToken() {
@@ -23,5 +24,6 @@ router.put('/:entityId', checkAuthToken(), crudController.update);
 router.delete('/:entityId', checkAuthToken(), crudController.delete);
 router.get('/:candidateId/criteria', checkAuthToken(), candidateController.findCriteriaForCandidate);
 router.post('/:candidateId/criteria', checkAuthToken(), criteriaController.createCriteriaForCandidate);
+router.post('/filter', checkAuthToken(), permission.permit('admin'), candidateController.filterCandidates);
 
 module.exports = router;

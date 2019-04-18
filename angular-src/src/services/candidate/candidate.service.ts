@@ -24,4 +24,13 @@ export class CandidateService {
     return this.http.get(this.localhostString + 'candidates/' + id + '/criteria', { headers: headers })
       .map(res => res.json());
   }
+
+  filterCandidates(query){
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + 'candidates/filter', query, { headers: headers })
+      .map(res => res.json());
+  }
 }
