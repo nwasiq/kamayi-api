@@ -2,7 +2,7 @@
     <div class="row" style="margin-top: 2em;">
       <div class="col-lg-12">
         <label>
-            <h5>{{ name }}</h5>
+            <input class="form-control" [(ngModel)]="name" name="name" type="text" style="border: none; font-size: 25px; font-weight: bold; background: transparent;">
             <hr>
         </label>
       </div>
@@ -20,7 +20,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">Contact No</label>
-                                    <input class="form-control" [(ngModel)]="phone" name="phone" type="text" style="border-color: #707070" readonly>
+                                    <input class="form-control" [(ngModel)]="phone" name="phone" type="text" style="border-color: #707070">
                                 </div>
                             </div>
                         </div>
@@ -28,7 +28,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">Email</label>
-                                    <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" readonly>
+                                    <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070">
                                 </div>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">CNIC</label>
-                                    <input class="form-control" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070" readonly>
+                                    <input class="form-control" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070">
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">Area</label>
-                                    <input class="form-control" [(ngModel)]="area" name="area" type="text" style="border-color: #707070" readonly>
+                                    <input class="form-control" [(ngModel)]="area" name="area" type="text" style="border-color: #707070">
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">Current Employment Status</label>
-                                    <input class="form-control" [(ngModel)]="employmentStatus" name="employmentStatus" type="text" style="border-color: #707070" readonly>
+                                    <select class="form-control" name="employmentStatus" [(ngModel)]="employmentStatus" style="border-color: #707070; text-transform: capitalize;" required>
+                                        <option *ngFor="let x of employementOf" [value]="employmentStatus" style="text-transform: capitalize;">{{x}}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +65,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">Primary Skill</label>
-                                    <input class="form-control" [(ngModel)]="primarySkill" name="primarySkill" type="text" style="border-color: #707070" readonly>
+                                    <input class="form-control" [(ngModel)]="primarySkill" name="primarySkill" type="text" style="border-color: #707070;" readonly>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +75,20 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">Comment</label>
-                                    <textarea class="form-control" [(ngModel)]="comment" name="comment" type="text" style="border-color: #707070" readonly></textarea>
+                                    <textarea class="form-control" [(ngModel)]="comment" name="comment" type="text" style="border-color: #707070"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-4">
+                        <div class="input-group col-md-4">
+                        </div>
+                        <div class="input-group col-md-4">
+                        </div>
+                        <div class="input-group col-md-4">
+                            <div class="col-md-12">
+                                <div class="form-group" style="text-align: right; margin-top: 1em;">
+                                    <button class="btn btn-success" (click)="updateCandidate()">Update Candidate</button>
                                 </div>
                             </div>
                         </div>
@@ -129,7 +144,7 @@
                                     <p>Occupation</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <input class="form-control" value="{{criteria.occupation}}"  type="skill" style="margin-top: -0.6em;" readonly>
+                                    <ngx-select-dropdown [multiple]="false" [(ngModel)]="criteria.occupation" [options]="occupationList" (change)="selectionChanged($event, criteria._id)" [config]="config"></ngx-select-dropdown>
                                 </div>
                             </div>
                         </div>
@@ -141,12 +156,12 @@
                                     <p>Experience</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <input class="form-control" value="{{criteria.experience}}" type="text" style="margin-top: -0.7em;" readonly>
+                                    <input class="form-control" value="{{criteria.experience}}" [(ngModel)]="criteria.experience" type="number" style="margin-top: -0.7em;">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-sm-5" style="margin-top: 1em;">
+                    <div class="col-xs-6 col-sm-4" style="margin-top: 1em;">
                         <div class="col-xs-6 col-sm-12">
                             <div class="row">
                                 <div class="col-md-1">
@@ -155,7 +170,7 @@
                                     <p>Employer</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <input class="form-control" value="{{criteria.employer}}" type="text" style="margin-top: -0.6em;" readonly>
+                                    <input class="form-control" value="{{criteria.employer}}" [(ngModel)]="criteria.employer" type="text" style="margin-top: -0.6em;">
                                 </div>
                             </div>
                         </div>
@@ -168,6 +183,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <input class="form-control" value="{{criteria.isTrained}}"  type="text" style="margin-top: -0.7em;" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-2" style="margin-top: 1em;">
+                        <div class="col-xs-10 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span (click)="onSubmitUpdateCandidate(criteria._id)" class="btn pull-right" style="font-weight: bold; border: 1px solid #707070; background: lightgreen; cursor: pointer;">Update Criteria</span>
                                 </div>
                             </div>
                         </div>

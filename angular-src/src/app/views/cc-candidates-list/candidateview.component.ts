@@ -19,7 +19,7 @@ export class CandidateviewComponent {
   email: string;
   phone: string;
   cnic: string;
-  employmentStatus: boolean;
+  employmentStatus: any;
   primarySkill: string;
   area: string;
 
@@ -32,6 +32,22 @@ export class CandidateviewComponent {
 
   comment: string;
 
+  educationOf = ['Informal','Primary','Middle','Matric','O-Levels','Intermediate','A-Levels','Bachelors','Masters'];
+  employementOf = ["Employed", "Unemployed"];
+
+  occupationList: any = [];
+
+  singleSelect: any = [];
+  dropdownOptions: any = [];
+
+  selectedOccupation: any;
+
+  config = {
+    displayKey: "name", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
+
   constructor(
     private crudService: CrudService,
     private route: Router,
@@ -41,6 +57,10 @@ export class CandidateviewComponent {
   ) { }
 
   ngOnInit(){
+
+    this.busy = this.crudService.retrieveAll('occupations').subscribe(data => {
+      this.occupationList = data.occupations;
+    });
 
     this.activatedRoute.params.subscribe( params =>
         this.candidateid = params['id']
@@ -89,7 +109,128 @@ export class CandidateviewComponent {
         data[i].count = i+1;
       }
       this.totalCriteria = data;
-      // console.log(this.totalCriteria);
+      console.log(this.totalCriteria);
     });
+  }
+
+  updateCandidate(){
+    this.employmentStatus = this.employmentStatus == "Employed" ? true: false;
+
+    const updateCandi = {
+      fullName: this.name,
+      cnic: this.cnic,
+      phone: this.phone,
+      employmentStatus: this.employmentStatus,
+      email: this.email,
+      comment: this.comment
+    }
+    if(this.name && this.name != ""){
+      updateCandi.fullName = this.name
+    }
+    else{
+      delete updateCandi.fullName
+    }
+
+    if(this.cnic && this.cnic != ""){
+      updateCandi.cnic = this.cnic
+    }
+    else{
+      delete updateCandi.cnic
+    }
+
+    if(this.phone && this.phone != ""){
+      updateCandi.phone = this.phone
+    }
+    else{
+      delete updateCandi.phone
+    }
+
+    if(this.employmentStatus){
+      updateCandi.employmentStatus = this.employmentStatus
+    }
+    else{
+      delete updateCandi.employmentStatus
+    }
+
+    if(this.email && this.email != ""){
+      updateCandi.email = this.email
+    }
+    else{
+      delete updateCandi.email
+    }
+
+    if(this.comment && this.comment != ""){
+      updateCandi.comment = this.comment
+    }
+    else{
+      delete updateCandi.comment
+    }
+
+    // console.log(updateCandi);
+    this.busy = this.crudService.update(updateCandi, "candidates", this.candidateid).subscribe(data => {
+      this._flashMessagesService.show("Updated Successfully.", { cssClass: 'alert-success text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      setTimeout(function(){ 
+        location.reload(); 
+      }, 1000);
+    });
+  }
+
+  selectionChanged(val, id){
+    for(let x of this.totalCriteria)
+    {
+      if(x._id == id)
+      {
+        x.occupation = val.value.name;
+        break;
+      }
+    }
+    // console.log(val, id);
+  }
+
+  onSubmitUpdateCandidate(id){
+    let updateObj = {
+      occupation: "",
+      employer: "",
+      experience: 0
+    };
+    for(let x of this.totalCriteria)
+    {
+      if(x._id == id)
+      {
+        updateObj.occupation = x.occupation;
+        updateObj.employer = x.employer;
+        updateObj.experience = x.experience;
+        break;
+      }
+    }
+    
+    // console.log(updateObj);
+    this.busy = this.crudService.update(updateObj, "criterias", id).subscribe(data => {
+      let otherCriteria = false;
+      for(let x of this.totalCriteria){
+        if(x.occupation == 'Other'){
+          otherCriteria = true;
+          break;
+        }
+      }
+      if(!otherCriteria){
+        let updateObj2 = {
+          primarySkill: this.totalCriteria[0].occupation,
+          hasOtherSkill: false
+        }
+        this.busy = this.crudService.update(updateObj2, "candidates", this.candidateid).subscribe(data2 => {
+          // alert("Criteria updated!");
+          this._flashMessagesService.show("Criteria updated!", { cssClass: 'alert-success text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
+        })
+      }
+      else
+      {
+        // alert("Criteria updated!");
+        this._flashMessagesService.show("Criteria updated!", { cssClass: 'alert-success text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+      }
+    })
   }
 }
