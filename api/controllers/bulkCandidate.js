@@ -143,7 +143,7 @@ exports.importExcel = async function (req, res) {
                     findCoordinatesFor = candidate.city;
                 }
                 let coords = await geocoder.geocode(findCoordinatesFor);
-                if (!coords[0].longitude || !coords[0].latitude){
+                if (!coords[0]){
                     unknownCoordsLocation.push(candidate.location + ', ' + candidate.city);
                     continue;
                 }
