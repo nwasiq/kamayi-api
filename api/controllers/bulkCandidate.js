@@ -20,6 +20,7 @@ var geoCodeOptions = {
 };
 
 exports.importExcel = async function (req, res) {
+    req.setTimeout(0);
     const uploadExcel = util.promisify(fileUpload.uploadExcelFile);
     try{
         await uploadExcel(req, res);
