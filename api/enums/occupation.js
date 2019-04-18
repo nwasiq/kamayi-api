@@ -323,7 +323,6 @@ module.exports = [
     'Sales / Marketing',
     'Rider',
     'PLC Technician',
-    'Quality Inspector',
     'Store Supervisor',
     'Shop Keeper',
     'Heating Ventilation air conditioning and Refrigeration(HVACR)',
