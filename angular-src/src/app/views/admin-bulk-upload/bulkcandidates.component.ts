@@ -3,6 +3,7 @@ import { CrudService } from '../../../services/crud/crud.service';
 import { BulkCandidateService } from '../../../services/bulkCandidate/bulk-candidate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
+import { PagerService } from '../../../services/pager.service';
 
 @Component({
   templateUrl: 'bulkcandidates.component.html'
@@ -24,12 +25,16 @@ export class BulkcandidatesComponent {
   search: any;
   fileToUpload: File;
 
+  pager: any = {};
+  pagedItems: any[];
+
   candidatesInfo: any;
 
   constructor(
     private crudService: CrudService,
     private bulkCandidateService: BulkCandidateService,
-    private _flashMessagesService: FlashMessagesService
+    private _flashMessagesService: FlashMessagesService,
+    private pagerService: PagerService,
   ) { }
 
   ngOnInit(){
@@ -43,6 +48,7 @@ export class BulkcandidatesComponent {
       else
       {
         this.candidatesInfo = data.bulkcandidates;
+        this.setPage(1);
       }
     });
   }
@@ -68,5 +74,13 @@ export class BulkcandidatesComponent {
         }, 1000);
       
     });
+  }
+
+  setPage(page: number) {
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.candidatesInfo.length, page);
+
+    // get current page of items
+    this.pagedItems = this.candidatesInfo.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }

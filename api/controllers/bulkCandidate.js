@@ -221,7 +221,7 @@ exports.importExcel = async function (req, res) {
                     /**
                      * possible phone number validation
                      */
-                    // result[n].phone = result[n].phone.split('-').join('');
+                    result[n].phone = result[n].phone.split('-').join('');
                     // if (result[n].phone.length != 13)
                     // {
                     //     result.splice(n, 1);
