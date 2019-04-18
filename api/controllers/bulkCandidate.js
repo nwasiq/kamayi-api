@@ -57,6 +57,32 @@ exports.importExcel = async function (req, res) {
                     continue;
                 }
 
+                if(candidate.occupationOne == 'Fitter General'){
+                    candidate.occupationOne = 'General Fitter'
+                }
+                if (candidate.occupationOne == 'Teacher/Principal') {
+                    candidate.occupationOne = 'Teacher'
+                }
+                if (candidate.occupationOne == 'Management/HR Field' || candidate.occupationOne == 'Management/HR Feild') {
+                    candidate.occupationOne = 'HR Officer'
+                }
+                if (candidate.occupationOne == 'Fitter') {
+                    candidate.occupationOne = 'General Fitter'
+                }
+
+                if (candidate.occupationTwo == 'Fitter General') {
+                    candidate.occupationTwo = 'General Fitter'
+                }
+                if (candidate.occupationTwo == 'Teacher/Principal') {
+                    candidate.occupationTwo = 'Teacher'
+                }
+                if (candidate.occupationTwo == 'Management/HR Field') {
+                    candidate.occupationTwo = 'HR Officer'
+                }
+                if (candidate.occupationTwo == 'Fitter') {
+                    candidate.occupationTwo = 'General Fitter'
+                }
+
                 candidate.phone = candidate.phone.split('-').join('');
 
                 if (candidate.employmentStatus == "Unemployed")
@@ -97,6 +123,7 @@ exports.importExcel = async function (req, res) {
                 let hasOtherSkill = false;
                 if (allowedOccupations.indexOf(candidate.occupationOne) == -1) {
                     unknownOccupationCandidates.push(candidate.occupationOne);
+                    continue;
                     if ((candidate.occupationTwo != null && candidate.occupationTwo != "") &&
                         allowedOccupations.indexOf(candidate.occupationTwo) == -1) {
                         candidate.occupationTwo = 'Other'; //occupation not in required list of occupations
@@ -109,7 +136,6 @@ exports.importExcel = async function (req, res) {
                     (allowedOccupations.indexOf(candidate.occupationTwo) == -1)){
                     unknownOccupationCandidates.push(candidate.occupationTwo);
                     candidate.occupationTwo = 'Other';
-                    hasOtherSkill = true;
                 }
                 let newCandidate = new Candidate({
                     fullName: candidate.fullName,
@@ -140,7 +166,7 @@ exports.importExcel = async function (req, res) {
 
                 await newCriteria.save();
 
-                if(candidate.occupationTwo != null && candidate.occupationTwo != ""){
+                if (candidate.occupationTwo != null && candidate.occupationTwo != "" && candidate.occupationTwo != 'Other'){
                     let secondCriteria = new Criteria({
                         occupation: candidate.occupationTwo,
                         experience: candidate.experienceTwo,
