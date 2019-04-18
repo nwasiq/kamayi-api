@@ -55,7 +55,8 @@ exports.filterCandidates = async function(req, res) {
         let candidates = await Candidate.find(query);
         if(candidates.length == 0){
             return res.send({
-                message: "No candidates found"
+                message: "No candidates found",
+                candidates
             })
         }
         res.send(candidates);
