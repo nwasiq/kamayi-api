@@ -20,7 +20,7 @@
     <div class="col-md-12 mb-4">
       <!-- Nav tabs -->
       <div class="card-body">
-        <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
+        <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 100}"></div>
         <table class="table table-bordered table-striped table-responsive-sm">
           <thead>
             <tr style="background: #BFFFCE;">
@@ -35,7 +35,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let candidate of candidatesInfo | filter:search">
+            <tr *ngFor="let candidate of pagedItems | filter:search">
               <td>{{ candidate._id }}</td>
               <td>{{ candidate.fullName }}</td>
               <td>{{ candidate.primarySkill }}</td>
@@ -49,6 +49,23 @@
             </tr>
           </tbody>
         </table>
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination" style="cursor: pointer;">
+          <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
+              <a class="page-link" (click)="setPage(1)">First</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
+              <a (click)="setPage(pager.currentPage - 1)" class="page-link">Previous</a>
+          </li>
+          <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item">
+              <a (click)="setPage(page)" class="page-link">{{page}}</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item">
+              <a (click)="setPage(pager.currentPage + 1)" class="page-link">Next</a>
+          </li>
+          <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item">
+              <a (click)="setPage(pager.totalPages)" class="page-link">Last</a>
+          </li>
+        </ul>
       </div>
     </div><!--/.col-->
   </div>

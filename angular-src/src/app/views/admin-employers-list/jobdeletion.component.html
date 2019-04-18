@@ -35,17 +35,17 @@
                     <td>{{ vacancy.designation }}</td>
                     <td>{{ vacancy.city }}</td>
                     <td *ngIf="vacancy.status == 'Active'">
-                      <span style="cursor: pointer;" class="badge badge-warning" data-toggle="modal" (click)="successModal.show()">
+                      <span style="cursor: pointer;" class="badge badge-warning" data-toggle="modal" (click)="successModal.show(); displayVacancyDeletion(vacancy);">
                         {{ vacancy.status }}
                       </span>
                     </td>
                     <td *ngIf="vacancy.status == 'Completed'">
-                      <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show()">
+                      <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show(); displayVacancyDeletion(vacancy);">
                         {{ vacancy.status }}
                       </span>
                     </td>
                     <td *ngIf="vacancy.status == 'Archived'">
-                      <span style="cursor: pointer;" class="badge badge-danger" data-toggle="modal" (click)="successModal.show()">
+                      <span style="cursor: pointer;" class="badge badge-danger" data-toggle="modal" (click)="successModal.show(); displayVacancyDeletion(vacancy);">
                         {{ vacancy.status }}
                       </span>
                     </td>
@@ -86,7 +86,7 @@
                     <td>{{ vacancy.designation }}</td>
                     <td>{{ vacancy.city }}</td>
                     <td>
-                      <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show()">
+                      <span style="cursor: pointer;" class="badge badge-success" data-toggle="modal" (click)="successModal.show(); displayVacancyDeletion(vacancy);">
                         {{ vacancy.status }}
                       </span>
                     </td>
@@ -127,7 +127,7 @@
                     <td>{{ vacancy.designation }}</td>
                     <td>{{ vacancy.city }}</td>
                     <td>
-                      <span style="cursor: pointer;" class="badge badge-danger" data-toggle="modal" (click)="successModal.show()">
+                      <span style="cursor: pointer;" class="badge badge-danger" data-toggle="modal" (click)="successModal.show(); displayVacancyDeletion(vacancy);">
                         {{ vacancy.status }}
                       </span>
                     </td>
@@ -214,10 +214,10 @@
               <div class="col-md-6">
                 <div class="row">
                   <div class="col-md-6">
-                    <p>Deletion Date</p>
+                    <p>Designation</p>
                   </div>
                   <div class="col-md-6">
-                    <input class="form-control" [(ngModel)]="dateDeletion" name="dateDeletion" type="date" style="border-color: #707070" required>
+                    <input class="form-control" [(ngModel)]="designation" name="designation" type="text" style="border-color: #707070" required>
                   </div>
                 </div>
               </div>
@@ -230,7 +230,7 @@
                     <p>Vacancy Type</p>
                   </div>
                   <div class="col-md-6">
-                    <input class="form-control" [(ngModel)]="typeVacancy" name="typeVacancy" type="text" style="border-color: #707070" required>
+                    <input class="form-control" [(ngModel)]="typeVacancy" name="typeVacancy" type="text" style="border-color: #707070; text-transform: capitalize;" required>
                   </div>
                 </div>
               </div>
@@ -286,13 +286,13 @@
                     <p>Job Uploaded Date</p>
                   </div>
                   <div class="col-md-6">
-                    <input class="form-control" [(ngModel)]="jobUploadedDate" name="jobUploadedDate" type="date" style="border-color: #707070" required>
+                    <input class="form-control" name="jobUploadedDate" type="text" style="border-color: #707070" value="{{ jobUploadedDate | date:'yyyy-MM-dd' }}" required>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-6">
                 <div class="row">
                   <div class="col-md-6">
@@ -303,7 +303,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           </div>
         </div>

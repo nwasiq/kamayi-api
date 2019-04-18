@@ -20,10 +20,10 @@ export class JobdeletionComponent {
   vacancyDesc: string;
   nameCompany: string;
   poID: number;
-  dateDeletion: string;
+  designation: string;
   typeVacancy: string;
-  emptySlots: string;
-  filledSlots: string;
+  emptySlots: number;
+  filledSlots: number;
   contactNo: string;
   vacancyLocation: string;
   jobUploadedDate: string;
@@ -45,6 +45,23 @@ export class JobdeletionComponent {
     })
   }
 
+  displayVacancyDeletion(vacancy)
+  {
+    // console.log(vacancy._id);
+    this.idVacancy = vacancy._id;
+    this.titleVacancy = vacancy.title;
+    this.vacancyDesc = vacancy.description;
+    this.nameCompany = vacancy.employer.companyName;
+    this.poID = vacancy.employer.placementOfficer;
+    this.typeVacancy = vacancy.jobType;
+    this.emptySlots = vacancy.totalSlots - vacancy.hired;
+    this.filledSlots = vacancy.hired;
+    this.contactNo = vacancy.employer.companyPhone;
+    this.vacancyLocation = vacancy.city;
+    this.jobUploadedDate = vacancy.dateCreated;
+    this.designation = vacancy.designation;
+  }
+
   onDeletion(){
     const verifyDeletion = {
       idVacancy: this.idVacancy,
@@ -52,14 +69,13 @@ export class JobdeletionComponent {
       vacancyDesc: this.vacancyDesc,
       nameCompany: this.nameCompany,
       poID: this.poID,
-      dateDeletion: this.dateDeletion,
+      designation: this.designation,
       typeVacancy: this.typeVacancy,
       emptySlots: this.emptySlots,
       filledSlots: this.filledSlots,
       contactNo: this.contactNo,
       vacancyLocation: this.vacancyLocation,
-      jobUploadedDate: this.jobUploadedDate,
-      deletionComments: this.deletionComments
+      jobUploadedDate: this.jobUploadedDate
 
     }
     console.log(verifyDeletion);

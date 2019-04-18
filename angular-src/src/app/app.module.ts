@@ -22,6 +22,7 @@ import { VacancyService } from '../services/vacancy/vacancy.service';
 import { BulkCandidateService } from '../services/bulkCandidate/bulk-candidate.service';
 import { AuthGuard } from '../services/authGuard/auth.guard';
 import { EmployerService } from '../services/employer/employer.service';
+import { PagerService } from '../services/pager.service';
  
 // Import containers
 import { DefaultLayoutComponent } from './containers';
@@ -95,6 +96,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
     EmployerService,
     BulkCandidateService,
     VacancyService,
+    PagerService,
     {
     provide: LocationStrategy,
     useClass: HashLocationStrategy

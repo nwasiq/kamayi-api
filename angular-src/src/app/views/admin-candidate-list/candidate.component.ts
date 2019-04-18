@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
+import { PagerService } from '../../../services/pager.service';
 
 @Component({
   templateUrl: 'candidate.component.html'
@@ -11,12 +12,19 @@ export class CandidateComponent {
 
   busy: Subscription;
 
+  // pager object
+  pager: any = {};
+
+  // paged items
+  pagedItems: any[];
+
   candidatesInfo: any;
   search:any;
   constructor(
     private crudService: CrudService,
     private route: Router,
-    private _flashMessagesService: FlashMessagesService
+    private _flashMessagesService: FlashMessagesService,
+    private pagerService: PagerService
   ) { }
 
   ngOnInit(){
@@ -30,9 +38,18 @@ export class CandidateComponent {
       else
       {
         this.candidatesInfo = data.candidates;
+        this.setPage(1);
         // console.log(this.candidatesInfo);
       }
     });
+  }
+
+  setPage(page: number) {
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.candidatesInfo.length, page);
+
+    // get current page of items
+    this.pagedItems = this.candidatesInfo.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
   onViewCandidate(candidate){
