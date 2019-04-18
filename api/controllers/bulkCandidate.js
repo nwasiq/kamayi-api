@@ -8,6 +8,7 @@ const xlstojson = require("xls-to-json-lc");
 const xlsxtojson = require("xlsx-to-json-lc");
 const util = require('util');
 const allowedEducations = require('../enums/education');
+const allowedOccupations = require('../enums/occupation');
 var fs = require('fs');
 
 var NodeGeocoder = require('node-geocoder');
@@ -50,7 +51,13 @@ exports.importExcel = async function (req, res) {
              *  get candidate excel data in order
              */
             let iterator = 1;
+            let unknownOccupationCandidates = [];
             for (let candidate of result) {
+                if (candidate.phone == null || candidate.phone == "") {
+                    continue;
+                }
+
+                candidate.phone = candidate.phone.split('-').join('');
 
                 if (candidate.employmentStatus == "Unemployed")
                     candidate.employmentStatus = false;
@@ -80,41 +87,84 @@ exports.importExcel = async function (req, res) {
                 else {
                     candidate.education = 3
                 }
-                let findCoordinatesFor = candidate.location + ", " + candidate.city;
-                let coords = await geocoder.geocode(findCoordinatesFor);
-                let coordsArray = [];
-                coordsArray.push(coords[0].longitude);
-                coordsArray.push(coords[0].latitude);
-                candidate.location = coordsArray;
+                // let findCoordinatesFor = candidate.location + ", " + candidate.city;
+                // let coords = await geocoder.geocode(findCoordinatesFor);
+                // let coordsArray = [];
+                // coordsArray.push(coords[0].longitude);
+                // coordsArray.push(coords[0].latitude);
+                // candidate.location = coordsArray;
+
+                let hasOtherSkill = false;
+                if (allowedOccupations.indexOf(candidate.occupationOne) == -1) {
+                    unknownOccupationCandidates.push(candidate.occupationOne);
+                    if ((candidate.occupationTwo != null && candidate.occupationTwo != "") &&
+                        allowedOccupations.indexOf(candidate.occupationTwo) == -1) {
+                        candidate.occupationTwo = 'Other'; //occupation not in required list of occupations
+                    }
+                    candidate.occupationOne = 'Other'; //occupation not in required list of occupations
+                    hasOtherSkill = true;
+                }
+                if ((allowedOccupations.indexOf(candidate.occupationOne) != -1) &&
+                    (candidate.occupationTwo != null && candidate.occupationTwo != "") &&
+                    (allowedOccupations.indexOf(candidate.occupationTwo) == -1)){
+                    unknownOccupationCandidates.push(candidate.occupationTwo);
+                    candidate.occupationTwo = 'Other';
+                    hasOtherSkill = true;
+                }
                 let newCandidate = new Candidate({
                     fullName: candidate.fullName,
                     cnic: candidate.cnic,
                     phone: candidate.phone,
                     dob: candidate.dob,
                     training: candidate.training,
-                    employmentStatus: candidate.employmentStatus
+                    primarySkill: candidate.occupationOne,
+                    employmentStatus: candidate.employmentStatus,
+                    hasOtherSkill: hasOtherSkill
                 });
                 let savedCandidate = await newCandidate.save();
 
                 let newCriteria = new Criteria({
-                    occupation: candidate.occupation, 
-                    experience: candidate.experience,
+                    occupation: candidate.occupationOne, 
+                    experience: candidate.experienceOne,
                     employer: candidate.employer,
                     isTrained: candidate.isTrained,
                     city: candidate.city,
-                    location: {
-                        type: "Point",
-                        coordinates: candidate.location
-                    },
+                    // location: {
+                    //     type: "Point",
+                    //     coordinates: candidate.location
+                    // },
                     gender: candidate.gender,
                     education: candidate.education,
                     candidate: savedCandidate._id
                 });
 
                 await newCriteria.save();
+
+                if(candidate.occupationTwo != null && candidate.occupationTwo != ""){
+                    let secondCriteria = new Criteria({
+                        occupation: candidate.occupationTwo,
+                        experience: candidate.experienceTwo,
+                        employer: candidate.employer,
+                        isTrained: candidate.isTrained,
+                        city: candidate.city,
+                        // location: {
+                        //     type: "Point",
+                        //     coordinates: candidate.location
+                        // },
+                        gender: candidate.gender,
+                        education: candidate.education,
+                        candidate: savedCandidate._id
+                    });
+                    await secondCriteria.save();
+
+                }
                 console.log("Candidate " + iterator++ + " saved");
             }
-            res.send({msg: "Candidates saved!"})
+            res.send({
+                msg: "Candidates saved!",
+                unknownOccupationCandyCount: unknownOccupationCandidates.length,
+                unknownOccupationCandidates
+            })
         }
         else {
             

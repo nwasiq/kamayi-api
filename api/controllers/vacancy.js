@@ -69,7 +69,7 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
         }
         else{
             //default matching
-            shortListQuery.$and.push({ occupation: vacancy.occupation });
+            shortListQuery.$and.push({ $or: [{ occupation: vacancy.occupation }, { occupation: "Any job"}]});
         }
         /**
          * Creating Query for Candidate shortlist based on params (req.query)
