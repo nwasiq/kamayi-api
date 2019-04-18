@@ -113,30 +113,42 @@ exports.importExcel = async function (req, res) {
                 else {
                     candidate.education = 3
                 }
-                // let findCoordinatesFor = candidate.location + ", " + candidate.city;
-                // let coords = await geocoder.geocode(findCoordinatesFor);
-                // let coordsArray = [];
-                // coordsArray.push(coords[0].longitude);
-                // coordsArray.push(coords[0].latitude);
-                // candidate.location = coordsArray;
 
                 let hasOtherSkill = false;
                 if (allowedOccupations.indexOf(candidate.occupationOne) == -1) {
                     unknownOccupationCandidates.push(candidate.occupationOne);
-                    continue;
                     if ((candidate.occupationTwo != null && candidate.occupationTwo != "") &&
-                        allowedOccupations.indexOf(candidate.occupationTwo) == -1) {
-                        candidate.occupationTwo = 'Other'; //occupation not in required list of occupations
+                        allowedOccupations.indexOf(candidate.occupationTwo) != -1) {
+                        candidate.occupationOne = candidate.occupationTwo; //occupation not in required list of occupations
+                        candidate.experienceOne = candidate.experienceTwo;
+                        candidate.occupationTwo = 'Other';
                     }
-                    candidate.occupationOne = 'Other'; //occupation not in required list of occupations
-                    hasOtherSkill = true;
+                    else {
+                        continue;
+                    }
                 }
                 if ((allowedOccupations.indexOf(candidate.occupationOne) != -1) &&
                     (candidate.occupationTwo != null && candidate.occupationTwo != "") &&
-                    (allowedOccupations.indexOf(candidate.occupationTwo) == -1)){
+                    (allowedOccupations.indexOf(candidate.occupationTwo) == -1)) {
                     unknownOccupationCandidates.push(candidate.occupationTwo);
                     candidate.occupationTwo = 'Other';
                 }
+
+                let findCoordinatesFor;
+                let area; 
+                if(candidate.location != null && candidate.location != ''){
+                    findCoordinatesFor = candidate.location + ", " + candidate.city;
+                    area = candidate.location
+                }
+                else{
+                    findCoordinatesFor = candidate.city;
+                }
+                let coords = await geocoder.geocode(findCoordinatesFor);
+                let coordsArray = [];
+                coordsArray.push(coords[0].longitude);
+                coordsArray.push(coords[0].latitude);
+                candidate.location = coordsArray;
+
                 let newCandidate = new Candidate({
                     fullName: candidate.fullName,
                     cnic: candidate.cnic,
@@ -145,7 +157,8 @@ exports.importExcel = async function (req, res) {
                     training: candidate.training,
                     primarySkill: candidate.occupationOne,
                     employmentStatus: candidate.employmentStatus,
-                    hasOtherSkill: hasOtherSkill
+                    hasOtherSkill: hasOtherSkill,
+                    area: area
                 });
                 let savedCandidate = await newCandidate.save();
 
@@ -155,10 +168,10 @@ exports.importExcel = async function (req, res) {
                     employer: candidate.employer,
                     isTrained: candidate.isTrained,
                     city: candidate.city,
-                    // location: {
-                    //     type: "Point",
-                    //     coordinates: candidate.location
-                    // },
+                    location: {
+                        type: "Point",
+                        coordinates: candidate.location
+                    },
                     gender: candidate.gender,
                     education: candidate.education,
                     candidate: savedCandidate._id
