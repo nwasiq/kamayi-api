@@ -19,10 +19,14 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 //ng busy
 import {NgBusyModule} from 'ng-busy';
 
+// Tabs Component
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    TabsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
     SelectDropDownModule,
