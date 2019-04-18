@@ -213,19 +213,19 @@
               </table>
               <ul *ngIf="pager3.pages && pager3.pages.length" class="pagination" style="cursor: pointer;">
                 <li [ngClass]="{disabled:pager3.currentPage === 1}" class="page-item">
-                    <a class="page-link" (click)="setPage(1)">First</a>
+                    <a class="page-link" (click)="setPageSearch(1)">First</a>
                 </li>
                 <li [ngClass]="{disabled:pager3.currentPage === 1}" class="page-item">
-                    <a (click)="setPage(pager3.currentPage - 1)" class="page-link">Previous</a>
+                    <a (click)="setPageSearch(pager3.currentPage - 1)" class="page-link">Previous</a>
                 </li>
                 <li *ngFor="let page of pager3.pages" [ngClass]="{active:pager3.currentPage === page}" class="page-item">
-                    <a (click)="setPage(page)" class="page-link">{{page}}</a>
+                    <a (click)="setPageSearch(page)" class="page-link">{{page}}</a>
                 </li>
                 <li [ngClass]="{disabled:pager3.currentPage === pager3.totalPages}" class="page-item">
-                    <a (click)="setPage(pager3.currentPage + 1)" class="page-link">Next</a>
+                    <a (click)="setPageSearch(pager3.currentPage + 1)" class="page-link">Next</a>
                 </li>
                 <li [ngClass]="{disabled:pager3.currentPage === pager3.totalPages}" class="page-item">
-                    <a (click)="setPage(pager3.totalPages)" class="page-link">Last</a>
+                    <a (click)="setPageSearch(pager3.totalPages)" class="page-link">Last</a>
                 </li>
               </ul>
           </div>
