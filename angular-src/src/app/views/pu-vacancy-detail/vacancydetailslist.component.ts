@@ -60,36 +60,39 @@ export class VacancydetailslistComponent {
           this.hired = data.hired;
           this.openings = data.openings;
           this.totalSlots = data.totalSlots;
+
+          let occupation = localStorage.getItem('occupation');
+          this.busy = this.vacancyService.getShortListForVacancy(this.vacancyId, occupation).subscribe(data => {
+            if(data.length == 0){
+              this._flashMessagesService.show("No candidates are shortlisted.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+              this._flashMessagesService.grayOut(true);
+              // alert("No candidates are shortlisted.");
+              return;
+            }
+            for(let candidate of data){
+              candidate.education = convertToString(candidate.education);
+              for(let i = 0; i < candidate.candidate.vacancyStatus.length; i++){
+                if(this.vacancyId == candidate.candidate.vacancyStatus[i].vacancy){
+                  if(candidate.candidate.vacancyStatus[i].status == 'Interview Scheduled'){
+                    candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
+                    candidate.candidate.interviewTime = candidate.candidate.vacancyStatus[i].interviewDate;
+                  }
+                  else{
+                    candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
+                  }
+                  break;
+                }
+              }
+            }
+            this.candidatesInfo = data;
+            console.log(data);
+          });
+
         })
       }
     })
 
-    let occupation = localStorage.getItem('occupation');
-    this.busy = this.vacancyService.getShortListForVacancy(this.vacancyId, occupation).subscribe(data => {
-      if(data.length == 0){
-        this._flashMessagesService.show("No candidates are shortlisted.", { cssClass: 'alert-danger text-center', timeout: 1000 });
-        this._flashMessagesService.grayOut(true);
-        // alert("No candidates are shortlisted.");
-        return;
-      }
-      for(let candidate of data){
-        candidate.education = convertToString(candidate.education);
-        for(let i = 0; i < candidate.candidate.vacancyStatus.length; i++){
-          if(this.vacancyId == candidate.candidate.vacancyStatus[i].vacancy){
-            if(candidate.candidate.vacancyStatus[i].status == 'Interview Scheduled'){
-              candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
-              candidate.candidate.interviewTime = candidate.candidate.vacancyStatus[i].interviewDate;
-            }
-            else{
-              candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
-            }
-            break;
-          }
-        }
-      }
-      this.candidatesInfo = data;
-      console.log(data);
-    });
+    
   }
 
   viewManageVacancy(){

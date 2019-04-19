@@ -19,12 +19,16 @@ import {NgBusyModule} from 'ng-busy';
 // Select dropdown with search
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 
+// Mat Sort
+import {MatSortModule} from '@angular/material/sort';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
+    MatSortModule,
     NgBusyModule,
     SelectDropDownModule
   ],
