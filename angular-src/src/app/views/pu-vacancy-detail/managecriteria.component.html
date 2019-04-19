@@ -136,6 +136,7 @@
                         <th mat-sort-header="city">City</th>
                         <th mat-sort-header="education">Education</th>
                         <th mat-sort-header="experience">Relevant Exp</th>
+                        <th>Operation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -150,6 +151,9 @@
                         <td>{{ candidate.city }}</td>
                         <td>{{ candidate.education }}</td>
                         <td>{{ candidate.experience }}</td>
+                        <td>
+                            <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

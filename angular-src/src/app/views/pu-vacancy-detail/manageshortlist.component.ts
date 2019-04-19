@@ -16,6 +16,8 @@ export class ManageshortlistComponent {
 
   sortedData: any[];
 
+  selectedCandidate: number = 0;
+
   vacancyId: any;
   hired: number;
   openings: number;
@@ -48,11 +50,28 @@ export class ManageshortlistComponent {
   shortListCandidatesIds: any = [];
 
   checkAll(ev) {
-    this.candidatesInfo.forEach(x => x.state = ev.target.checked)
+    this.candidatesInfo.forEach(x => x.state = ev.target.checked);
+    if(ev.target.checked){
+      this.selectedCandidate = this.candidatesInfo.length;
+    }
+    else
+    {
+      this.selectedCandidate = 0;
+    }
   }
 
   isAllChecked() {
     return this.candidatesInfo.every(_ => _.state);
+  }
+
+  checkBoxClicked(ev){
+    if(ev.target.checked){
+      this.selectedCandidate += 1;
+    }
+    else
+    {
+      this.selectedCandidate -= 1;
+    }
   }
 
   ngOnInit(){

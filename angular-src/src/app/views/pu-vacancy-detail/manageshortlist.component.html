@@ -40,7 +40,7 @@
                     <tbody>
                     <tr *ngFor="let candidate of sortedData">
                         <td>
-                            <input type="checkbox" name="candidatecb[]" value="{{candidate.candidate._id}}" [(ngModel)]="candidate.state"/>
+                            <input type="checkbox" (change)="checkBoxClicked($event)" name="candidatecb[]" value="{{candidate.candidate._id}}" [(ngModel)]="candidate.state"/>
                         </td>
                         <td>{{ candidate.candidate._id }}</td>
                         <td>{{ candidate.candidate.fullName }}</td>
@@ -79,7 +79,7 @@
             </div>
             <div class="input-group col-md-5">
                 <div class="input-group col-md-9">
-                    <label class="form-check-label" for="inlineRadio2" style="margin-top: 1.5em;"> Set Selected Status (10):</label>&emsp;
+                    <label class="form-check-label" for="inlineRadio2" style="margin-top: 1.5em;"> Set Selected Status ({{ selectedCandidate }}):</label>&emsp;
                     <select class="form-control" name="statusName" [(ngModel)]="statusName" style="border-color: #707070; width: 50%; margin-bottom: 2em; margin-top: 1em;" required>
                         <option *ngFor="let x of status" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
                     </select>

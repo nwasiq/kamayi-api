@@ -12,8 +12,10 @@ export class OpenvacancyComponent {
 
   busy: Subscription;
 
+  selectedVacancy: number = 0;
+
   placementUserID: string;
-  assignedEmployers: any = [];
+  assignedVacancy: any = [];
   search: string;
 
   shortListVacancysIds: any = [];
@@ -30,11 +32,28 @@ export class OpenvacancyComponent {
   ) {}
 
   checkAll(ev) {
-    this.assignedEmployers.forEach(x => x.state = ev.target.checked)
+    this.assignedVacancy.forEach(x => x.state = ev.target.checked);
+    if(ev.target.checked){
+      this.selectedVacancy = this.assignedVacancy.length;
+    }
+    else
+    {
+      this.selectedVacancy = 0;
+    }
   }
 
   isAllChecked() {
-    return this.assignedEmployers.every(_ => _.state);
+    return this.assignedVacancy.every(_ => _.state);
+  }
+
+  checkBoxClicked(ev){
+    if(ev.target.checked){
+      this.selectedVacancy += 1;
+    }
+    else
+    {
+      this.selectedVacancy -= 1;
+    }
   }
 
   ngOnInit(){
@@ -61,14 +80,14 @@ export class OpenvacancyComponent {
         }
         else
         {
-          this.assignedEmployers = data;
+          this.assignedVacancy = data;
         }
       }
     });
   }
 
   updateVacancyStatus(){
-    if(this.assignedEmployers.length == 0)
+    if(this.assignedVacancy.length == 0)
     {
       // alert("No candidates to shortlist.");
       this._flashMessagesService.show("No vacancy to shortlist.", { cssClass: 'alert-danger text-center', timeout: 1000 });
@@ -76,7 +95,7 @@ export class OpenvacancyComponent {
       return;
     }
     
-    for(let x of this.assignedEmployers){
+    for(let x of this.assignedVacancy){
       if(x.state)
       {
         this.shortListVacancysIds.push(x._id);
