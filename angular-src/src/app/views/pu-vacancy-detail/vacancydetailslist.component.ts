@@ -61,15 +61,14 @@ export class VacancydetailslistComponent {
           this.openings = data.openings;
           this.totalSlots = data.totalSlots;
 
-          let occupation = localStorage.getItem('occupation');
-          this.busy = this.vacancyService.getShortListForVacancy(this.vacancyId, occupation).subscribe(data => {
-            if(data.length == 0){
+          this.busy = this.vacancyService.getShortListForVacancy(this.vacancyId, this.occupation).subscribe(data3 => {
+            if(data3.length == 0){
               this._flashMessagesService.show("No candidates are shortlisted.", { cssClass: 'alert-danger text-center', timeout: 1000 });
               this._flashMessagesService.grayOut(true);
               // alert("No candidates are shortlisted.");
               return;
             }
-            for(let candidate of data){
+            for(let candidate of data3){
               candidate.education = convertToString(candidate.education);
               for(let i = 0; i < candidate.candidate.vacancyStatus.length; i++){
                 if(this.vacancyId == candidate.candidate.vacancyStatus[i].vacancy){
@@ -84,8 +83,7 @@ export class VacancydetailslistComponent {
                 }
               }
             }
-            this.candidatesInfo = data;
-            console.log(data);
+            this.candidatesInfo = data3;
           });
 
         })
