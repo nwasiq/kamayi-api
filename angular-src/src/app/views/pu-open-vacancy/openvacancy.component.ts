@@ -117,6 +117,13 @@ export class OpenvacancyComponent {
       return;
     }
 
+    if(this.statusName == 'Archived'){
+      this.statusName = 'Pending Archived'
+    }
+    else if (this.statusName == 'Completed') {
+      this.statusName = 'Pending Completed'
+    }
+
     let updateObj = {
       vacancyIds: this.shortListVacancysIds
     }

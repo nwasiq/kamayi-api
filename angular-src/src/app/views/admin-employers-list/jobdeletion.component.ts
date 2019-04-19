@@ -28,6 +28,7 @@ export class JobdeletionComponent {
   vacancyLocation: string;
   jobUploadedDate: string;
   deletionComments: string;
+  vacancyStatus: string;
 
   constructor(
     private crudService: CrudService,
@@ -60,25 +61,46 @@ export class JobdeletionComponent {
     this.vacancyLocation = vacancy.city;
     this.jobUploadedDate = vacancy.dateCreated;
     this.designation = vacancy.designation;
+    this.vacancyStatus = vacancy.status
   }
 
   onDeletion(){
-    const verifyDeletion = {
-      idVacancy: this.idVacancy,
-      titleVacancy: this.titleVacancy,
-      vacancyDesc: this.vacancyDesc,
-      nameCompany: this.nameCompany,
-      poID: this.poID,
-      designation: this.designation,
-      typeVacancy: this.typeVacancy,
-      emptySlots: this.emptySlots,
-      filledSlots: this.filledSlots,
-      contactNo: this.contactNo,
-      vacancyLocation: this.vacancyLocation,
-      jobUploadedDate: this.jobUploadedDate
+    // const verifyDeletion = {
+    //   idVacancy: this.idVacancy,
+    //   titleVacancy: this.titleVacancy,
+    //   vacancyDesc: this.vacancyDesc,
+    //   nameCompany: this.nameCompany,
+    //   poID: this.poID,
+    //   designation: this.designation,
+    //   typeVacancy: this.typeVacancy,
+    //   emptySlots: this.emptySlots,
+    //   filledSlots: this.filledSlots,
+    //   contactNo: this.contactNo,
+    //   vacancyLocation: this.vacancyLocation,
+    //   jobUploadedDate: this.jobUploadedDate
 
+    // }
+    // console.log(verifyDeletion);
+
+    if(this.vacancyStatus == 'Pending Archived'){
+      this.vacancyStatus = 'Archived';
     }
-    console.log(verifyDeletion);
+
+    else if(this.vacancyStatus == 'Pending Completed'){
+      this.vacancyStatus = 'Completed';
+    }
+
+    let updateObj = {
+      status: this.vacancyStatus
+    }
+
+    this.busy = this.crudService.update(updateObj, 'vacancys', this.idVacancy).subscribe(data => {
+      this._flashMessagesService.show("Vacancy " + this.vacancyStatus, { cssClass: 'alert-success text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      setTimeout(function () {
+        location.reload();
+      }, 1000);
+    })
   }
 
 }
