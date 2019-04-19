@@ -34,6 +34,7 @@ export class VacancyService {
   }
 
   getShortListForVacancy(vacancyid, occupationName){
+    occupationName = occupationName.split('/').join('$');
     let headers = new Headers();
     let token = localStorage.getItem('token');
     headers.append('Authorization', token);

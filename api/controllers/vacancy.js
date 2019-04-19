@@ -298,7 +298,7 @@ exports.createCandidateShortlist = async function (req, res) {
 exports.findVacancyShortlist = async function (req, res) {
     try {
         let vacancyId = req.params.vacancyId;
-        let occupationName = req.params.occupation;
+        let occupationName = req.params.occupation.split('$').join('/');
         let vacancy = await Vacancy.findById(vacancyId);
         if (!vacancy) {
             return res.status(404).send({
