@@ -319,7 +319,14 @@ exports.findVacancyShortlist = async function (req, res) {
             }
         }
         let candidates = await Candidate.find(candidateQuery, { _id: 1 });
-        let candidatesWithCriteria = await Criteria.find({ candidate: { $in: candidates } , occupation: occupationName})
+        let findQuery = {
+            $and: [{ candidate: { $in: candidates }}]
+        }
+        let occupationQuery = {
+            $or: [{ occupation: occupationName }, { occupation: 'Any job' }]
+        }
+        findQuery.$and.push(occupationQuery);
+        let candidatesWithCriteria = await Criteria.find(findQuery)
             .populate('candidate');
         res.send(candidatesWithCriteria);
 
