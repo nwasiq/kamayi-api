@@ -288,7 +288,6 @@ export class ManagecriteriaComponent {
 
   viewShortList(){
     this.route.navigate(['/pu-vacancy-detail/manageshortlist/' + this.vacancyId]);
-    localStorage.setItem('occupation', this.occupation);
   }
 
   createShortList(){
@@ -332,7 +331,6 @@ export class ManagecriteriaComponent {
         this._flashMessagesService.show("Shortlist created successfully.", { cssClass: 'alert-success text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-vacancy-detail/manageshortlist/' + this.vacancyId]);
-        localStorage.setItem('occupation', this.occupation);
       }
     })
   }
