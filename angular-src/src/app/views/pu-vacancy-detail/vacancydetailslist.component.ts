@@ -46,6 +46,8 @@ export class VacancydetailslistComponent {
     );
     
     this.busy = this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
+      console.log("vacancyID: ", this.vacancyId);
+      console.log("vacancy", data);
       if(data.message){
         // alert(data.message);
         this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
@@ -55,6 +57,7 @@ export class VacancydetailslistComponent {
       else
       {
         this.crudService.retrieveOne("employers", data.employer).subscribe(data2 => {
+          console.log("employer", data2);
           this.occupation = data.occupation;
           this.employer = data2.companyName;
           this.hired = data.hired;
@@ -63,6 +66,7 @@ export class VacancydetailslistComponent {
 
           let occupation = localStorage.getItem('occupation');
           this.busy = this.vacancyService.getShortListForVacancy(this.vacancyId, occupation).subscribe(data => {
+            console.log("shortlist", data);
             if(data.length == 0){
               this._flashMessagesService.show("No candidates are shortlisted.", { cssClass: 'alert-danger text-center', timeout: 1000 });
               this._flashMessagesService.grayOut(true);
