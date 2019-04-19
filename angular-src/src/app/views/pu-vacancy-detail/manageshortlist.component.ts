@@ -5,6 +5,7 @@ import { CrudService } from '../../../services/crud/crud.service';
 import { convertToString } from  '../../../services/convertEducation';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
+import {Sort} from '@angular/material';
 
 @Component({
   templateUrl: 'manageshortlist.component.html'
@@ -12,6 +13,8 @@ import { Subscription } from 'rxjs';
 export class ManageshortlistComponent {
 
   busy: Subscription;
+
+  sortedData: any[];
 
   vacancyId: any;
   hired: number;
@@ -100,6 +103,7 @@ export class ManageshortlistComponent {
         }
       }
       this.candidatesInfo = data;
+      this.sortedData = this.candidatesInfo.slice();
       // console.log(data);
     });
   }
@@ -166,4 +170,29 @@ export class ManageshortlistComponent {
     this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);
   }
 
+  sortData(sort: Sort) {
+    const data = this.candidatesInfo.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'candidate._id': return compare(a._id, b._id, isAsc);
+        case 'candidate.fullName': return compare(a.candidate.fullName, b.candidate.fullName, isAsc);
+        case 'candidate.primarySkill': return compare(a.candidate.primarySkill, b.candidate.primarySkill, isAsc);
+        case 'education': return compare(a.education, b.education, isAsc);
+        case 'experience': return compare(a.experience, b.experience, isAsc);
+        case 'candidate.status': return compare(a.candidate.status, b.candidate.status, isAsc);
+        default: return 0;
+      }
+    });
+  }
+
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

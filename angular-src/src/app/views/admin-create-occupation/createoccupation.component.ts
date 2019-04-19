@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user/user.service';
 import { CrudService } from '../../../services/crud/crud.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
+import {Sort} from '@angular/material';
 
 @Component({
   templateUrl: 'createoccupation.component.html'
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class CreateoccupationComponent {
 
   busy: Subscription;
+  sortedData: any[];
 
   occupation: string;
 
@@ -33,6 +35,7 @@ export class CreateoccupationComponent {
       else
       {
         this.occupationsInfo = data.occupations;
+        this.sortedData = this.occupationsInfo.slice();
       }
     });
   }
@@ -60,4 +63,24 @@ export class CreateoccupationComponent {
     });
   }
 
+  sortData(sort: Sort) {
+    const data = this.occupationsInfo.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name': return compare(a.name, b.name, isAsc);
+        default: return 0;
+      }
+    });
+  }
+
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

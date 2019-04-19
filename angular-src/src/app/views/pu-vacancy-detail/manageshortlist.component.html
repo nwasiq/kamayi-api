@@ -22,23 +22,23 @@
                     <i class="fa fa-align-justify"></i> Short List
                 </div>
                 <div class="card-body">
-                <table class="table table-bordered table-striped table-responsive-sm">
+                <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped table-responsive-sm">
                     <thead>
                     <tr style="background: #BFFFCE;">
                         <th>
                             <input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/>
                         </th>
-                        <th>ID</th>
-                        <th>Candidate Name</th>
-                        <th>Skill</th>
-                        <th>Education</th>
-                        <th>Relevant Exp</th>
-                        <th>Status</th>
+                        <th mat-sort-header="candidate._id">ID</th>
+                        <th mat-sort-header="candidate.fullName">Candidate Name</th>
+                        <th mat-sort-header="candidate.primarySkill">Skill</th>
+                        <th mat-sort-header="education">Education</th>
+                        <th mat-sort-header="experience">Relevant Exp</th>
+                        <th mat-sort-header="candidate.status">Status</th>
                         <th>Operation</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let candidate of candidatesInfo">
+                    <tr *ngFor="let candidate of sortedData">
                         <td>
                             <input type="checkbox" name="candidatecb[]" value="{{candidate.candidate._id}}" [(ngModel)]="candidate.state"/>
                         </td>

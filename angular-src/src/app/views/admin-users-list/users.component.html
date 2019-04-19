@@ -22,20 +22,20 @@
       <!-- Nav tabs -->
       <div class="card-body">
         <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
-        <table class="table table-bordered table-striped table-responsive-sm">
+        <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped table-responsive-sm">
           <thead>
             <tr style="background: #BFFFCE;">
-              <th>ID</th>
-              <th>Full Name</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Contact No</th>
+              <th mat-sort-header="_id">ID</th>
+              <th mat-sort-header="fullName">Full Name</th>
+              <th mat-sort-header="username">Username</th>
+              <th mat-sort-header="email">Email</th>
+              <th mat-sort-header="role">Role</th>
+              <th mat-sort-header="phone">Contact No</th>
               <th>Operation</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of usersInfo | filter:search">
+            <tr *ngFor="let user of sortedData | filter:search">
               <td>{{ user._id }}</td>
               <td>{{ user.fullName }}</td>
               <td>{{ user.username }}</td>

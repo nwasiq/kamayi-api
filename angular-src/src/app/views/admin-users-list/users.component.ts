@@ -3,6 +3,7 @@ import { UserService } from '../../../services/user/user.service';
 import { CrudService } from '../../../services/crud/crud.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
+import {Sort} from '@angular/material';
 
 @Component({
   templateUrl: 'users.component.html'
@@ -10,6 +11,8 @@ import { Subscription } from 'rxjs';
 export class UsersComponent {
 
   busy: Subscription;
+
+  sortedData: any[];
 
   fullName: string;
   username: string;
@@ -36,6 +39,7 @@ export class UsersComponent {
       else
       {
         this.usersInfo = data.users;
+        this.sortedData = this.usersInfo.slice();
       }
     });
   }
@@ -62,4 +66,29 @@ export class UsersComponent {
     }
   }
 
+  sortData(sort: Sort) {
+    const data = this.usersInfo.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case '_id': return compare(a._id, b._id, isAsc);
+        case 'fullName': return compare(a.fullName, b.fullName, isAsc);
+        case 'username': return compare(a.username, b.username, isAsc);
+        case 'email': return compare(a.email, b.email, isAsc);
+        case 'role': return compare(a.role, b.role, isAsc);
+        case 'phone': return compare(a.phone, b.phone, isAsc);
+        default: return 0;
+      }
+    });
+  }
 }
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+

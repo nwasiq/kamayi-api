@@ -18,6 +18,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 //ng busy
 import {NgBusyModule} from 'ng-busy';
 
+// Mat Sort
+import {MatSortModule} from '@angular/material/sort';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -25,6 +28,7 @@ import {NgBusyModule} from 'ng-busy';
     BaseRoutingModule,
     Ng2SearchPipeModule,
     NgBusyModule,
+    MatSortModule,
     ModalModule.forRoot()
   ],
   declarations: [

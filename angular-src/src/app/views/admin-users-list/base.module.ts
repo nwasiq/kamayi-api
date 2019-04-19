@@ -15,12 +15,16 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 //ng busy
 import {NgBusyModule} from 'ng-busy';
 
+// Mat Sort
+import {MatSortModule} from '@angular/material/sort';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
+    MatSortModule,
     NgBusyModule
   ],
   declarations: [

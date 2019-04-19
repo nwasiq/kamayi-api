@@ -123,23 +123,23 @@
                     <i class="fa fa-align-justify"></i> System List
                 </div>
                 <div class="card-body">
-                <table class="table table-bordered table-striped table-responsive-sm">
+                <table  matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped table-responsive-sm">
                     <thead>
                     <tr style="background: #BFFFCE;">
                         <th>
                             <input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/>
                         </th>
-                        <th>ID</th>
-                        <th>Candidate Name</th>
-                        <th><i class="fa fa-intersex" style="font-weight: bold;"></i></th>
-                        <th>Occupation</th>
-                        <th>City</th>
-                        <th>Education</th>
-                        <th>Relevant Exp</th>
+                        <th mat-sort-header="_id">ID</th>
+                        <th mat-sort-header="candidate.fullName">Candidate Name</th>
+                        <th mat-sort-header="gender"><i class="fa fa-intersex" style="font-weight: bold;"></i></th>
+                        <th mat-sort-header="occupation">Occupation</th>
+                        <th mat-sort-header="city">City</th>
+                        <th mat-sort-header="education">Education</th>
+                        <th mat-sort-header="experience">Relevant Exp</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let candidate of candidatesInfo ; let i = index">
+                    <tr *ngFor="let candidate of sortedData ; let i = index">
                         <td>
                             <input type="checkbox" name="candidatecb[]" value="{{candidate.candidate._id}}" [(ngModel)]="candidate.state"/>
                         </td>

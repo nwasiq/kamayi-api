@@ -5,6 +5,7 @@ import { CrudService } from '../../../services/crud/crud.service';
 import { convertToString } from  '../../../services/convertEducation';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
+import {Sort} from '@angular/material';
 
 @Component({
   templateUrl: 'managecriteria.component.html'
@@ -12,6 +13,8 @@ import { Subscription } from 'rxjs';
 export class ManagecriteriaComponent {
 
   busy: Subscription;
+
+  sortedData: any[];
 
   vacancyId: any;
   hired: number;
@@ -278,6 +281,7 @@ export class ManagecriteriaComponent {
         candidate.education = convertToString(candidate.education);
       }
       this.candidatesInfo = data.candidates;
+      this.sortedData = this.candidatesInfo.slice();
       // console.log(this.candidatesInfo);
     });
   }
@@ -333,4 +337,30 @@ export class ManagecriteriaComponent {
     })
   }
 
+  sortData(sort: Sort) {
+    const data = this.candidatesInfo.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case '_id': return compare(a._id, b._id, isAsc);
+        case 'candidate.fullName': return compare(a.candidate.fullName, b.candidate.fullName, isAsc);
+        case 'gender': return compare(a.gender, b.gender, isAsc);
+        case 'occupation': return compare(a.occupation, b.occupation, isAsc);
+        case 'city': return compare(a.city, b.city, isAsc);
+        case 'education': return compare(a.education, b.education, isAsc);
+        case 'experience': return compare(a.experience, b.experience, isAsc);
+        default: return 0;
+      }
+    });
+  }
+
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

@@ -27,6 +27,9 @@ import { AutocompleteComponent } from './google-places.component';
 //ng busy
 import {NgBusyModule} from 'ng-busy';
 
+// Mat Sort
+import {MatSortModule} from '@angular/material/sort';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -35,6 +38,7 @@ import {NgBusyModule} from 'ng-busy';
     Ng2SearchPipeModule,
     AngularDateTimePickerModule,
     NgBusyModule,
+    MatSortModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
     })
