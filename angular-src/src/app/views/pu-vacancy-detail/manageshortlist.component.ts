@@ -186,7 +186,11 @@ export class ManageshortlistComponent {
 
   onViewCandidate(candidate){
     // localStorage.setItem("candidateid", candidate._id);
-    this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);
+    // this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);
+    this.route.navigate([]).then(result => 
+    {  
+      window.open('/#/pu-vacancy-detail/candidateview/'+ candidate.candidate._id, '_blank'); 
+    });
   }
 
   sortData(sort: Sort) {
