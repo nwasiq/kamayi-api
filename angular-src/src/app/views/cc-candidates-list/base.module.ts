@@ -22,6 +22,8 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 // Mat Sort
 import {MatSortModule} from '@angular/material/sort';
 
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import {MatSortModule} from '@angular/material/sort';
     Ng2SearchPipeModule,
     MatSortModule,
     NgBusyModule,
+    TabsModule,
     SelectDropDownModule
   ],
   declarations: [

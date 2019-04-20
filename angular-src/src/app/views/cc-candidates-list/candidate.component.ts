@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
+import { CandidateService } from '../../../services/candidate/candidate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
 import { PagerService } from '../../../services/pager.service';
@@ -14,8 +15,20 @@ export class CandidateComponent {
   busy: Subscription;
   pager: any = {};
   pagedItems: any[];
+  pager2: any = {};
+  pagedItems2: any[];
 
   sortedData: any[];
+
+  fullName: string;
+  primarySkill: string;
+  phoneNo: string;
+  cnic: string;
+  otherSkill: string;
+
+  otherSkillArr = ["true", "false"];
+
+  searchInfo: any;
 
   candidatesInfo: any;
   search: any;
@@ -24,6 +37,7 @@ export class CandidateComponent {
     private route: Router,
     private _flashMessagesService: FlashMessagesService,
     private pagerService: PagerService,
+    private candidateService: CandidateService
   ) { }
 
   ngOnInit(){
@@ -58,6 +72,68 @@ export class CandidateComponent {
     // get current page of items
     this.pagedItems = this.candidatesInfo.slice(this.pager.startIndex, this.pager.endIndex + 1);
     this.sortedData = this.pagedItems;
+  }
+
+  setPageSearch(page: number) {
+    // get pager object from service
+    this.pager2 = this.pagerService.getPager(this.searchInfo.length, page);
+
+    // get current page of items
+    this.pagedItems2 = this.searchInfo.slice(this.pager2.startIndex, this.pager2.endIndex + 1);
+    // this.sortedData = this.pagedItems2;
+  }
+
+  filterCandidates() {
+    let queryObj = {
+      query: {
+        fullName: "",
+        primarySkill: "",
+        phone: "",
+        cnic: "",
+        hasOtherSkill: ""
+      }
+    }
+
+    if (this.fullName && this.fullName != "") {
+      queryObj.query.fullName = this.fullName;
+    }
+    else {
+      delete queryObj.query.fullName;
+    }
+    if (this.primarySkill && this.primarySkill != "") {
+      queryObj.query.primarySkill = this.primarySkill;
+    }
+    else {
+      delete queryObj.query.primarySkill;
+    }
+    if (this.phoneNo && this.phoneNo != "") {
+      queryObj.query.phone = this.phoneNo;
+    }
+    else {
+      delete queryObj.query.phone;
+    }
+    if (this.cnic && this.cnic != "") {
+      queryObj.query.cnic = this.cnic;
+    }
+    else {
+      delete queryObj.query.cnic;
+    }
+    if (this.otherSkill) {
+      queryObj.query.hasOtherSkill = this.otherSkill;
+    }
+    else {
+      delete queryObj.query.hasOtherSkill;
+    }
+
+    this.busy = this.candidateService.filterCandidates(queryObj).subscribe(data => {
+      if (data.message) {
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        return;
+      }
+      this.searchInfo = data;
+      this.setPageSearch(1);
+    });
   }
 
   sortData(sort: Sort) {
