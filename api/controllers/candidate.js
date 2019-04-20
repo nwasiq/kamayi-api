@@ -52,7 +52,24 @@ exports.findCriteriaForCandidate = async function (req, res) {
 exports.filterCandidates = async function(req, res) {
     let query = req.body.query;
     try{
-        let candidates = await Candidate.find(query);
+        let candyQquery = {$and: []};
+        if(query.primarySkill){
+            candyQquery.$and.push({ primarySkill: { $regex: new RegExp(query.primarySkill, "i") }})
+        }
+        if(query.phone){
+            candyQquery.$and.push({ phone: query.phone})
+        }
+        if (query.hasOtherSkill){
+            candyQquery.$and.push({ hasOtherSkill: query.hasOtherSkill})
+        }
+        if (query.cnic) {
+            candyQquery.$and.push({ cnic: query.cnic })
+        }
+        if (query.fullName) {
+            let fullName = query.fullName;
+            candyQquery.$and.push({ fullName: { $regex: new RegExp("^" + fullName + '$', "i") } });
+        }
+        let candidates = await Candidate.find(candyQquery);
         if(candidates.length == 0){
             return res.send({
                 message: "No candidates found",
