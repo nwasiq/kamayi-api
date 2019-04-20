@@ -11,6 +11,7 @@
       <div class="col-md-12 mb-4">
         <!-- Nav tabs -->
         <tabset>
+          <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
           <tab heading="All">
         <div class="col-md-12 mb-4">
           <div class="input-group">
@@ -21,7 +22,6 @@
           </div>
         </div>
         <div class="card-body">
-          <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
           <table class="table table-bordered table-striped table-sm table-responsive-sm">
             <thead>
               <tr style="background: #BFFFCE;">
