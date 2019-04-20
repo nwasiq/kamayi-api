@@ -33,4 +33,13 @@ export class BulkCandidateService {
     return this.http.get(this.localhostString + 'bulkcandidates/status/' + status, { headers: headers })
       .map(res => res.json());
   }
+
+  filterCandidates(query) {
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + 'bulkcandidates/filter', query, { headers: headers })
+      .map(res => res.json());
+  }
 }

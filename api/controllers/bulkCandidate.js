@@ -295,3 +295,33 @@ exports.getBulkCandiesByStatus = async function(req, res) {
         })
     }
 }
+
+exports.filterCandidates = async function (req, res) {
+    let query = req.body.query;
+    try {
+        let candyQquery = { $and: [] };
+        if (query.phone) {
+            candyQquery.$and.push({ phone: query.phone })
+        }
+        if (query.cnic) {
+            candyQquery.$and.push({ cnic: query.cnic })
+        }
+        if (query.callStatus) {
+            candyQquery.$and.push({ callStatus: query.callStatus })
+        }
+        if (query.fullName) {
+            let fullName = query.fullName;
+            candyQquery.$and.push({ fullName: { $regex: new RegExp("^" + fullName + '$', "i") } });
+        }
+        let candidates = await BulkCandidate.find(candyQquery);
+        if (candidates.length == 0) {
+            return res.send({
+                message: "No candidates found",
+                candidates
+            })
+        }
+        res.send(candidates);
+    } catch (err) {
+        res.send(err);
+    }
+}

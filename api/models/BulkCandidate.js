@@ -5,9 +5,14 @@ var schema = mongoose.Schema;
 
 var BulkCandidateSchema = new schema({
 
-    status: {
+    status: { //false if not inserted to candidate model, true otherwise
         type: Boolean,
         default: false
+    },
+    callStatus: {
+        type: String,
+        enum: ['Not Called', 'Not Answered', 'Wrong Number'],
+        default: 'Not Called'
     },
     fullName: String,
     cnic: String,

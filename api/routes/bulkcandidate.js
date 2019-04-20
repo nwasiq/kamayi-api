@@ -19,5 +19,6 @@ router.get('', checkAuthToken(), crudController.findAll);
 router.get('/:entityId', checkAuthToken(), crudController.findOne);
 router.put('/:entityId', checkAuthToken(), crudController.update);
 router.get('/status/:statusType', checkAuthToken(), bulkCandidateController.getBulkCandiesByStatus);
+router.post('/filter', checkAuthToken(), bulkCandidateController.filterCandidates);
 
 module.exports = router;

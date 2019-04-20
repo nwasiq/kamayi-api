@@ -68,7 +68,7 @@ export class CandidateComponent {
     }
 
     this.busy = this.candidateService.filterCandidates(filterObj).subscribe(data2 => {
-        this.otherSkillInfo = data2.candidates;
+        this.otherSkillInfo = data2;
         this.setPageOtherSkill(1);
     }); 
   }

@@ -25,6 +25,10 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 //ng busy
 import {NgBusyModule} from 'ng-busy';
 
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -33,6 +37,8 @@ import {NgBusyModule} from 'ng-busy';
     Ng2SearchPipeModule,
     SelectDropDownModule,
     NgBusyModule,
+    TabsModule,
+    ModalModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM'
     })
