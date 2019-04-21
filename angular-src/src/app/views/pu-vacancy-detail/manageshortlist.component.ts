@@ -113,7 +113,10 @@ export class ManageshortlistComponent {
                   else {
                     candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
                   }
-                  break;
+                  if(candidate.candidate.vacancyStatus[i].score){
+                    candidate.candidate.score = candidate.candidate.vacancyStatus[i].score;
+                  }
+                  // break;
                 }
               }
             }

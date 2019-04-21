@@ -47,6 +47,7 @@ export class ManagecriteriaComponent {
   candidateExp: string;
 
   shortListCandidatesIds: any = [];
+  shortListCandidateScores: any = [];
 
   constructor(
     private route: Router,
@@ -99,6 +100,8 @@ export class ManagecriteriaComponent {
   }
 
   generateList() {
+    this.shortListCandidatesIds = [];
+    this.shortListCandidateScores = [];
     let isSort = false;
     let paramCount = 0;
     let educationUri = "";
@@ -283,6 +286,8 @@ export class ManagecriteriaComponent {
     for (let x of this.candidatesInfo) {
       if (x.state) {
         this.shortListCandidatesIds.push(x.candidate._id);
+        if(x.score)
+          this.shortListCandidateScores.push(x.score);
       }
     }
 
@@ -292,13 +297,11 @@ export class ManagecriteriaComponent {
       this._flashMessagesService.grayOut(true);
       return;
     }
-
     let candidateIDsObject = {
-      candidateIds: this.shortListCandidatesIds
+      candidateIds: this.shortListCandidatesIds,
+      candidateScores: this.shortListCandidateScores
     }
     this.busy = this.vacancyService.createShortList(candidateIDsObject, this.vacancyId).subscribe(data => {
-      console.log(candidateIDsObject);
-      console.log(data);
       if (data.message) {
         // alert(data.message);
         this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });

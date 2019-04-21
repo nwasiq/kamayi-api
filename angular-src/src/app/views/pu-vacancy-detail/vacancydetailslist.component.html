@@ -38,6 +38,7 @@
                   <th>Skill</th>
                   <th>Education</th>
                   <th>Relevant Exp</th>
+                  <th>Score</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -48,6 +49,12 @@
                   <td>{{ candidate.candidate.primarySkill }}</td>
                   <td>{{ candidate.education }}</td>
                   <td>{{ candidate.experience }}</td>
+                  <td *ngIf="candidate.candidate.score != undefined">
+                    {{ candidate.candidate.score }}
+                  </td>
+                  <td *ngIf="candidate.candidate.score == undefined">
+                    N/A
+                  </td>
                   <td *ngIf="candidate.candidate.status == 'Interview Scheduled'">
                       {{ candidate.candidate.interviewTime | date:'yyyy-MM-dd' }}
                   </td>

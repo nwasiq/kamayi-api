@@ -271,7 +271,7 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
 exports.createCandidateShortlist = async function (req, res) {
     try {
         let candidateIds = req.body.candidateIds;
-        
+        let candidateScores = req.body.candidateScores;
         let vacancyId = req.params.vacancyId;
         let vacancy = await Vacancy.findById(vacancyId);
         if (!vacancy) {
@@ -279,13 +279,33 @@ exports.createCandidateShortlist = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        let candidateVacancyStatus = {
-            vacancy: vacancyId,
-            status: "Schedule Interview"
+        if(!candidateScores || candidateScores.length == 0){
+            let candidateVacancyStatus = {
+                vacancy: vacancyId,
+                status: "Schedule Interview"
+            }
+            let shortlist = await Candidate.updateMany({ _id: { $in: candidateIds } },
+                { $push: { vacancyStatus: candidateVacancyStatus } });
+            return res.send(shortlist);
         }
-        let shortlist = await Candidate.updateMany({ _id: { $in: candidateIds } },
-            { $push: { vacancyStatus: candidateVacancyStatus } });
-        res.send(shortlist);
+
+        /**
+         * if request has scores, then candidate scores need to be saved 
+         * in vacancy status field of candidate model 
+         */
+        for(let i = 0; i < candidateIds.length; i++){
+            let candidateVacancyStatus = {
+                vacancy: vacancyId,
+                status: "Schedule Interview",
+                score: candidateScores[i]
+            }
+            await Candidate.updateOne({ _id: candidateIds[i] },
+                { $push: { vacancyStatus: candidateVacancyStatus } });
+        }
+
+        return res.send({
+            success: true
+        });
 
     } catch (err) {
         res.status(500).send({

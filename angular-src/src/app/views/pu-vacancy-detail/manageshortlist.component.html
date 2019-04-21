@@ -33,6 +33,7 @@
                         <th mat-sort-header="candidate.primarySkill">Skill</th>
                         <th mat-sort-header="education">Education</th>
                         <th mat-sort-header="experience">Relevant Exp</th>
+                        <th mat-sort-header="score">Score</th>
                         <th mat-sort-header="candidate.status">Status</th>
                         <th>Operation</th>
                     </tr>
@@ -52,6 +53,12 @@
                         </td>
                         <td *ngIf="candidate.candidate.status != 'Interview Scheduled'">
                             {{ candidate.candidate.status }}
+                        </td>
+                        <td *ngIf="candidate.candidate.score != undefined">
+                            {{ candidate.candidate.score }}
+                        </td>
+                        <td *ngIf="candidate.candidate.score == undefined">
+                            N/A
                         </td>
                         <td>
                             <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
