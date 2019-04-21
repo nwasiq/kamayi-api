@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { VacancyService } from '../../../services/vacancy/vacancy.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
-import { convertToString } from  '../../../services/convertEducation';
+import { convertToString } from '../../../services/convertEducation';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
-import {Sort} from '@angular/material';
+import { Sort } from '@angular/material';
 
 @Component({
   templateUrl: 'managecriteria.component.html'
@@ -45,7 +45,7 @@ export class ManagecriteriaComponent {
   candidateCity: string;
   candidateEducation: string;
   candidateExp: string;
-  
+
   shortListCandidatesIds: any = [];
 
   constructor(
@@ -66,7 +66,7 @@ export class ManagecriteriaComponent {
     return this.candidatesInfo.every(_ => _.state);
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.gender = false;
     this.education = false;
     this.experience = false;
@@ -75,19 +75,18 @@ export class ManagecriteriaComponent {
     this.unemployed = false;
     this.generateWeighted = false;
 
-    this.activatedRoute.params.subscribe( params =>
+    this.activatedRoute.params.subscribe(params =>
       this.vacancyId = params['id']
     );
 
-    this.busy = this.crudService.retrieveOne("vacancys",this.vacancyId).subscribe(data => {
-      if(data.message){
+    this.busy = this.crudService.retrieveOne("vacancys", this.vacancyId).subscribe(data => {
+      if (data.message) {
         // alert(data.message);
         this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
         this.route.navigate(['/pu-open-vacancy/openvacancy']);
       }
-      else
-      {
+      else {
         this.crudService.retrieveOne("employers", data.employer).subscribe(data2 => {
           this.occupation = data.occupation;
           this.employer = data2.companyName;
@@ -99,7 +98,7 @@ export class ManagecriteriaComponent {
     })
   }
 
-  generateList(){
+  generateList() {
     let isSort = false;
     let paramCount = 0;
     let educationUri = "";
@@ -107,132 +106,118 @@ export class ManagecriteriaComponent {
     let locationUri = "";
     let uri = "";
 
-    if(this.sort != undefined && this.sort != "none")
-    {
+    if (this.sort != undefined && this.sort != "none") {
       isSort = true;
       this.generateWeighted = false;
     }
 
-    if(this.gender || this.education || this.experience || 
-      this.city || this.location || this.unemployed || 
-      this.generateWeighted || isSort){
-        uri = "?";
+    if (this.gender || this.education || this.experience ||
+      this.city || this.location || this.unemployed ||
+      this.generateWeighted || isSort) {
+      uri = "?";
     }
 
-    if(isSort){
-      if(paramCount > 0){
+    if (isSort) {
+      if (paramCount > 0) {
         uri += "&";
       }
-      uri += "sort="+this.sort;
+      uri += "sort=" + this.sort;
       paramCount++;
     }
 
-    if(this.gender)
-    {
-      if(paramCount > 0){
+    if (this.gender) {
+      if (paramCount > 0) {
         uri += "&";
       }
       uri += "gender";
       paramCount++;
     }
-   
-    if(this.city)
-    {
-      if(paramCount > 0){
+
+    if (this.city) {
+      if (paramCount > 0) {
         uri += "&";
       }
       uri += "city";
       paramCount++;
     }
-   
-    if(this.unemployed)
-    {
-      if(paramCount > 0){
+
+    if (this.unemployed) {
+      if (paramCount > 0) {
         uri += "&";
       }
-      uri += "employmentStatus="+false;
+      uri += "employmentStatus=" + false;
       paramCount++;
     }
 
-    if(this.generateWeighted)
-    {
-      if(paramCount > 0){
+    if (this.generateWeighted) {
+      if (paramCount > 0) {
         uri += "&";
       }
       uri += "weighted";
+      paramCount++;
 
-      if((this.educationWeight == null || this.educationWeight == undefined)
+      if ((this.educationWeight == null || this.educationWeight == undefined)
         && (this.experienceWeight == null || this.experienceWeight == undefined)
-        && (this.locationWeight == null || this.locationWeight == undefined))
-        {
-          // alert("No weights selected.");
-          this._flashMessagesService.show("No weights selected.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        && (this.locationWeight == null || this.locationWeight == undefined)) {
+        // alert("No weights selected.");
+        this._flashMessagesService.show("No weights selected.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        return;
+      }
+
+      this.education = true;
+      this.experience = true;
+      this.location = true;
+
+      if (this.education) {
+        if (paramCount > 0) {
+          uri += "&";
+        }
+
+        if (this.educationWeight != null && this.educationWeight != undefined) {
+          educationUri = "education=" + this.educationWeight;
+        }
+        else {
+          this._flashMessagesService.show("Education weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
+          return;
+        }
+        uri += educationUri;
+        paramCount++;
+      }
+
+      if (this.experience) {
+        if (paramCount > 0) {
+          uri += "&";
+        }
+        if (this.experienceWeight != null && this.experienceWeight != undefined) {
+          experienceUri = "experience=" + this.experienceWeight;
+        }
+        else {
+          this._flashMessagesService.show("Experience weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+          this._flashMessagesService.grayOut(true);
+          return;
+        }
+        uri += experienceUri;
+        paramCount++;
+      }
+
+      if (this.location) {
+        if (paramCount > 0) {
+          uri += "&";
+        }
+        if (this.locationWeight != null && this.locationWeight != undefined) {
+          locationUri = "location=" + this.locationWeight;
+        }
+        else {
+          this._flashMessagesService.show("Location weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
           this._flashMessagesService.grayOut(true);
           return;
         }
 
-        this.education = true;
-        this.experience = true;
-        this.location = true;
-
-        if(this.education)
-        {
-          if(paramCount > 0){
-            uri += "&";
-          }
-
-          if(this.educationWeight != null && this.educationWeight != undefined)
-          {
-            educationUri = "education="+this.educationWeight;
-          }
-          else
-          {
-            this._flashMessagesService.show("Education weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
-            this._flashMessagesService.grayOut(true);
-            return;
-          }
-          uri += educationUri;
-          paramCount++;
-        }
-
-        if(this.experience)
-        {
-          if(paramCount > 0){
-            uri += "&";
-          }
-          if(this.experienceWeight != null && this.experienceWeight != undefined)
-          {
-            experienceUri = "experience="+this.experienceWeight;
-          }
-          else
-          {
-            this._flashMessagesService.show("Experience weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
-            this._flashMessagesService.grayOut(true);
-            return;
-          }
-          uri += experienceUri;
-          paramCount++;
-        }
-
-        if(this.location)
-        {
-          if(paramCount > 0){
-            uri += "&";
-          }
-          if(this.locationWeight != null && this.locationWeight != undefined)
-          {
-            locationUri = "location="+this.locationWeight;
-          }
-          else
-          {
-            this._flashMessagesService.show("Location weight needs to be entered.", { cssClass: 'alert-danger text-center', timeout: 1000 });
-            this._flashMessagesService.grayOut(true);
-            return;
-          }
-
-          uri += locationUri;
-          paramCount++;
-        }
+        uri += locationUri;
+        paramCount++;
+      }
 
       if ((this.locationWeight + this.experienceWeight + this.educationWeight) != 10) {
         this._flashMessagesService.show("Sum of the weights needs to be 10.", { cssClass: 'alert-danger text-center', timeout: 1000 });
@@ -240,29 +225,25 @@ export class ManagecriteriaComponent {
         return;
       }
     }
-    else
-    {
-      if(this.education)
-      {
-        if(paramCount > 0){
+    else {
+      if (this.education) {
+        if (paramCount > 0) {
           uri += "&";
         }
         uri += "education";
         paramCount++;
       }
 
-      if(this.experience)
-      {
-        if(paramCount > 0){
+      if (this.experience) {
+        if (paramCount > 0) {
           uri += "&";
         }
         uri += "experience";
         paramCount++;
       }
 
-      if(this.location)
-      {
-        if(paramCount > 0){
+      if (this.location) {
+        if (paramCount > 0) {
           uri += "&";
         }
         uri += "location";
@@ -270,15 +251,16 @@ export class ManagecriteriaComponent {
       }
     }
     this.busy = this.vacancyService.getTentativeShortList(this.vacancyId, uri).subscribe(data => {
-      if(data.candidates.length == 0){
+      if (data.candidates.length == 0) {
         // alert("No candidates matched your criteria.");
         this._flashMessagesService.show("No candidates matched your criteria.", { cssClass: 'alert-danger text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
         return;
       }
-      console.log(data);
-      for(let candidate of data.candidates){
+      for (let candidate of data.candidates) {
         candidate.education = convertToString(candidate.education);
+        if(candidate.score)
+          candidate.score = parseFloat(candidate.score).toFixed(2);
       }
       this.candidatesInfo = data.candidates;
       this.sortedData = this.candidatesInfo.slice();
@@ -286,47 +268,43 @@ export class ManagecriteriaComponent {
     });
   }
 
-  viewShortList(){
+  viewShortList() {
     this.route.navigate(['/pu-vacancy-detail/manageshortlist/' + this.vacancyId]);
   }
 
-  createShortList(){
-    if(this.candidatesInfo.length == 0)
-    {
+  createShortList() {
+    if (this.candidatesInfo.length == 0) {
       // alert("No candidates to shortlist.");
       this._flashMessagesService.show("No candidates to shortlist.", { cssClass: 'alert-danger text-center', timeout: 1000 });
       this._flashMessagesService.grayOut(true);
       return;
     }
-    
-    for(let x of this.candidatesInfo){
-      if(x.state)
-      {
+
+    for (let x of this.candidatesInfo) {
+      if (x.state) {
         this.shortListCandidatesIds.push(x.candidate._id);
       }
     }
 
-    if(this.shortListCandidatesIds.length == 0)
-    {
+    if (this.shortListCandidatesIds.length == 0) {
       // alert("No candidate selected.");
       this._flashMessagesService.show("No candidate selected.", { cssClass: 'alert-danger text-center', timeout: 1000 });
       this._flashMessagesService.grayOut(true);
       return;
     }
-    
+
     let candidateIDsObject = {
       candidateIds: this.shortListCandidatesIds
     }
     this.busy = this.vacancyService.createShortList(candidateIDsObject, this.vacancyId).subscribe(data => {
       console.log(candidateIDsObject);
       console.log(data);
-      if(data.message){
+      if (data.message) {
         // alert(data.message);
         this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
       }
-      else
-      {
+      else {
         // alert("Shortlist created successfully.");
         this._flashMessagesService.show("Shortlist created successfully.", { cssClass: 'alert-success text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
@@ -335,13 +313,12 @@ export class ManagecriteriaComponent {
     })
   }
 
-  onViewCandidate(candidate){
+  onViewCandidate(candidate) {
     // localStorage.setItem("candidateid", candidate._id);
     // this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);
-    this.route.navigate([]).then(result => 
-      {  
-        window.open('/#/pu-vacancy-detail/candidateview/'+ candidate.candidate._id, '_blank'); 
-      });
+    this.route.navigate([]).then(result => {
+      window.open('/#/pu-vacancy-detail/candidateview/' + candidate.candidate._id, '_blank');
+    });
   }
 
   sortData(sort: Sort) {

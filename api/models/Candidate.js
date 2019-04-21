@@ -18,6 +18,7 @@ var CandidateSchema = new schema({
     vacancyStatus: [{
         vacancy: { type: schema.Types.ObjectId, ref: 'vacancy' },
         status: String, //initial status: not contacted, then schedule interview', then 'interview scheduled', then 'interviewed', 'rejected', 'hired', 'joined'
+        score: Number,
         interviewDate: Date //if status is 'interview scheduled', then use this
     }],
     hasOtherSkill: Boolean, // If skill not in occupation list
