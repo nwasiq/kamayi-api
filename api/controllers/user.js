@@ -33,7 +33,7 @@ exports.login = async function(req, res) {
             let dashboard = {};
             if(user.role == "admin"){
                 dashboard['employerAssignments'] = await Employer.find({placementOfficer: {$exists: false}}).count();
-                dashboard['vacancyArchiveApprovals'] = await Vacancy.find({status: 'Pending Verification'}).count();
+                dashboard['vacancyArchiveApprovals'] = await Vacancy.find({ $or: [{ status: 'Pending Completed' }, { status: 'Pending Archived' }] }).count();
             }
             else if(user.role == "placement"){
                 let employers = await Employer.find({ placementOfficer: user._id }).distinct('_id');
@@ -63,7 +63,7 @@ exports.getDashboardFields = async function(req, res){
     try{
         if (role == "admin") {
             dashboard['employerAssignments'] = await Employer.find({ placementOfficer: { $exists: false } }).count();
-            dashboard['vacancyArchiveApprovals'] = await Vacancy.find({ status: 'Pending Verification' }).count();
+            dashboard['vacancyArchiveApprovals'] = await Vacancy.find({ $or: [{ status: 'Pending Completed' }, { status: 'Pending Archived' }]}).count();
         }
         else if (role == "placement") {
             let employers = await Employer.find({ placementOfficer: req.user._id }).distinct('_id');
