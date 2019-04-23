@@ -195,10 +195,17 @@ export class CreatecandidateComponent {
       this._flashMessagesService.grayOut(true);
       return;
     }
+    let tempExperience;
+    if(this.occupation == 'Any job'){
+      tempExperience = 0;
+    }
+    else{
+      tempExperience = this.experience;
+    }
     this.tiers.push({
       count: this.tiers.length + 1,
       occupation:  this.occupation,
-      experience: this.experience,
+      experience: tempExperience,
       employer: this.employer,
       isTrained: this.isTrained
     });

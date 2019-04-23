@@ -28,7 +28,7 @@ export class BulkcandidatesComponent {
   phoneNo: string;
   updatedCallStatus: string;
   callStatus: string;
-  callStatusArr = ['Select Status', 'Not Called', 'Not Answered', 'Wrong Number', 'Call Back'];
+  callStatusArr = ['Select Status', 'Not Called', 'Not Answered', 'Wrong Number', 'Call Back', 'Not Interested'];
 
   candidatesInfo: any;
   searchInfo: any;

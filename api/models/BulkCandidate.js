@@ -11,7 +11,7 @@ var BulkCandidateSchema = new schema({
     },
     callStatus: {
         type: String,
-        enum: ['Not Called', 'Not Answered', 'Wrong Number', 'Call Back'],
+        enum: ['Not Called', 'Not Answered', 'Wrong Number', 'Call Back', 'Not Interested'],
         default: 'Not Called'
     },
     fullName: String,
