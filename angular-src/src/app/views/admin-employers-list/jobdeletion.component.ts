@@ -48,20 +48,22 @@ export class JobdeletionComponent {
 
   displayVacancyDeletion(vacancy)
   {
+    this.busy = this.crudService.retrieveOne('users', vacancy.employer.placementOfficer).subscribe(data => {
+      this.idVacancy = vacancy._id;
+      this.titleVacancy = vacancy.title;
+      this.vacancyDesc = vacancy.description;
+      this.nameCompany = vacancy.employer.companyName;
+      this.poID = data.fullName;
+      this.typeVacancy = vacancy.jobType;
+      this.emptySlots = vacancy.totalSlots - vacancy.hired;
+      this.filledSlots = vacancy.hired;
+      this.contactNo = vacancy.employer.companyPhone;
+      this.vacancyLocation = vacancy.city;
+      this.jobUploadedDate = vacancy.dateCreated;
+      this.designation = vacancy.designation;
+      this.vacancyStatus = vacancy.status
+    })
     // console.log(vacancy._id);
-    this.idVacancy = vacancy._id;
-    this.titleVacancy = vacancy.title;
-    this.vacancyDesc = vacancy.description;
-    this.nameCompany = vacancy.employer.companyName;
-    this.poID = vacancy.employer.placementOfficer;
-    this.typeVacancy = vacancy.jobType;
-    this.emptySlots = vacancy.totalSlots - vacancy.hired;
-    this.filledSlots = vacancy.hired;
-    this.contactNo = vacancy.employer.companyPhone;
-    this.vacancyLocation = vacancy.city;
-    this.jobUploadedDate = vacancy.dateCreated;
-    this.designation = vacancy.designation;
-    this.vacancyStatus = vacancy.status
   }
 
   onDeletion(){
