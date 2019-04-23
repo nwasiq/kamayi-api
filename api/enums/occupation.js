@@ -317,10 +317,14 @@ module.exports = [
     'X-Ray Machine Operator',
     // New occupations
 
+    'Office Manager',
+    'Pharmacist',
+    'Guard',
+    'General Mechanic',
     'Helper',
     'Machine Operator',
     'Quality Inspector',
-    'Sales / Marketing',
+    'Sales/Marketing',
     'Rider',
     'PLC Technician',
     'Store Supervisor',

@@ -61,28 +61,59 @@ exports.importExcel = async function (req, res) {
                 if(candidate.occupationOne == 'Fitter General'){
                     candidate.occupationOne = 'General Fitter'
                 }
-                if (candidate.occupationOne == 'Teacher/Principal') {
+                else if (candidate.occupationOne == 'Teacher/Principal') {
                     candidate.occupationOne = 'Teacher'
                 }
-                if (candidate.occupationOne == 'Management/HR Field' || candidate.occupationOne == 'Management/HR Feild') {
+                else if (candidate.occupationOne == 'Management/HR Field' || candidate.occupationOne == 'Management/HR Feild') {
                     candidate.occupationOne = 'HR Officer'
                 }
-                if (candidate.occupationOne == 'Fitter') {
+                else if (candidate.occupationOne == 'Fitter') {
                     candidate.occupationOne = 'General Fitter'
+                }
+                else if (candidate.occupationOne == 'Any Job') {
+                    candidate.occupationOne = 'Any job'
+                }
+                else if (candidate.occupationOne == 'Heating Ventilation air conditioning and Refrigeration (HVACR)') {
+                    candidate.occupationOne = 'Heating Ventilation air conditioning and Refrigeration(HVACR)'
+                }
+                else if (candidate.occupationOne == 'electrician') {
+                    candidate.occupationOne = 'Electrician'
+                }
+                else if (candidate.occupationOne == 'sales/Marketing') {
+                    candidate.occupationOne = 'Sales/Marketing'
+                }
+                else if (candidate.occupationOne == 'fabricator') {
+                    candidate.occupationOne = 'Fabricator'
                 }
 
                 if (candidate.occupationTwo == 'Fitter General') {
                     candidate.occupationTwo = 'General Fitter'
                 }
-                if (candidate.occupationTwo == 'Teacher/Principal') {
+                else if (candidate.occupationTwo == 'Teacher/Principal') {
                     candidate.occupationTwo = 'Teacher'
                 }
-                if (candidate.occupationTwo == 'Management/HR Field') {
+                else if (candidate.occupationTwo == 'Management/HR Field') {
                     candidate.occupationTwo = 'HR Officer'
                 }
-                if (candidate.occupationTwo == 'Fitter') {
+                else if (candidate.occupationTwo == 'Fitter') {
                     candidate.occupationTwo = 'General Fitter'
                 }
+                else if (candidate.occupationTwo == 'Any Job') {
+                    candidate.occupationTwo = 'Any job'
+                }
+                else if (candidate.occupationTwo == 'Heating Ventilation air conditioning and Refrigeration (HVACR)') {
+                    candidate.occupationTwo = 'Heating Ventilation air conditioning and Refrigeration(HVACR)'
+                }
+                else if (candidate.occupationTwo == 'electrician') {
+                    candidate.occupationTwo = 'Electrician'
+                }
+                else if (candidate.occupationTwo == 'sales/Marketing') {
+                    candidate.occupationTwo = 'Sales/Marketing'
+                }
+                else if (candidate.occupationTwo == 'fabricator') {
+                    candidate.occupationTwo = 'Fabricator'
+                }
+                
 
                 candidate.phone = candidate.phone.split('-').join('');
 
@@ -189,10 +220,10 @@ exports.importExcel = async function (req, res) {
                         employer: candidate.employer,
                         isTrained: candidate.isTrained,
                         city: candidate.city,
-                        // location: {
-                        //     type: "Point",
-                        //     coordinates: candidate.location
-                        // },
+                        location: {
+                            type: "Point",
+                            coordinates: candidate.location
+                        },
                         gender: candidate.gender,
                         education: candidate.education,
                         candidate: savedCandidate._id
