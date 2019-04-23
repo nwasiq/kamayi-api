@@ -36,7 +36,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="company">CNIC</label>
-                                    <input class="form-control" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070">
+                                    <input class="form-control" [(ngModel)]="cnic" name="cnic" (keypress)="keyPress($event)" type="text" style="border-color: #707070">
                                 </div>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                                     <p>Experience</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <input class="form-control" value="{{criteria.experience}}" [(ngModel)]="criteria.experience" type="number" style="margin-top: -0.7em;">
+                                    <input class="form-control" value="{{criteria.experience}}" [(ngModel)]="criteria.experience" type="number" min="0" style="margin-top: -0.7em;">
                                 </div>
                             </div>
                         </div>
