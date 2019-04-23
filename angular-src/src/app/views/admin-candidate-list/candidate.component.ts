@@ -57,20 +57,19 @@ export class CandidateComponent {
       {
         this.candidatesInfo = data.candidates;
         this.setPageAll(1);
+        let filterObj = {
+          query: {
+            hasOtherSkill: true
+          }
+        }
+
+        this.busy = this.candidateService.filterCandidates(filterObj).subscribe(data2 => {
+          this.otherSkillInfo = data2;
+          this.setPageOtherSkill(1);
+        }); 
         // console.log(this.candidatesInfo);
       }
     });
-
-    let filterObj = {
-      query: {
-        hasOtherSkill: true
-      }
-    }
-
-    this.busy = this.candidateService.filterCandidates(filterObj).subscribe(data2 => {
-        this.otherSkillInfo = data2;
-        this.setPageOtherSkill(1);
-    }); 
   }
 
   setPageAll(page: number) {
