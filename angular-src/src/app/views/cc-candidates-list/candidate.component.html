@@ -100,7 +100,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="company">Phone No </label>
-                    <input class="form-control" [(ngModel)]="phoneNo" name="phoneNo" type="text"
+                    <input class="form-control" [(ngModel)]="phoneNo" name="phoneNo" type="text" (keypress)="keyPress($event)"
                       style="border-color: #707070">
                   </div>
                 </div>
@@ -109,7 +109,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="company">CNIC</label>
-                    <input class="form-control" [(ngModel)]="cnic" name="cnic" type="text" style="border-color: #707070">
+                    <input class="form-control" [(ngModel)]="cnic" name="cnic" type="text" (keypress)="keyPress($event)" style="border-color: #707070">
                   </div>
                 </div>
               </div>

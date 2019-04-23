@@ -119,7 +119,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Salary</label>
-                                        <input class="form-control" [(ngModel)]="salary" name="salary" type="number" style="border-color: #707070" placeholder="PKR 20,000" required>
+                                        <input class="form-control" [(ngModel)]="salary" name="salary" type="text" (keypress)="keyPress($event)" style="border-color: #707070" placeholder="PKR 20,000" required>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Company POC</label>
-                                        <input class="form-control" [(ngModel)]="mobileNo" name="mobileNo" type="text" style="border-color: #707070" placeholder="+923451234567" required>
+                                        <input class="form-control" [(ngModel)]="mobileNo" name="mobileNo" type="text" (keypress)="keyPress($event)" style="border-color: #707070" placeholder="+923451234567" required>
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +168,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Total Slots</label>
-                                        <input class="form-control" [(ngModel)]="totalSlots" name="totalSlots" type="number" style="border-color: #707070" placeholder="900"  required>
+                                        <input class="form-control" [(ngModel)]="totalSlots" name="totalSlots" type="text" (keypress)="keyPress($event)" style="border-color: #707070" placeholder="900"  required>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Min. Exp</label>
-                                        <input class="form-control" [(ngModel)]="minExp" name="minExp" type="number" style="border-color: #707070" placeholder="5" required>
+                                        <input class="form-control" [(ngModel)]="minExp" name="minExp" type="text" (keypress)="keyPress($event)" style="border-color: #707070" placeholder="5" required>
                                     </div>
                                 </div>
                             </div>

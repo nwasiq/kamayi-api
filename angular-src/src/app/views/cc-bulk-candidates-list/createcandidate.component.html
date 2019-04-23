@@ -31,7 +31,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Age <span style="color: red; font-weight: bold;">*</span></label>
-                                        <input class="form-control" [(ngModel)]="age" name="age" type="number" style="border-color: #707070" max="100" required>
+                                        <input class="form-control" [(ngModel)]="age" name="age" type="text" (keypress)="keyPress($event)" style="border-color: #707070" max="100" required>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="company">Contact No <span style="color: red; font-weight: bold;">*</span></label>
-                                        <input class="form-control" [(ngModel)]="phone" name="phone" type="text" style="border-color: #707070" required>
+                                        <input class="form-control" [(ngModel)]="phone" name="phone" (keypress)="keyPress($event)" type="text" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
                                         <p>Experience <span style="color: red; font-weight: bold;">*</span></p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="number" style="border-color: #707070" min="0" required>
+                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="number" min="0" style="border-color: #707070" min="0" required>
                                     </div>
                                 </div>
                             </div>
