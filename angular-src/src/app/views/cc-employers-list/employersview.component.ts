@@ -65,4 +65,29 @@ export class EmployersviewComponent {
     }
   }
 
+  updateEmployer(){
+    
+    let updateObj = {
+      companyName:this.companyName,
+      industry: this.industry,
+      companyPhone: this.companyPhone,
+      website: this.website,
+      fullName: this.fullName,
+      pocDesignation: this.pocDesignation,
+      email: this.email,
+      pocPhone: this.pocPhone,
+      pocAddress: this.pocAddress,
+      pocCity: this.pocCity,
+    }
+
+    this.busy = this.crudService.update(updateObj, 'employers', this.employerid).subscribe(data => {
+
+      this._flashMessagesService.show("Employer Updated", { cssClass: 'alert-success text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      setTimeout(function () {
+        location.reload();
+      }, 1000);
+    })
+  }
+
 }

@@ -12,7 +12,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Company Name</label>
-                                  <input class="form-control" [(ngModel)]="companyName" name="companyName" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="companyName" name="companyName" type="text" style="border-color: #707070" >
                               </div>
                           </div>
                       </div>
@@ -20,7 +20,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Industry</label>
-                                  <input class="form-control" [(ngModel)]="industry" name="industry" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="industry" name="industry" type="text" style="border-color: #707070" >
                               </div>
                           </div>
                       </div>
@@ -31,7 +31,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Phone No</label>
-                                  <input class="form-control" [(ngModel)]="companyPhone" name="companyPhone" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="companyPhone" name="companyPhone" type="text" style="border-color: #707070" >
                               </div>
                           </div>
                       </div>
@@ -39,7 +39,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Website</label>
-                                  <input class="form-control" [(ngModel)]="website" name="website" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="website" name="website" type="text" style="border-color: #707070" >
                               </div>
                           </div>
                       </div>
@@ -62,7 +62,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Name</label>
-                                  <input class="form-control" [(ngModel)]="fullName" name="fullName" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="fullName" name="fullName" type="text" style="border-color: #707070" >
                               </div>
                           </div>
                       </div>
@@ -70,7 +70,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Designation</label>
-                                  <input class="form-control" [(ngModel)]="pocDesignation" name="pocDesignation" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="pocDesignation" name="pocDesignation" type="text" style="border-color: #707070" >
                               </div>
                           </div>
                       </div>
@@ -81,7 +81,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Email</label>
-                                  <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="email" name="email" type="email" style="border-color: #707070" >
                               </div>
                           </div>
                       </div>
@@ -89,7 +89,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Mobile</label>
-                                  <input class="form-control" [(ngModel)]="pocPhone" name="pocPhone" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="pocPhone" name="pocPhone" type="text" style="border-color: #707070">
                               </div>
                           </div>
                       </div>
@@ -99,7 +99,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">Address</label>
-                                  <input class="form-control" [(ngModel)]="pocAddress" name="pocAddress" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="pocAddress" name="pocAddress" type="text" style="border-color: #707070">
                               </div>
                           </div>
                       </div>
@@ -107,7 +107,7 @@
                           <div class="col-md-12">
                               <div class="form-group">
                                   <label for="company">City</label>
-                                  <input class="form-control" [(ngModel)]="pocCity" name="pocCity" type="text" style="border-color: #707070" readonly>
+                                  <input class="form-control" [(ngModel)]="pocCity" name="pocCity" type="text" style="border-color: #707070">
                               </div>
                           </div>
                       </div>
@@ -117,5 +117,16 @@
           </div>
       </div>
   </div>
+<div class="row">
+    <div class="input-group mb-12">
+        <div class="input-group col-md-9">
+        </div>
+        <div class="input-group col-md-3">
+            <button (click) = "updateEmployer()" class="btn btn-success pull-right"
+                style="margin-bottom: 2em; margin-top: 1em; font-weight: bold; border-radius: 50px; width: 100%; height: 50px">Update
+                Employer</button>
+        </div>
+    </div>
+</div>
 </div>
   
