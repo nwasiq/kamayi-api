@@ -47,6 +47,14 @@
                   <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
                     class="badge badge-warning">{{ candidate.callStatus }}</span>
                 </td>
+                <td *ngIf="candidate.callStatus == 'Switched Off'">
+                  <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                    class="badge badge-warning">{{ candidate.callStatus }}</span>
+                </td>
+                <td *ngIf="candidate.callStatus == 'Not Interested'">
+                  <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                    class="badge badge-danger">{{ candidate.callStatus }}</span>
+                </td>
                 <td *ngIf="candidate.callStatus == 'Not Called'">
                   <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
                     class="badge badge-success">{{ candidate.callStatus }}</span>
@@ -160,6 +168,14 @@
                   <td *ngIf="candidate.callStatus == 'Not Answered'">
                     <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
                       class="badge badge-warning">{{ candidate.callStatus }}</span>
+                  </td>
+                  <td *ngIf="candidate.callStatus == 'Switched Off'">
+                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                      class="badge badge-warning">{{ candidate.callStatus }}</span>
+                  </td>
+                  <td *ngIf="candidate.callStatus == 'Not Interested'">
+                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                      class="badge badge-danger">{{ candidate.callStatus }}</span>
                   </td>
                   <td *ngIf="candidate.callStatus == 'Not Called'">
                     <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
