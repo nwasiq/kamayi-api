@@ -316,6 +316,15 @@ export class ManagecriteriaComponent {
     })
   }
 
+  keyPress(event: any) {
+    const pattern = /[0-9\ ]/;
+
+    let inputChar = String.fromCharCode(event.charCode);
+    if (event.keyCode != 8 && !pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
   onViewCandidate(candidate) {
     // localStorage.setItem("candidateid", candidate._id);
     // this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);

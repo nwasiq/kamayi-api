@@ -239,7 +239,7 @@
                                         <p>Experience <span style="color: red; font-weight: bold;">*</span></p>
                                     </div>
                                     <div class="col-md-6">
-                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="number" min="0" style="border-color: #707070" min="0" required>
+                                        <input class="form-control" [(ngModel)]="experience" name="experience" type="text" (keypress)="keyPress($event)" style="border-color: #707070" required>
                                     </div>
                                 </div>
                             </div>
