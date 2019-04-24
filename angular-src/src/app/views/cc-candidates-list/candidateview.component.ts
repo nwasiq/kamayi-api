@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { CandidateService } from '../../../services/candidate/candidate.service';
-import { convertToString } from '../../../services/convertEducation';
+import { convertToNumber,convertToString } from '../../../services/convertEducation';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Subscription } from 'rxjs';
 
@@ -22,6 +22,7 @@ export class CandidateviewComponent {
   employmentStatus: any;
   primarySkill: string;
   area: string;
+  isEducationSelected: boolean = false;
 
   totalCriteria: any = [];
   
@@ -34,6 +35,7 @@ export class CandidateviewComponent {
 
   educationOf = ['Informal','Primary','Middle','Matric','O-Levels','Intermediate','A-Levels','Bachelors','Masters'];
   employementOf = ["Employed", "Unemployed"];
+  genderOf = ["Male", "Female"];
 
   occupationList: any = [];
 
@@ -43,6 +45,24 @@ export class CandidateviewComponent {
   selectedOccupation: any;
 
   config = {
+    displayKey: "name", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
+
+  config1 = {
+    displayKey: "name", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
+
+  config2 = {
+    displayKey: "name", //if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 20
+  };
+
+  config3 = {
     displayKey: "name", //if objects array passed which key to be displayed defaults to description
     search: true,
     limitTo: 20
@@ -82,39 +102,37 @@ export class CandidateviewComponent {
           this.phone = user.phone;
           this.education = user.education;
           this.cnic = user.cnic;
-          this.employmentStatus = user.employmentStatus;
+          this.employmentStatus = user.employmentStatus == true ? 'Employed' : 'Unemployed';
           this.primarySkill = user.primarySkill;
           this.area = user.area;
           this.comment = user.comment;
+
+          this.busy = this.candidateService.getCriteriaForCandidate(this.candidateid).subscribe(data => {
+            if(data.message)
+            {
+              // alert(data.message);
+              this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+              this._flashMessagesService.grayOut(true);
+              return;
+            }
+            this.education = convertToString(data[0].education);
+            this.gender = data[0].gender;
+            for(let i=0; i<data.length; i++)
+            {
+              data[i].count = i+1;
+            }
+            this.totalCriteria = data;
+            console.log(this.totalCriteria);
+          });
         }
       })
     }
   }
 
-  viewCriteria(){
-    this.showDiv = true;
-    // let candidateid = localStorage.getItem('candidateid');
-    this.candidateService.getCriteriaForCandidate(this.candidateid).subscribe(data => {
-      if(data.message)
-      {
-        // alert(data.message);
-        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
-        this._flashMessagesService.grayOut(true);
-        return;
-      }
-      this.education = convertToString(data[0].education);
-      this.gender = data[0].gender;
-      for(let i=0; i<data.length; i++)
-      {
-        data[i].count = i+1;
-      }
-      this.totalCriteria = data;
-      console.log(this.totalCriteria);
-    });
-  }
-
   updateCandidate(){
     this.employmentStatus = this.employmentStatus == "Employed" ? true: false;
+
+    
 
     const updateCandi = {
       fullName: this.name,
@@ -145,7 +163,7 @@ export class CandidateviewComponent {
       delete updateCandi.phone
     }
 
-    if(this.employmentStatus){
+    if(this.employmentStatus != undefined){
       updateCandi.employmentStatus = this.employmentStatus
     }
     else{
@@ -170,6 +188,24 @@ export class CandidateviewComponent {
     this.busy = this.crudService.update(updateCandi, "candidates", this.candidateid).subscribe(data => {
       this._flashMessagesService.show("Updated Successfully.", { cssClass: 'alert-success text-center', timeout: 1000 });
       this._flashMessagesService.grayOut(true);
+
+      if(!this.isEducationSelected)
+      {
+        this.education = convertToNumber(this.education);
+      }
+      let updateObj = {
+        gender: this.gender,
+        education: this.education
+      };
+      console.log(updateObj);
+      for(let x of this.totalCriteria)
+      {
+        this.busy = this.crudService.update(updateObj, "criterias", x._id).subscribe(data=> {
+
+          console.log("Criteria Updated with gender and education.")
+        })
+      }
+
       setTimeout(function(){ 
         location.reload(); 
       }, 1000);
@@ -177,7 +213,7 @@ export class CandidateviewComponent {
   }
 
   keyPress(event: any) {
-    const pattern = /[0-9\ ]/;
+    const pattern = /[0-9\\.]/;
 
     let inputChar = String.fromCharCode(event.charCode);
     if (event.keyCode != 8 && !pattern.test(inputChar)) {
@@ -195,6 +231,29 @@ export class CandidateviewComponent {
       }
     }
     // console.log(val, id);
+  }
+
+  selectionChangedEmployment(val)
+  {
+    if(val.value == 'Employed')
+    {
+      this.employmentStatus = 'Employed';
+    }
+    else
+    {
+      this.employmentStatus = 'Unemployed';
+    }
+  }
+
+  selectionChangedGender(val)
+  {
+    this.gender = val.value;
+  }
+
+  selectionChangedEducation(val)
+  {
+    this.isEducationSelected = true;
+    this.education = convertToNumber(val.value);
   }
 
   onSubmitUpdateCandidate(id){
