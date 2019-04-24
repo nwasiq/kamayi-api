@@ -106,7 +106,16 @@ export class JobdeletionComponent {
   }
 
   revertJob(){
-    console.log("Revert Job.");
+    let updateObj = {
+      status: 'Active'
+    }
+    this.busy = this.crudService.update(updateObj, 'vacancys', this.idVacancy).subscribe(data => {
+      this._flashMessagesService.show("Vacancy reverted back to Active", { cssClass: 'alert-success text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      setTimeout(function () {
+        location.reload();
+      }, 1000);
+    })
   }
 
 }
