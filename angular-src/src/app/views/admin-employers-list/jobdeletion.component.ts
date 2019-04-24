@@ -105,4 +105,8 @@ export class JobdeletionComponent {
     })
   }
 
+  revertJob(){
+    console.log("Revert Job.");
+  }
+
 }
