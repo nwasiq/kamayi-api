@@ -26,4 +26,16 @@ export class NotificationService {
       .map(res => res.json());
   }
 
+  updateReadStatus(notiIdsArray){
+    let idsObj = {
+      notificationIds: notiIdsArray
+    }
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Authorization', token);
+    headers.append('Content-Type', 'application/json');
+    return this.http.put(this.localhostString + 'notifications', idsObj, { headers: headers })
+      .map(res => res.json());
+  }
+
 }

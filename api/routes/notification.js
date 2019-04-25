@@ -18,5 +18,6 @@ function checkAuthToken() {
 router.get('', checkAuthToken(), crudController.findAll);
 router.get('/admin', checkAuthToken(), notiController.getNotificationsForAdmin);
 router.get('/placement/:userId', checkAuthToken(), notiController.getNotificationsForPlacement);
+router.put('', checkAuthToken(), notiController.updateReadStatus);
 
 module.exports = router;

@@ -27,6 +27,10 @@ var NotificationSchema = new schema({
         required: true,
         enum: ['admin', 'placement']
     },
+    isRead: {
+        type: Boolean,
+        default: false
+    },
     createdAt: Date
 });
 

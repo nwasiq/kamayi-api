@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
 
   employerAssignments: number;
   vacancyArchiveApprovals: number;
+  notiIds: any = [];
 
   constructor(
     private userService: UserService,
@@ -33,14 +34,19 @@ export class DashboardComponent implements OnInit {
     }
 
     this.userService.getDashboardDetails().subscribe(data => {
-    console.log(data);
     
     this.employerAssignments = data.employerAssignments;
     this.vacancyArchiveApprovals = data.vacancyArchiveApprovals;
 
-      this.notiService.getNotifications().subscribe(data => {
-        // console.log(data);
-      })
-    })
+      // this.notiService.getNotifications().subscribe(data2 => {
+      //   console.log(data2);
+      //   for(let notification of data2){
+      //     this.notiIds.push(notification._id);
+      //   }
+      //   this.notiService.updateReadStatus(this.notiIds).subscribe(data3 => {
+      //     console.log(data3.message);
+      //   });
+      // });
+    });
   }
 }
