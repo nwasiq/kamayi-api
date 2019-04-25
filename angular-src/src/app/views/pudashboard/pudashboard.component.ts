@@ -28,7 +28,7 @@ export class PudashboardComponent implements OnInit {
       this.router.navigate(['']);
     }
     this.notiService.getNotifications(true).subscribe(data => {
-      console.log(data);
+      // console.log(data);
     });
   }
 }

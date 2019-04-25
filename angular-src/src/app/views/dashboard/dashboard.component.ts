@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit {
     this.vacancyArchiveApprovals = data.vacancyArchiveApprovals;
 
       this.notiService.getNotifications().subscribe(data => {
-        console.log(data);
+        // console.log(data);
       })
     })
   }
