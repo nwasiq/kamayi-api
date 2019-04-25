@@ -168,6 +168,7 @@ export class ManageshortlistComponent {
       if(data.message)
       {
         // alert(data.message);
+        this.shortListCandidatesIds = [];
         this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
       }

@@ -58,7 +58,7 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
             });
         }
         let shortListQuery = { $and: [] };
-        if(vacancy.occupation == 'Any'){
+        if (vacancy.occupation == 'Any') {
             if (req.query.education == undefined && req.query.gender == undefined &&
                 req.query.location == undefined && req.query.experience == undefined
                 && req.query.city == undefined) {
@@ -67,15 +67,15 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
                 });
             }
         }
-        else{
+        else {
             //default matching
-            shortListQuery.$and.push({ $or: [{ occupation: vacancy.occupation }, { occupation: "Any job"}]});
+            shortListQuery.$and.push({ $or: [{ occupation: vacancy.occupation }, { occupation: "Any job" }] });
         }
         /**
          * Creating Query for Candidate shortlist based on params (req.query)
          */
         let genderQuery = [];
-        
+
         if (req.query.experience != undefined) {
             shortListQuery.$and.push({ experience: { $gte: vacancy.experience } });
         }
@@ -240,8 +240,8 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
                 delete projectIndividualScores.locationScore;
             }
             aggregateOperation.push({
-                    $project: projectIndividualScores
-                },
+                $project: projectIndividualScores
+            },
                 {
                     $project: projectCombinedScore
                 },
@@ -250,7 +250,7 @@ exports.createTentativeCandidateShortlist = async function (req, res) {
                 }
             );
         }
-        if(req.query.page != undefined && req.query.limit != undefined)
+        if (req.query.page != undefined && req.query.limit != undefined)
             aggregateOperation.push({ $skip: paging.skip }, { $limit: paging.limit });
         let shortListCriteria = await Criteria.aggregate(aggregateOperation);
         let shortListCandidates = await Criteria.populate(shortListCriteria, { path: "candidate" });
@@ -279,7 +279,7 @@ exports.createCandidateShortlist = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        if(!candidateScores || candidateScores.length == 0){
+        if (!candidateScores || candidateScores.length == 0) {
             let candidateVacancyStatus = {
                 vacancy: vacancyId,
                 status: "Schedule Interview"
@@ -293,7 +293,7 @@ exports.createCandidateShortlist = async function (req, res) {
          * if request has scores, then candidate scores need to be saved 
          * in vacancy status field of candidate model 
          */
-        for(let i = 0; i < candidateIds.length; i++){
+        for (let i = 0; i < candidateIds.length; i++) {
             let candidateVacancyStatus = {
                 vacancy: vacancyId,
                 status: "Schedule Interview",
@@ -340,7 +340,7 @@ exports.findVacancyShortlist = async function (req, res) {
         }
         let candidates = await Candidate.find(candidateQuery, { _id: 1 });
         let findQuery = {
-            $and: [{ candidate: { $in: candidates }}]
+            $and: [{ candidate: { $in: candidates } }]
         }
         let occupationQuery = {
             $or: [{ occupation: occupationName }, { occupation: 'Any job' }]
@@ -374,20 +374,32 @@ exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
-        if(status == 'Joined' && vacancy.openings == 0){
+        if (vacancy.openings == 0) {
             return res.status(400).send({
                 message: "Vacancy already filled"
             });
         }
-        if (status == 'Joined' && vacancy.openings < candidateIds.length){
-            return res.status(400).send({
-                message: "Not enough openings for vacancy"
+        let checkCandidateQuery = {
+             _id: { $in: candidateIds }, vacancyStatus: {
+                $elemMatch: {
+                    vacancy: vacancyId,
+                    status: { $ne: status } }
+                }
+            
+        }
+        // because status Interview Scheduled can be updated with date
+        if(status == 'Interview Scheduled'){
+            delete checkCandidateQuery.vacancyStatus.$elemMatch.status
+        }
+        let checkCandidates = await Candidate.find(checkCandidateQuery);
+        if (checkCandidates.length == 0) {
+            return res.send({
+                message: "Candidates already have this status"
             });
         }
-        let checkCandidates = await Candidate.find({_id: {$in: candidateIds}});
-        if (checkCandidates.length != candidateIds.length) {
-            return res.status(404).send({
-                message: "One or more candidates not found"
+        if (status == 'Joined' && vacancy.openings < checkCandidates.length) {
+            return res.send({
+                message: "Not enough openings for vacancy"
             });
         }
         let interviewDate;
@@ -397,7 +409,7 @@ exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
         else {
             interviewDate = Date.now();
         }
-        let candidates = await Candidate.updateMany({ _id: {$in: candidateIds}, 'vacancyStatus.vacancy': vacancyId },
+        let candidates = await Candidate.updateMany({ _id: { $in: candidateIds }, 'vacancyStatus.vacancy': vacancyId },
             {
                 '$set': {
                     'vacancyStatus.$.status': status,
@@ -406,19 +418,21 @@ exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
             }, { new: true });
 
         if (status == "Joined") {
-            for(let candidate of checkCandidates){
+            for (let candidate of checkCandidates) {
                 candidate.employmentStatus = true;
                 candidate = await candidate.save();
             }
-            vacancy.hired += candidateIds.length;
-            vacancy.openings -= candidateIds.length;
+            vacancy.hired += checkCandidates.length;
+            vacancy.openings -= checkCandidates.length;
+
             if (vacancy.openings == 0) {
                 vacancy.status = 'Completed';
             }
-            vacancy = await vacancy.save();
+            let status = vacancy.status;
+
+            await Vacancy.findOneAndUpdate({ _id: vacancy._id }, {  hired: vacancy.hired, openings: vacancy.openings, status: status });
         }
         res.send(candidates);
-
     } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
@@ -427,18 +441,17 @@ exports.updateStatusForCandidatesInAVacancy = async function (req, res) {
     }
 }
 
-exports.updateStatusForVacancies = async function(req, res) {
+exports.updateStatusForVacancies = async function (req, res) {
     let vacancyIds = req.body.vacancyIds;
     let status = req.params.status;
-    try{
-        await Vacancy.updateMany({_id: {$in: vacancyIds}}, {'$set': {
-                status: status
-            }
-        });
+    try {
+        for (let singleVacancyId of vacancyIds) {
+            await Vacancy.findOneAndUpdate({ _id: singleVacancyId }, { status: status });
+        }
         res.send({
             message: "Status updated"
         })
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
             err: err
@@ -448,9 +461,9 @@ exports.updateStatusForVacancies = async function(req, res) {
 
 exports.getVacanciesByStatus = async function (req, res) {
     let status = Vacancy.schema.path('status').enumValues[parseInt(req.params.statusId)];
-    try{
-        let vacancies = await Vacancy.find({status: status});
-        if(vacancies.length == 0){
+    try {
+        let vacancies = await Vacancy.find({ status: status });
+        if (vacancies.length == 0) {
             return res.status(404).send({
                 message: "Vacancies with status " + status + " not found"
             })

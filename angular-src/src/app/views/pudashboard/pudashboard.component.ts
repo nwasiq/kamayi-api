@@ -4,6 +4,7 @@ import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 
 import { UserService } from '../../../services/user/user.service';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   templateUrl: 'pudashboard.component.html'
@@ -14,7 +15,8 @@ export class PudashboardComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private notiService: NotificationService
     ) {}
 
   ngOnInit() {
@@ -25,5 +27,8 @@ export class PudashboardComponent implements OnInit {
       this.userService.logout();
       this.router.navigate(['']);
     }
+    this.notiService.getNotifications(true).subscribe(data => {
+      console.log(data);
+    });
   }
 }

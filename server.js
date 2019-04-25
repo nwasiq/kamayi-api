@@ -19,7 +19,8 @@ var User = require('./api/models/User'),
 	Candidate = require('./api/models/Candidate'),
 	BulkCandidate = require('./api/models/BulkCandidate'),
 	CandidateMatchingCriteria = require('./api/models/CandidateMatchingCriteria'),
-	Vacancy = require('./api/models/Vacancy');
+	Vacancy = require('./api/models/Vacancy'),
+	Notification = require('./api/models/Notification');
 	
 mongoose.plugin(schema => {
 	schema.options.usePushEach = true

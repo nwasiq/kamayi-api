@@ -53,6 +53,15 @@ EmployerSchema.pre('findOneAndUpdate', async function () {
             throw new Error('No placement officer found with id: ' + this._update.placementOfficer);
         }
         this._update.isAssigned = "Assigned";
+        const NotiModel = mongoose.model('notification');
+
+        let newNotification = new NotiModel({
+            notiType: 'Employer Assigned',
+            role: 'placement',
+            placementUser: this._update.placementOfficer,
+            employer: this._conditions._id
+        })
+        await newNotification.save();
     }
 });
 

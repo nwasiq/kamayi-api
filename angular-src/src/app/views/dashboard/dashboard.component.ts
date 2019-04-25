@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { UserService } from '../../../services/user/user.service';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -16,7 +17,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private route: Router
+    private route: Router,
+    private notiService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -35,6 +37,10 @@ export class DashboardComponent implements OnInit {
     
     this.employerAssignments = data.employerAssignments;
     this.vacancyArchiveApprovals = data.vacancyArchiveApprovals;
+
+      this.notiService.getNotifications().subscribe(data => {
+        console.log(data);
+      })
     })
   }
 }

@@ -73,7 +73,7 @@ export class AssignmentComponent {
     this.busy = this.crudService.update(assignPO, "employers", this.modalEmployerId).subscribe(data => {
       if(!data.message){
         // alert("Successfully assigned.");
-        this._flashMessagesService.show("Successfully assigned.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.show("Successfully assigned.", { cssClass: 'alert-success text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
         setTimeout(function(){ 
           location.reload(); 

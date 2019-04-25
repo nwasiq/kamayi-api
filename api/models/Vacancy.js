@@ -63,20 +63,32 @@ var VacancySchema = new schema({
 
 });
 
-// VacancySchema.pre('remove', async function(){
-//     const CandidateModel = mongoose.model('candidate');
-//     await CandidateModel.updateMany({ 'vacancyStatus.vacancy': req.params.vacancyId },
-//         { $set: { vacancyStatus: { status: "Status TBD" } } })
-// });
-
 VacancySchema.pre('save', async function(){
     this.dateCreated = Date.now();
 });
 
-/**
- * @todo: if vacancy deleted, remove vacancy reference from candidates ()
- * This is already being done in delete vacancy function
- */
+VacancySchema.pre('findOneAndUpdate', async function () {
+    if (this._update.status != undefined && (this._update.status == 'Completed' || 
+        this._update.status == 'Pending Archived' || this._update.status == 'Pending Completed')) {
+
+        let notification;
+        if (this._update.status == 'Completed')
+            notification = 'Vacancy Completed';
+        else if (this._update.status == 'Pending Completed')
+            notification = 'Vacancy Completion Approval';
+        else if (this._update.status == 'Pending Archived')
+            notification = 'Vacancy Archival Approval';
+
+        const NotiModel = mongoose.model('notification');
+        let newNotification = new NotiModel({
+            notiType: notification,
+            role: 'admin',
+            vacancy:  this._conditions._id
+        })
+        await newNotification.save();
+    }
+});
+
 
 VacancySchema.index({ location: '2dsphere' });
 

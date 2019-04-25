@@ -17,5 +17,6 @@ router.use('/vacancys', require('./vacancy'));
 router.use('/criterias', require('./criteria'));
 router.use('/occupations', require('./occupation'));
 router.use('/bulkcandidates', require('./bulkcandidate'));
+router.use('/notifications', require('./notification'));
 
 module.exports = router;

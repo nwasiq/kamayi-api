@@ -42,7 +42,6 @@ export class JobdeletionComponent {
   ngOnInit(){
     this.busy = this.vacancyService.getAllVacancies().subscribe(data => {
       this.jobDeletionInfo = data;
-      console.log(this.jobDeletionInfo);
     })
   }
 

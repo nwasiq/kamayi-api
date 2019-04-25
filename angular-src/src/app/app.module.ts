@@ -19,6 +19,7 @@ import { AgmCoreModule } from '@agm/core';
 import { CrudService } from '../services/crud/crud.service';
 import { UserService } from '../services/user/user.service';
 import { VacancyService } from '../services/vacancy/vacancy.service';
+import { NotificationService } from '../services/notification/notification.service';
 import { BulkCandidateService } from '../services/bulkCandidate/bulk-candidate.service';
 import { AuthGuard } from '../services/authGuard/auth.guard';
 import { EmployerService } from '../services/employer/employer.service';
@@ -96,6 +97,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
     EmployerService,
     BulkCandidateService,
     VacancyService,
+    NotificationService,
     PagerService,
     {
     provide: LocationStrategy,
