@@ -222,6 +222,11 @@ export class ManagecriteriaComponent {
         paramCount++;
       }
 
+      if (this.locationWeight < 0 || this.experienceWeight < 0 || this.educationWeight < 0){
+        this._flashMessagesService.show("Weight can't be negative.", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        return;
+      }
       if ((this.locationWeight + this.experienceWeight + this.educationWeight) != 10) {
         this._flashMessagesService.show("Sum of the weights needs to be 10.", { cssClass: 'alert-danger text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
