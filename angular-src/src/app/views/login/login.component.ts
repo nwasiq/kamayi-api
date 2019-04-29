@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
+
+  busy: Subscription;
 
   email: string;
   password: string;
@@ -40,7 +43,7 @@ export class LoginComponent implements OnInit {
       email: this.email,
       password: this.password
     }
-    this.userService.userLogin(user).subscribe(data => {
+    this.busy = this.userService.userLogin(user).subscribe(data => {
       this.userService.storeUserData(data.token, data.user);
       // console.log(JSON.parse(localStorage.getItem('user')));
       // console.log(data);

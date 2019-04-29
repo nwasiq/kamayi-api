@@ -191,7 +191,7 @@ export class CreateemployerComponent {
       else
       {
         // alert("Employer Created!");
-        this._flashMessagesService.show("Employer Created!", { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.show("Employer Created!", { cssClass: 'alert-success text-center', timeout: 1000 });
         this._flashMessagesService.grayOut(true);
         this.route.navigate(['/cc-employers-list/employers']);
       }
