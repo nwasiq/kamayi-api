@@ -30,6 +30,7 @@
                         </th>
                         <th mat-sort-header="candidate._id">ID</th>
                         <th mat-sort-header="candidate.fullName">Candidate Name</th>
+                        <th mat-sort-header="candidate.phone">Phone</th>
                         <th mat-sort-header="candidate.primarySkill">Skill</th>
                         <th mat-sort-header="education">Education</th>
                         <th mat-sort-header="experience">Relevant Exp</th>
@@ -45,6 +46,7 @@
                         </td>
                         <td>{{ candidate.candidate._id }}</td>
                         <td>{{ candidate.candidate.fullName }}</td>
+                        <td>{{ candidate.candidate.phone }}</td>
                         <td>{{ candidate.candidate.primarySkill }}</td>
                         <td>{{ candidate.education }}</td>
                         <td>{{ candidate.experience }}</td>

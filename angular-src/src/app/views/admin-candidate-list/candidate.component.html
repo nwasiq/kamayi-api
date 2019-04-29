@@ -88,8 +88,7 @@
                   <th>Full Name</th>
                   <th>Primary Skill</th>
                   <th>Phone No</th>
-                  <th>CNIC No</th>
-                  <th>Address</th>
+                  <th>Comment</th>
                   <th>Other Skill</th>
                   <th>Operations</th>
                 </tr>
@@ -100,8 +99,7 @@
                   <td>{{ candidate.fullName }}</td>
                   <td>{{ candidate.primarySkill }}</td>
                   <td>{{ candidate.phone }}</td>
-                  <td>{{ candidate.cnic }}</td>
-                  <td>{{ candidate.area }}</td>
+                  <td>{{ candidate.comment }}</td>
                   <td>{{ candidate.hasOtherSkill }}</td>
                   <td>
                     <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>

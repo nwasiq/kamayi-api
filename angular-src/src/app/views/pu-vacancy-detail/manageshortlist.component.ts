@@ -45,7 +45,7 @@ export class ManageshortlistComponent {
 
   candidatesInfo: any[] = [];
 
-  status = ['Schedule Interview', 'Interview Scheduled', 'Interviewed', 'Rejected', 'Hired', 'Joined'];
+  status = ['Schedule Interview', 'Interview Scheduled', 'Interviewed', 'Rejected', 'Hired', 'Joined', 'Not Answered'];
 
   shortListCandidatesIds: any = [];
 
