@@ -18,6 +18,7 @@
       </div>
       <div class="row">
         <div class="col-md-6 mx-auto">
+          <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
           <div class="card-group">
             <div class="card p-4" style="background-color: #909090; border-radius: 2em; border-color: #707070;">
               <div class="card-body" style="margin-top: 2em;">

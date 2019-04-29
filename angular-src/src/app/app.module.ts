@@ -60,6 +60,9 @@ import { HttpInterceptor } from '../services/httpInterceptor';
 // flash message module
 import { FlashMessagesModule } from 'angular2-flash-messages';
 
+//ng busy
+import {NgBusyModule} from 'ng-busy';
+
 
 @NgModule({
   imports: [
@@ -77,6 +80,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
     ChartsModule,
     FormsModule,
     HttpModule,
+    NgBusyModule,
     FlashMessagesModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCUiJepm4V6WLT5sJ0FJtkvgUoOzaaguhM' //needs to be changed
