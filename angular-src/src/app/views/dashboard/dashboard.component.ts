@@ -37,16 +37,6 @@ export class DashboardComponent implements OnInit {
     
     this.employerAssignments = data.employerAssignments;
     this.vacancyArchiveApprovals = data.vacancyArchiveApprovals;
-
-      // this.notiService.getNotifications().subscribe(data2 => {
-      //   console.log(data2);
-      //   for(let notification of data2){
-      //     this.notiIds.push(notification._id);
-      //   }
-      //   this.notiService.updateReadStatus(this.notiIds).subscribe(data3 => {
-      //     console.log(data3.message);
-      //   });
-      // });
     });
   }
 }

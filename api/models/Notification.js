@@ -5,14 +5,14 @@ var schema = mongoose.Schema;
 
 var NotificationSchema = new schema({
     notiType: {
-        type: String,
-        enum: [
-            'Employer Assigned',
-            'Vacancy Completion Approval',
-            'Vacancy Archival Approval',
-            'Vacancy Completed',
-            'Candidate with Other skill added'
-        ]
+        type: String
+        // enum: [
+        //     'Employer Assigned',
+        //     'Vacancy Completion Approval',
+        //     'Vacancy Archival Approval',
+        //     'Vacancy Completed',
+        //     'Candidate with Other skill added'
+        // ]
     },
     placementUser: {
         type: schema.Types.ObjectId, ref: 'user'

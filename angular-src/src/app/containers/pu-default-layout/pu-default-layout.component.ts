@@ -4,6 +4,7 @@ import { punavItems } from '../../_punav';
 
 import { Router } from '@angular/router';
 import { UserService} from '../../../services/user/user.service';
+import { NotificationService } from '../../../services/notification/notification.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +15,19 @@ export class PuDefaultLayoutComponent implements OnDestroy {
   name: any;
   role: any;
 
+  unreadCount: number;
+  totalNotis: any = [];
+
+  notiIds: any = [];
+
   public navItems = punavItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement;
   constructor(@Inject(DOCUMENT) _document: any,
   private router: Router,
-  private userService: UserService
+  private userService: UserService,
+  private notiService: NotificationService
   ) {
 
     this.changes = new MutationObserver((mutations) => {
@@ -33,6 +40,17 @@ export class PuDefaultLayoutComponent implements OnDestroy {
     });
   }
 
+  notiClick(){
+    // console.log("Noti clicked");
+    for(let notification of this.totalNotis){
+      this.notiIds.push(notification._id);
+    }
+    this.notiService.updateReadStatus(this.notiIds).subscribe(data1 => {
+      console.log(data1.message);
+      this.unreadCount = 0;
+    });
+  }
+
   ngOnDestroy(): void {
     this.changes.disconnect();
   }
@@ -41,6 +59,11 @@ export class PuDefaultLayoutComponent implements OnDestroy {
     this.name = JSON.parse(localStorage.getItem('user')).fullName;
     this.role = JSON.parse(localStorage.getItem('user')).role;
     // console.log("Name: " + this.name);
+    this.notiService.getNotifications(true).subscribe(data => {
+      console.log(data);
+      this.unreadCount = data.unreadCount;
+      this.totalNotis = data.notifications;
+    });
   }
 
   onViewUser(user){

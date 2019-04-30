@@ -296,3 +296,10 @@ input[type="file"]{
       opacity: 0.25;
     }
   }
+
+  // notification scroll
+
+  .dropdown-menu{
+    overflow-y: auto!important;
+    max-height: 200px!important;
+  }

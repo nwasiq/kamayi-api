@@ -72,12 +72,14 @@ VacancySchema.pre('findOneAndUpdate', async function () {
         this._update.status == 'Pending Archived' || this._update.status == 'Pending Completed')) {
 
         let notification;
+        const Vacancy = mongoose.model('vacancy');
+        let vacancyTitle = await Vacancy.findOne({_id: this._conditions._id}, {title: 1});
         if (this._update.status == 'Completed')
-            notification = 'Vacancy Completed';
+            notification = 'Vacancy Completed (' + vacancyTitle.title + ')';
         else if (this._update.status == 'Pending Completed')
-            notification = 'Vacancy Completion Approval';
+            notification = 'Vacancy Completion Approval (' + vacancyTitle.title + ')';
         else if (this._update.status == 'Pending Archived')
-            notification = 'Vacancy Archival Approval';
+            notification = 'Vacancy Archival Approval (' + vacancyTitle.title + ')';
 
         const NotiModel = mongoose.model('notification');
         let newNotification = new NotiModel({

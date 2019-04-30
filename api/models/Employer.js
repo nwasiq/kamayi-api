@@ -54,9 +54,10 @@ EmployerSchema.pre('findOneAndUpdate', async function () {
         }
         this._update.isAssigned = "Assigned";
         const NotiModel = mongoose.model('notification');
-
+        const Employer = mongoose.model('employer');
+        let employerCompany = await Employer.findOne({_id: this._conditions._id}, {companyName: 1});
         let newNotification = new NotiModel({
-            notiType: 'Employer Assigned',
+            notiType: 'Employer Assigned (' + employerCompany.companyName + ')',
             role: 'placement',
             placementUser: this._update.placementOfficer,
             employer: this._conditions._id
