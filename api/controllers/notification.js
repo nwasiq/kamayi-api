@@ -5,7 +5,7 @@ const User = require('../models/User');
 
 exports.getNotificationsForAdmin = async function(req, res){
     try{
-        let notifications = await Notification.find({ role: 'admin'}).sort({createdAt: -1});
+        let notifications = await Notification.find({ role: 'admin'}).sort({createdAt: -1}).limit(20);
         let unreadCount = await Notification.countDocuments({ role: 'admin', isRead: false});
         res.send({unreadCount, notifications});
     } catch(err) {
@@ -25,7 +25,7 @@ exports.getNotificationsForPlacement = async function (req, res) {
                 message: "User not found with id " + placementId
             });
         }
-        let notifications = await Notification.find({role: 'placement', placementUser: placementId }).sort({createdAt: -1});
+        let notifications = await Notification.find({role: 'placement', placementUser: placementId }).sort({createdAt: -1}).limit(20);
         let unreadCount = await Notification.countDocuments({ role: 'placement', placementUser: placementId, isRead: false });
         res.send({unreadCount, notifications});
     } catch (err) {
