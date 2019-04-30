@@ -46,7 +46,6 @@ export class PuDefaultLayoutComponent implements OnDestroy {
       this.notiIds.push(notification._id);
     }
     this.notiService.updateReadStatus(this.notiIds).subscribe(data1 => {
-      console.log(data1.message);
       this.unreadCount = 0;
     });
   }
@@ -60,7 +59,6 @@ export class PuDefaultLayoutComponent implements OnDestroy {
     this.role = JSON.parse(localStorage.getItem('user')).role;
     // console.log("Name: " + this.name);
     this.notiService.getNotifications(true).subscribe(data => {
-      console.log(data);
       this.unreadCount = data.unreadCount;
       this.totalNotis = data.notifications;
     });
@@ -72,7 +70,6 @@ export class PuDefaultLayoutComponent implements OnDestroy {
   }
 
   onLogout(){
-    console.log("Logout Clicked.");
     {
       this.userService.logout();
       this.router.navigate(['']);
