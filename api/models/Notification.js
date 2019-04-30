@@ -10,7 +10,8 @@ var NotificationSchema = new schema({
             'Employer Assigned',
             'Vacancy Completion Approval',
             'Vacancy Archival Approval',
-            'Vacancy Completed'
+            'Vacancy Completed',
+            'Candidate with Other skill added'
         ]
     },
     placementUser: {

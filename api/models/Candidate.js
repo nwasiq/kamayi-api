@@ -37,6 +37,15 @@ CandidateSchema.pre('save', async function () {
      */
     const BulkCandModel = mongoose.model('bulkcandidate');
     await BulkCandModel.findOneAndUpdate({cnic: this.cnic}, {status: true});
+    if(this.hasOtherSkill){
+        const NotiModel = mongoose.model('notification');
+
+        let newNotification = new NotiModel({
+            notiType: 'Candidate with Other skill added',
+            role: 'admin'
+        })
+        await newNotification.save();
+    }
 })
 
 const candidate = module.exports = mongoose.model('candidate', CandidateSchema);

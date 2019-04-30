@@ -5,8 +5,9 @@ const User = require('../models/User');
 
 exports.getNotificationsForAdmin = async function(req, res){
     try{
-        let notifications = await Notification.find({ role: 'admin', isRead: false}).populate('vacancy', 'title');
-        res.send(notifications);
+        let notifications = await Notification.find({ role: 'admin'}).populate('vacancy', 'title');
+        let unreadCount = await Notification.countDocuments({ role: 'admin', isRead: false});
+        res.send(unreadCount, notifications);
     } catch(err) {
         res.status(500).send({
             message: "A server error occurred",
@@ -24,8 +25,9 @@ exports.getNotificationsForPlacement = async function (req, res) {
                 message: "User not found with id " + placementId
             });
         }
-        let notifications = await Notification.find({role: 'placement', placementUser: placementId, isRead: false}).populate('employer', 'companyName');
-        res.send(notifications);
+        let notifications = await Notification.find({role: 'placement', placementUser: placementId }).populate('employer', 'companyName');
+        let unreadCount = await Notification.countDocuments({ role: 'placement', placementUser: placementId, isRead: false });
+        res.send(unreadCount, notifications);
     } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
