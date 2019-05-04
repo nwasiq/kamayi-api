@@ -253,7 +253,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let candidate of searchedCandidates | filter:search">
+                    <tr *ngFor="let candidate of searchedCandidates">
                         <td>
                             <input type="checkbox" name="candidatecb[]" value="{{candidate._id}}" [(ngModel)]="candidate.state" />
                         </td>

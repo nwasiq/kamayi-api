@@ -53,7 +53,7 @@ export class ManagecriteriaComponent {
   /**
    * search related vars
    */
-
+  
   fullName: string;
   primarySkill: string;
   phoneNo: string;
