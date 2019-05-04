@@ -14,105 +14,108 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top: 0.5em;">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Criteria
-                </div>
-                <div class="card-body">
-                    <div class="input-group mb-12">
-                        <div class="input-group col-md-1">
-                        </div>
-                        <div class="input-group col-md-3">
-                            <div class="col-md-12 col-form-label">
-                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
-                                    
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
-                                    <input class="form-check-input" type="checkbox" name="gender" [(ngModel)]="gender" value="Gender">
-                                    <label class="form-check-label" for="inlineRadio1"> Gender</label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.5em;">
-                                    <input class="form-check-input" type="checkbox" name="education" [(ngModel)]="education" value="Education">
-                                    <label class="form-check-label" for="inlineRadio2"> Education</label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
-                                    <input class="form-check-input" type="checkbox" name="experience" [(ngModel)]="experience" value="Experience">
-                                    <label class="form-check-label" for="inlineRadio3"> Experience</label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
-                                    <input class="form-check-input" type="checkbox" name="city" [(ngModel)]="city" value="City">
-                                    <label class="form-check-label" for="inlineRadio2"> City</label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
-                                    <input class="form-check-input" type="checkbox" name="location" [(ngModel)]="location" value="Location">
-                                    <label class="form-check-label" for="inlineRadio3"> Location</label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
-                                    <input class="form-check-input" type="checkbox" name="unemployed" [(ngModel)]="unemployed" value="Unemployed">
-                                    <label class="form-check-label" for="inlineRadio3"> Show Only Unemployed</label>
+    <tabset>
+        <tab heading="Criteria">
+        <div class="row" style="margin-top: 0.5em;">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-align-justify"></i> Criteria
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-12">
+                            <div class="input-group col-md-1">
+                            </div>
+                            <div class="input-group col-md-3">
+                                <div class="col-md-12 col-form-label">
+                                    <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                        
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                        <input class="form-check-input" type="checkbox" name="gender" [(ngModel)]="gender" value="Gender">
+                                        <label class="form-check-label" for="inlineRadio1"> Gender</label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.5em;">
+                                        <input class="form-check-input" type="checkbox" name="education" [(ngModel)]="education" value="Education">
+                                        <label class="form-check-label" for="inlineRadio2"> Education</label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                        <input class="form-check-input" type="checkbox" name="experience" [(ngModel)]="experience" value="Experience">
+                                        <label class="form-check-label" for="inlineRadio3"> Experience</label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                        <input class="form-check-input" type="checkbox" name="city" [(ngModel)]="city" value="City">
+                                        <label class="form-check-label" for="inlineRadio2"> City</label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                        <input class="form-check-input" type="checkbox" name="location" [(ngModel)]="location" value="Location">
+                                        <label class="form-check-label" for="inlineRadio3"> Location</label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" style="margin-top: 0.25em;">
+                                        <input class="form-check-input" type="checkbox" name="unemployed" [(ngModel)]="unemployed" value="Unemployed">
+                                        <label class="form-check-label" for="inlineRadio3"> Show Only Unemployed</label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="input-group col-md-1">
-                        </div>
-                        <div class="input-group col-md-3">
-                            <div class="col-md-12 col-form-label">
-                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
-                                    <label class="form-check-label" for="inlineRadio3"> Weights</label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
-                                    <label class="form-check-label" for="inlineRadio1"> - </label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <input class="form-check-input" type="number" min="0" name="educationWeight" [(ngModel)]="educationWeight" style="width: 25%; margin-bottom: 0.25em;">
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <input class="form-check-input" type="number" min="0" name="experienceWeight" [(ngModel)]="experienceWeight" style="width: 25%; margin-bottom: 0.25em;">
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <label class="form-check-label" for="inlineRadio2"> - </label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <input class="form-check-input" type="number" min="0" name="locationWeight" [(ngModel)]="locationWeight" style="width: 25%; margin-bottom: 0.25em;">
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <label class="form-check-label" for="inlineRadio3"> - </label>
+                            <div class="input-group col-md-1">
+                            </div>
+                            <div class="input-group col-md-3">
+                                <div class="col-md-12 col-form-label">
+                                    <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                        <label class="form-check-label" for="inlineRadio3"> Weights</label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                        <label class="form-check-label" for="inlineRadio1"> - </label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="number" min="0" name="educationWeight" [(ngModel)]="educationWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="number" min="0" name="experienceWeight" [(ngModel)]="experienceWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <label class="form-check-label" for="inlineRadio2"> - </label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="number" min="0" name="locationWeight" [(ngModel)]="locationWeight" style="width: 25%; margin-bottom: 0.25em;">
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <label class="form-check-label" for="inlineRadio3"> - </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="input-group col-md-4">
-                            <div class="col-md-12 col-form-label">
-                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
-                                    
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <label class="form-check-label" for="inlineRadio2"> Sort By:</label>&emsp;
-                                    <select class="form-control" name="sort" [(ngModel)]="sort" style="border-color: #707070; width: 50%; margin-bottom: 0.5em;" required>
-                                        <option *ngFor="let x of sortBy" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <input class="form-check-input" type="checkbox" name="generateWeighted" [(ngModel)]="generateWeighted" value="Generate Weighted">
-                                    <label class="form-check-label" for="inlineRadio3"> Generate Weighted List (Sum of weights = 10)</label>
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    
-                                </div>
-                                <div class="col-md-12 form-check form-check-inline mr-4">
-                                    <button (click)="generateList()" class="btn pull-right" style="font-weight: bold; border-radius: 50px; width: 100%; height: 40px; border-color: #707070">Generate List</button>
+                            <div class="input-group col-md-4">
+                                <div class="col-md-12 col-form-label">
+                                    <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                        
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4" id="inline-radios">
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <label class="form-check-label" for="inlineRadio2"> Sort By:</label>&emsp;
+                                        <select class="form-control" name="sort" [(ngModel)]="sort" style="border-color: #707070; width: 50%; margin-bottom: 0.5em;" required>
+                                            <option *ngFor="let x of sortBy" [ngValue]="x" style="text-transform: capitalize;">{{x}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <input class="form-check-input" type="checkbox" name="generateWeighted" [(ngModel)]="generateWeighted" value="Generate Weighted">
+                                        <label class="form-check-label" for="inlineRadio3"> Generate Weighted List (Sum of weights = 10)</label>
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        
+                                    </div>
+                                    <div class="col-md-12 form-check form-check-inline mr-4">
+                                        <button (click)="generateList()" class="btn pull-right" style="font-weight: bold; border-radius: 50px; width: 100%; height: 40px; border-color: #707070">Generate List</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!--/.col-->
                 </div>
-                <!--/.col-->
             </div>
         </div>
-    </div>
+        
     <!--/.row-->
 
     <div class="row">
@@ -158,7 +161,7 @@
                         </td>
                         <!-- <td>{{ candidate.score }}</td> -->
                         <td>
-                            <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-success">View</span>
+                            <span (click)="onViewCandidate(candidate.candidate._id)" style="cursor: pointer;" class="badge badge-success">View</span>
                         </td>
                     </tr>
                     </tbody>
@@ -168,6 +171,109 @@
             </div>
         </div>
     </div>
+    </tab>
+
+    <tab heading="Search">
+        <div class="col-md-12 mb-4">
+            <div [ngBusy]="{busy: busy2, message: 'Loading...', backdrop: false, delay: 200, minDuration: 300}"></div>
+            <div class="input-group">
+                <div class="input-group mb-4">
+                    <div class="input-group col-md-4">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="company">Full Name</label>
+                                <input class="form-control" [(ngModel)]="fullName" name="fullName" type="text"
+                                    style="border-color: #707070">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-4">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="company">Primary Skill</label>
+                                <input class="form-control" [(ngModel)]="primarySkill" name="primarySkill" type="text"
+                                    style="border-color: #707070">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-4">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="company">Phone No </label>
+                                <input class="form-control" [(ngModel)]="phoneNo" name="phoneNo" type="text"
+                                    style="border-color: #707070">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-4">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="company">CNIC</label>
+                                <input class="form-control" [(ngModel)]="cnic" name="cnic" type="text"
+                                    style="border-color: #707070">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-4">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="company">Other Skill</label>
+                                <select class="form-control" name="otherSkill" [(ngModel)]="otherSkill"
+                                    style="border-color: #707070; text-transform: capitalize;">
+                                    <option *ngFor="let x of otherSkillArr" [ngValue]="x"
+                                        style="text-transform: capitalize;">{{x}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group col-md-4">
+                        <div class="col-md-12">
+                            <div class="form-group" style="margin-top: 2em; text-align: center;">
+                                <button class="btn btn-success" (click)="filterCandidates()">Filter Candidates</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-sm table-responsive-sm">
+                <thead>
+                    <tr style="background: #BFFFCE;">
+                        <th>
+                            <input type="checkbox" name="all" [checked]="isAllCheckedSearch()" (change)="checkAllSearch($event)" />
+                        </th>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Primary Skill</th>
+                        <th>Phone No</th>
+                        <th>CNIC No</th>
+                        <th>Other Skill</th>
+                        <th>Operations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let candidate of searchedCandidates | filter:search">
+                        <td>
+                            <input type="checkbox" name="candidatecb[]" value="{{candidate._id}}" [(ngModel)]="candidate.state" />
+                        </td>
+                        <td>{{ candidate._id }}</td>
+                        <td>{{ candidate.fullName }}</td>
+                        <td>{{ candidate.primarySkill }}</td>
+                        <td>{{ candidate.phone }}</td>
+                        <td>{{ candidate.cnic }}</td>
+                        <td>{{ candidate.hasOtherSkill }}</td>
+                        <td>
+                            <span (click)="onViewCandidate(candidate._id)" style="cursor: pointer;"
+                                class="badge badge-success">View</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </tab>
+    
+    </tabset>
     <!--/.row-->
     <div class="row">
         <div class="input-group mb-12">

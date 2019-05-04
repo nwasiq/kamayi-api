@@ -30,10 +30,13 @@ import {NgBusyModule} from 'ng-busy';
 // Mat Sort
 import {MatSortModule} from '@angular/material/sort';
 
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    TabsModule,
     BaseRoutingModule,
     Ng2SearchPipeModule,
     AngularDateTimePickerModule,
