@@ -279,6 +279,12 @@ exports.createCandidateShortlist = async function (req, res) {
                 message: "Vacancy not found with id " + req.params.vacancyId
             });
         }
+        candidateIds = await Candidate.find({$and: [{_id: {$in: candidateIds}}, {'vacancyStatus.vacancy': {$ne: vacancyId}}]}).distinct('_id');
+        if(candidateIds.length == 0){
+            return res.status(400).send({
+                message: "Candidates already shortlisted for vacancy"
+            });
+        }
         if (!candidateScores || candidateScores.length == 0) {
             let candidateVacancyStatus = {
                 vacancy: vacancyId,

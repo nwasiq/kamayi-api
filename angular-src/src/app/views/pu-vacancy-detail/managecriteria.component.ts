@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { VacancyService } from '../../../services/vacancy/vacancy.service';
+import { CandidateService } from '../../../services/candidate/candidate.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CrudService } from '../../../services/crud/crud.service';
 import { convertToString } from '../../../services/convertEducation';
@@ -49,12 +50,27 @@ export class ManagecriteriaComponent {
   shortListCandidatesIds: any = [];
   shortListCandidateScores: any = [];
 
+  /**
+   * search related vars
+   */
+
+  fullName: string;
+  primarySkill: string;
+  phoneNo: string;
+  cnic: string;
+  otherSkill: string;
+  otherSkillArr = ["true", "false"];
+  searchedCandidates: any = [];
+  busy2: Subscription; 
+  isSearchCandidate: boolean;
+
   constructor(
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private vacancyService: VacancyService,
     private crudService: CrudService,
-    private _flashMessagesService: FlashMessagesService
+    private _flashMessagesService: FlashMessagesService,
+    private candidateService: CandidateService
   ) { }
 
   sortBy = ["education", "experience", "location", "none"];
@@ -65,6 +81,14 @@ export class ManagecriteriaComponent {
 
   isAllChecked() {
     return this.candidatesInfo.every(_ => _.state);
+  }
+
+  checkAllSearch(ev) {
+    this.searchedCandidates.forEach(x => x.state = ev.target.checked)
+  }
+
+  isAllCheckedSearch() {
+    return this.searchedCandidates.every(_ => _.state);
   }
 
   ngOnInit() {
@@ -100,6 +124,8 @@ export class ManagecriteriaComponent {
   }
 
   generateList() {
+    this.isSearchCandidate = false;
+    this.searchedCandidates = [];
     this.shortListCandidatesIds = [];
     this.shortListCandidateScores = [];
     let isSort = false;
@@ -281,18 +307,29 @@ export class ManagecriteriaComponent {
   }
 
   createShortList() {
-    if (this.candidatesInfo.length == 0) {
+    this.shortListCandidatesIds = [];
+    if (this.candidatesInfo.length == 0 && this.searchedCandidates.length == 0) {
       // alert("No candidates to shortlist.");
       this._flashMessagesService.show("No candidates to shortlist.", { cssClass: 'alert-danger text-center', timeout: 1000 });
       this._flashMessagesService.grayOut(true);
       return;
     }
 
-    for (let x of this.candidatesInfo) {
-      if (x.state) {
-        this.shortListCandidatesIds.push(x.candidate._id);
-        if(x.score)
-          this.shortListCandidateScores.push(x.score);
+    if(!this.isSearchCandidate){
+      for (let x of this.candidatesInfo) {
+        if (x.state) {
+          this.shortListCandidatesIds.push(x.candidate._id);
+          if (x.score)
+            this.shortListCandidateScores.push(x.score);
+        }
+      }
+    }
+    
+    else{
+      for (let x of this.searchedCandidates) {
+        if (x.state) {
+          this.shortListCandidatesIds.push(x._id);
+        }
       }
     }
 
@@ -330,11 +367,11 @@ export class ManagecriteriaComponent {
     }
   }
 
-  onViewCandidate(candidate) {
+  onViewCandidate(id) {
     // localStorage.setItem("candidateid", candidate._id);
     // this.route.navigate(['/pu-vacancy-detail/candidateview/' + candidate.candidate._id]);
     this.route.navigate([]).then(result => {
-      window.open('/#/pu-vacancy-detail/candidateview/' + candidate.candidate._id, '_blank');
+      window.open('/#/pu-vacancy-detail/candidateview/' + id, '_blank');
     });
   }
 
@@ -357,6 +394,67 @@ export class ManagecriteriaComponent {
         case 'experience': return compare(a.experience, b.experience, isAsc);
         default: return 0;
       }
+    });
+  }
+
+  filterCandidates() {
+    this.isSearchCandidate = true;
+    this.sortedData = [];
+    let queryObj = {
+      query: {
+        fullName: "",
+        primarySkill: "",
+        phone: "",
+        cnic: "",
+        hasOtherSkill: ""
+      }
+    }
+
+    if (this.fullName && this.fullName != "") {
+      queryObj.query.fullName = this.fullName;
+    }
+    else {
+      delete queryObj.query.fullName;
+    }
+    if (this.primarySkill && this.primarySkill != "") {
+      queryObj.query.primarySkill = this.primarySkill;
+    }
+    else {
+      delete queryObj.query.primarySkill;
+    }
+    if (this.phoneNo && this.phoneNo != "") {
+      queryObj.query.phone = this.phoneNo;
+    }
+    else {
+      delete queryObj.query.phone;
+    }
+    if (this.cnic && this.cnic != "") {
+      queryObj.query.cnic = this.cnic;
+    }
+    else {
+      delete queryObj.query.cnic;
+    }
+    if (this.otherSkill) {
+      queryObj.query.hasOtherSkill = this.otherSkill;
+    }
+    else {
+      delete queryObj.query.hasOtherSkill;
+    }
+
+    if (!queryObj.query.cnic && !queryObj.query.phone && !queryObj.query.primarySkill 
+      && !queryObj.query.hasOtherSkill && !queryObj.query.fullName){
+      this._flashMessagesService.show('Please provide search parameters', { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      return;
+    }
+
+    this.busy2 = this.candidateService.filterCandidates(queryObj).subscribe(data => {
+      if (data.message) {
+        this._flashMessagesService.show(data.message, { cssClass: 'alert-danger text-center', timeout: 1000 });
+        this._flashMessagesService.grayOut(true);
+        return;
+      }
+      this.searchedCandidates = data;
     });
   }
 

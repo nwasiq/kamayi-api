@@ -24,6 +24,6 @@ router.put('/:entityId', checkAuthToken(), crudController.update);
 router.delete('/:entityId', checkAuthToken(), crudController.delete);
 router.get('/:candidateId/criteria', checkAuthToken(), candidateController.findCriteriaForCandidate);
 router.post('/:candidateId/criteria', checkAuthToken(), criteriaController.createCriteriaForCandidate);
-router.post('/filter', checkAuthToken(), permission.permit('admin', 'superAdmin', 'callCenter'), candidateController.filterCandidates);
+router.post('/filter', checkAuthToken(), candidateController.filterCandidates);
 
 module.exports = router;
