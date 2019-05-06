@@ -303,7 +303,8 @@ export class CreatecandidateComponent {
       email: this.email,
       criteria: criteria,
       hasOtherSkill: hasOtherSkill,
-      comment: this.comment
+      comment: this.comment,
+      createdBy: JSON.parse(localStorage.getItem('user'))._id
     }
     // console.log(createCandidate);
     this.busy = this.crudService.create(createCandidate, "candidates").subscribe(data => {

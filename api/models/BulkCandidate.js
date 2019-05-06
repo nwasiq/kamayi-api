@@ -14,6 +14,13 @@ var BulkCandidateSchema = new schema({
         enum: ['Not Called', 'Not Answered', 'Wrong Number', 'Call Back', 'Not Interested', 'Switched Off'],
         default: 'Not Called'
     },
+    callCenterInfo: {
+        user: {
+            type: schema.Types.ObjectId, 
+            ref: 'user' 
+        },
+        dateOfEntry: Date,
+    },
     fullName: String,
     cnic: String,
     phone: String,
