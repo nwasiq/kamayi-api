@@ -24,8 +24,11 @@ var CandidateSchema = new schema({
     hasOtherSkill: Boolean, // If skill not in occupation list
     comment: String,
     createdBy: {
-        type: schema.Types.ObjectId,
-        ref: 'user' 
+        user: {
+            type: schema.Types.ObjectId,
+            ref: 'user' 
+        },
+        dateCreated: Date 
     }
 });
 
@@ -40,7 +43,7 @@ CandidateSchema.pre('save', async function () {
      * This means that candidate being created was retrieved from bulk cand model 
      */
     const BulkCandModel = mongoose.model('bulkcandidate');
-    await BulkCandModel.findOneAndUpdate({ phone: this.phone }, { status: true, callCenterInfo: { user: this.createdBy, dateOfEntry: Date.now()}});
+    await BulkCandModel.findOneAndUpdate({ phone: this.phone }, { status: true, callCenterInfo: { user: this.createdBy.user, dateOfEntry: Date.now()}});
     if(this.hasOtherSkill){
         const NotiModel = mongoose.model('notification');
 

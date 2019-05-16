@@ -8,6 +8,7 @@ const passport = require('passport');
 
 let userController = require('../controllers/user');
 let crudController = require('../controllers/crud');
+let candidateController = require('../controllers/candidate');
 
 function checkAuthToken() {
     return passport.authenticate('jwt', {
@@ -27,5 +28,6 @@ router.get('/role/:role', checkAuthToken(), permission.permit('admin', 'superAdm
 router.get('/placementusers/:placementId/employers', checkAuthToken(), permission.permit('admin', 'superAdmin', 'placement'), userController.getEmployersAssignedForPlacementOfficer);
 router.get('/placementusers/:placementId/vacancies', checkAuthToken(), permission.permit('admin', 'superAdmin', 'placement'), userController.getOpenVacanciesForPlacementOfficer);
 router.post('/login', userController.login);
+router.get('/report/callCenter', checkAuthToken(), permission.permit('admin', 'superAdmin'), candidateController.generateCCReport)
 
 module.exports = router;

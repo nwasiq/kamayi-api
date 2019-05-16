@@ -304,7 +304,10 @@ export class CreatecandidateComponent {
       criteria: criteria,
       hasOtherSkill: hasOtherSkill,
       comment: this.comment,
-      createdBy: JSON.parse(localStorage.getItem('user'))._id
+      createdBy: {
+        user: JSON.parse(localStorage.getItem('user'))._id,
+        dateCreated: Date.now()
+      }
     }
     // console.log(createCandidate);
     this.busy = this.crudService.create(createCandidate, "candidates").subscribe(data => {

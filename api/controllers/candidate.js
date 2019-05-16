@@ -1,7 +1,9 @@
 'use strict';
 
 const Candidate = require('../models/Candidate');
+const User = require('../models/User');
 const Criteria = require('../models/CandidateMatchingCriteria');
+const moment = require('moment')
 
 exports.create = async function (req, res) {
 
@@ -82,7 +84,34 @@ exports.filterCandidates = async function(req, res) {
     }
 }
 
-exports.getCandiesWithinArea = function (req, res) {
+exports.generateCCReport = async function (req, res) {
+    try {
+        let ccReport = await Candidate.aggregate([
+            {
+                $match: {
+                    'createdBy.dateCreated': { $gte: moment().subtract(2, 'h').toDate()}
+                },
+            },
+            {
+                $group: { _id: "$createdBy.user", count: { $sum: 1 } }
+            }
+        ])
+        let ccUsers = await Candidate.populate(ccReport, {path: "_id", model: User})
+        res.send(ccUsers);
+    } catch (err) {
+        if (err.message) {
+            return res.status(500).send({
+                message: err.message
+            });
+        }
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.getCandiesWithinArea = async function (req, res) {
     let coords = req.body.coords;
     let maxDistance = req.body.distance;
 
