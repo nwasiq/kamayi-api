@@ -89,7 +89,7 @@ exports.generateCCReport = async function (req, res) {
         let ccReport = await Candidate.aggregate([
             {
                 $match: {
-                    'createdBy.dateCreated': { $gte: moment().subtract(2, 'h').toDate()}
+                    'createdBy.dateCreated': { $gte: moment().subtract(2, 'h').toDate()} // the number indicates the hours
                 },
             },
             {
