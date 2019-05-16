@@ -296,7 +296,7 @@ export class CreatecandidateComponent {
       primarySkill: this.tiers[0].occupation,
       fullName: this.name,
       cnic: this.cnic,
-      phone: this.phone,
+      phone: this.phone.split('-').join(''),
       age: this.age,
       area: this.address,
       employmentStatus: this.employmentStatus,

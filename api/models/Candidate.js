@@ -36,11 +36,11 @@ var CandidateSchema = new schema({
 
 CandidateSchema.pre('save', async function () {
     /**
-     * If cnic is present in bulk candidate IDs, his status will be set to true
+     * If phone is present in bulk candidate IDs, his status will be set to true
      * This means that candidate being created was retrieved from bulk cand model 
      */
     const BulkCandModel = mongoose.model('bulkcandidate');
-    await BulkCandModel.findOneAndUpdate({ cnic: this.cnic }, { status: true, callCenterInfo: { user: this.createdBy, dateOfEntry: Date.now()}});
+    await BulkCandModel.findOneAndUpdate({ phone: this.phone }, { status: true, callCenterInfo: { user: this.createdBy, dateOfEntry: Date.now()}});
     if(this.hasOtherSkill){
         const NotiModel = mongoose.model('notification');
 
