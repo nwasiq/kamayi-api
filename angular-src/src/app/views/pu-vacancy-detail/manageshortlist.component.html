@@ -28,13 +28,13 @@
                         <th>
                             <input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/>
                         </th>
-                        <th mat-sort-header="candidate._id">ID</th>
                         <th mat-sort-header="candidate.fullName">Candidate Name</th>
                         <th mat-sort-header="candidate.phone">Phone</th>
                         <th mat-sort-header="candidate.primarySkill">Skill</th>
                         <th mat-sort-header="education">Education</th>
                         <th mat-sort-header="experience">Relevant Exp</th>
                         <th mat-sort-header="candidate.status">Status</th>
+                        <th mat-sort-header="candidate.date">Relevant Date</th>
                         <th mat-sort-header="score">Score</th>
                         <th>Operation</th>
                     </tr>
@@ -44,17 +44,17 @@
                         <td>
                             <input type="checkbox" (change)="checkBoxClicked($event)" name="candidatecb[]" value="{{candidate.candidate._id}}" [(ngModel)]="candidate.state"/>
                         </td>
-                        <td>{{ candidate.candidate._id }}</td>
                         <td>{{ candidate.candidate.fullName }}</td>
                         <td>{{ candidate.candidate.phone }}</td>
                         <td>{{ candidate.candidate.primarySkill }}</td>
                         <td>{{ candidate.education }}</td>
                         <td>{{ candidate.experience }}</td>
-                        <td *ngIf="candidate.candidate.status == 'Interview Scheduled'">
+                        <td>{{ candidate.candidate.status }}</td>
+                        <td *ngIf="candidate.candidate.status == 'Interview Scheduled' || candidate.candidate.status == 'Joined'">
                             {{ candidate.candidate.interviewTime | date:'yyyy-MM-dd' }}
                         </td>
-                        <td *ngIf="candidate.candidate.status != 'Interview Scheduled'">
-                            {{ candidate.candidate.status }}
+                        <td *ngIf="candidate.candidate.status != 'Interview Scheduled' && candidate.candidate.status != 'Joined'">
+                            -
                         </td>
                         <td *ngIf="candidate.candidate.score != undefined">
                             {{ candidate.candidate.score }}
@@ -101,7 +101,7 @@
     </div>
     <!--/.row-->
 
-    <div class="row" *ngIf="statusName === 'Interview Scheduled'">
+    <div class="row" *ngIf="statusName === 'Interview Scheduled' || statusName === 'Joined'">
         <div class="input-group mb-12" style="margin-bottom: 2em;">
             <div class="input-group col-md-7">
             </div>

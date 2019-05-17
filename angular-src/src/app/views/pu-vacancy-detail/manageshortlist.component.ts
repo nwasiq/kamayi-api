@@ -106,7 +106,8 @@ export class ManageshortlistComponent {
               candidate.education = convertToString(candidate.education);
               for (let i = 0; i < candidate.candidate.vacancyStatus.length; i++) {
                 if (this.vacancyId == candidate.candidate.vacancyStatus[i].vacancy) {
-                  if (candidate.candidate.vacancyStatus[i].status == 'Interview Scheduled') {
+                  if (candidate.candidate.vacancyStatus[i].status == 'Interview Scheduled'
+                    || candidate.candidate.vacancyStatus[i].status == 'Joined') {
                     candidate.candidate.status = candidate.candidate.vacancyStatus[i].status;
                     candidate.candidate.interviewTime = candidate.candidate.vacancyStatus[i].interviewDate;
                   }
@@ -160,7 +161,7 @@ export class ManageshortlistComponent {
       interviewDate: new Date
     }
     
-    if(this.statusName == 'Interview Scheduled')
+    if (this.statusName == 'Interview Scheduled' || this.statusName == 'Joined')
     {
       updateObj.interviewDate = this.date
     }
