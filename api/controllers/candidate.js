@@ -89,7 +89,7 @@ exports.generateCCReport = async function (req, res) {
         let ccReport = await Candidate.aggregate([
             {
                 $match: {
-                    'createdBy.dateCreated': { $gte: moment().subtract(2, 'h').toDate()} // the number indicates the hours
+                    'createdBy.dateCreated': { $gte: moment().subtract(13, 'h').toDate()} // the number indicates the hours
                 },
             },
             {
@@ -97,7 +97,15 @@ exports.generateCCReport = async function (req, res) {
             }
         ])
         let ccUsers = await Candidate.populate(ccReport, {path: "_id", model: User})
-        res.send(ccUsers);
+        let reportObjs = []; 
+        for(let user of ccUsers){
+            reportObjs.push({
+                name: user._id.fullName,
+                email: user._id.email,
+                candidatedCreated: user.count
+            });
+        }
+        res.send(reportObjs);
     } catch (err) {
         if (err.message) {
             return res.status(500).send({
