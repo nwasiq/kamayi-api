@@ -98,7 +98,7 @@ export class VacancydetailsComponent {
   }
 
   viewVacancyApplicationList(){
-    this.route.navigate(['/pu-vacancy-detail/vacancydetailslist/' + this.vacancyId]);
+    this.route.navigate(['/pu-vacancy-detail/manageshortlist/' + this.vacancyId]);
   }
 
 }
