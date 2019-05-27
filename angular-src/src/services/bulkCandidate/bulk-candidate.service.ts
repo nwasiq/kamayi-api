@@ -34,6 +34,14 @@ export class BulkCandidateService {
       .map(res => res.json());
   }
 
+  getAllBulkCandies() {
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Authorization', token);
+    return this.http.get(this.localhostString + 'bulkcandidates', { headers: headers })
+      .map(res => res.json());
+  }
+
   filterCandidates(query) {
     let headers = new Headers();
     let token = localStorage.getItem('token');

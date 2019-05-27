@@ -244,6 +244,7 @@ exports.importExcel = async function (req, res) {
             /**
              * remove empty excel cells, remove eduction if not in list
              */
+            let currDate = Date.now();
             let phNumbers = [];
             for (var n = 0; n < result.length; n++) {
                 if (result[n].phone == null || result[n].phone == ""){
@@ -256,6 +257,7 @@ exports.importExcel = async function (req, res) {
                      * possible phone number validation
                      */
                     result[n].phone = result[n].phone.split('-').join('');
+                    result[n].createdAt = currDate;
                     // if (result[n].phone.length != 13)
                     // {
                     //     result.splice(n, 1);

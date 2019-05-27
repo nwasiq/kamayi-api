@@ -21,6 +21,7 @@ var BulkCandidateSchema = new schema({
         },
         dateOfEntry: Date,
     },
+    createdAt: Date,
     fullName: String,
     cnic: String,
     phone: String,

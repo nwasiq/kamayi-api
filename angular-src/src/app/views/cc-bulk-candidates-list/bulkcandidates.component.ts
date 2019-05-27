@@ -51,7 +51,11 @@ export class BulkcandidatesComponent {
 
   ngOnInit(){
     this.callStatus = 'Select Status'
-    this.busy = this.bulkCandidateService.getBulkCandiesByStatus('false').subscribe(data => {
+    /**
+     * @todo: if status of bulk candidate is true (which means he is a candidate now)
+     * give indication and make him uneditable
+     */
+    this.busy = this.bulkCandidateService.getAllBulkCandies().subscribe(data => {
       // console.log(data);
       if(data.message)
       {
