@@ -63,7 +63,11 @@ exports.findAll = async function (req, res) {
         let pageCount = Math.ceil(documentCount / limit);
 
         ////////////////////////////////////
-        let modelEntities = await Model.find({}, {}, paging);
+        let modelEntities;
+        if(modelName != 'bulkcandidate')
+            modelEntities = await Model.find({}, {}, paging);
+        else
+            modelEntities = await Model.find({}, {}, paging).sort('-createdAt');
         res.send({
             pages: pageCount,
             [modelName + 's']: modelEntities

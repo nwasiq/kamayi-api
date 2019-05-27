@@ -30,19 +30,19 @@
                   <th>Education</th>
                   <th>City</th>
                   <th>Phone No</th>
-                  <th>CNIC No</th>
+                  <th>Upload Date</th>
                   <th>Call Status</th>
                   <th>Operation</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let candidate of pagedItems | filter:search">
+            <tbody *ngFor="let candidate of pagedItems | filter:search">
+              <tr *ngIf="candidate.status == false">
                 <td>{{ candidate._id }}</td>
                 <td>{{ candidate.fullName }}</td>
                 <td> {{ candidate.education }} </td>
                 <td>{{ candidate.city }}</td>
                 <td>{{ candidate.phone }} </td>
-                <td> {{ candidate.cnic }}</td>
+                <td> {{ candidate.createdAt | date:'yyyy-MM-dd' }}</td>
                 <td *ngIf="candidate.callStatus == 'Not Answered'">
                   <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
                     class="badge badge-warning">{{ candidate.callStatus }}</span>
@@ -71,6 +71,19 @@
                   <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-warning">Update</span>
                 </td>
               </tr>
+              <tr *ngIf="candidate.status == true" style="background-color:#a9a4a4;">
+                  <td>{{ candidate._id }}</td>
+                  <td>{{ candidate.fullName }}</td>
+                  <td> {{ candidate.education }} </td>
+                  <td>{{ candidate.city }}</td>
+                  <td>{{ candidate.phone }} </td>
+                  <td> {{ candidate.createdAt | date:'yyyy-MM-dd' }}</td>
+                  <td>
+                    Candidate added
+                  </td>
+                  <td>-
+                  </td>
+                </tr>
             </tbody>
           </table>
           <ul *ngIf="pager.pages && pager.pages.length" class="pagination" style="cursor: pointer;">
@@ -152,48 +165,61 @@
                   <th>Education</th>
                   <th>City</th>
                   <th>Phone No</th>
-                  <th>CNIC No</th>
+                  <th>Upload Date</th>
                   <th>Call Status</th>
                   <th>Operation</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let candidate of pagedItems2 | filter:search">
-                  <td>{{ candidate._id }}</td>
-                  <td>{{ candidate.fullName }}</td>
-                  <td> {{ candidate.education }} </td>
-                  <td>{{ candidate.city }}</td>
-                  <td>{{ candidate.phone }} </td>
-                  <td> {{ candidate.cnic }}</td>
-                  <td *ngIf="candidate.callStatus == 'Not Answered'">
-                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
-                      class="badge badge-warning">{{ candidate.callStatus }}</span>
-                  </td>
-                  <td *ngIf="candidate.callStatus == 'Switched Off'">
-                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
-                      class="badge badge-warning">{{ candidate.callStatus }}</span>
-                  </td>
-                  <td *ngIf="candidate.callStatus == 'Not Interested'">
-                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
-                      class="badge badge-danger">{{ candidate.callStatus }}</span>
-                  </td>
-                  <td *ngIf="candidate.callStatus == 'Not Called'">
-                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
-                      class="badge badge-success">{{ candidate.callStatus }}</span>
-                  </td>
-                  <td *ngIf="candidate.callStatus == 'Wrong Number'">
-                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
-                      class="badge badge-warning">{{ candidate.callStatus }}</span>
-                  </td>
-                  <td *ngIf="candidate.callStatus == 'Call Back'">
-                    <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
-                      class="badge badge-danger">{{ candidate.callStatus }}</span>
-                  </td>
-                  <td>
-                    <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-warning">Update</span>
-                  </td>
-                </tr>
-              </tbody>
+              <tbody *ngFor="let candidate of pagedItems2 | filter:search">
+                  <tr *ngIf="candidate.status == false">
+                    <td>{{ candidate._id }}</td>
+                    <td>{{ candidate.fullName }}</td>
+                    <td> {{ candidate.education }} </td>
+                    <td>{{ candidate.city }}</td>
+                    <td>{{ candidate.phone }} </td>
+                    <td> {{ candidate.createdAt | date:'yyyy-MM-dd' }}</td>
+                    <td *ngIf="candidate.callStatus == 'Not Answered'">
+                      <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                        class="badge badge-warning">{{ candidate.callStatus }}</span>
+                    </td>
+                    <td *ngIf="candidate.callStatus == 'Switched Off'">
+                      <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                        class="badge badge-warning">{{ candidate.callStatus }}</span>
+                    </td>
+                    <td *ngIf="candidate.callStatus == 'Not Interested'">
+                      <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                        class="badge badge-danger">{{ candidate.callStatus }}</span>
+                    </td>
+                    <td *ngIf="candidate.callStatus == 'Not Called'">
+                      <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                        class="badge badge-success">{{ candidate.callStatus }}</span>
+                    </td>
+                    <td *ngIf="candidate.callStatus == 'Wrong Number'">
+                      <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                        class="badge badge-warning">{{ candidate.callStatus }}</span>
+                    </td>
+                    <td *ngIf="candidate.callStatus == 'Call Back'">
+                      <span (click)="successModal.show(); getCurrentModalCandyId(candidate);" style="cursor: pointer;"
+                        class="badge badge-danger">{{ candidate.callStatus }}</span>
+                    </td>
+                    <td>
+                      <span (click)="onViewCandidate(candidate)" style="cursor: pointer;" class="badge badge-warning">Update</span>
+                    </td>
+                  </tr>
+                  <tr *ngIf="candidate.status == true" style="background-color:#a9a4a4;">
+                      <td>{{ candidate._id }}</td>
+                      <td>{{ candidate.fullName }}</td>
+                      <td> {{ candidate.education }} </td>
+                      <td>{{ candidate.city }}</td>
+                      <td>{{ candidate.phone }} </td>
+                      <td> {{ candidate.createdAt | date:'yyyy-MM-dd' }}</td>
+                      <td>
+                        Candidate added
+                      </td>
+                      <td>-
+                      </td>
+                    </tr>
+                </tbody>
             </table>
             <ul *ngIf="pager2.pages && pager2.pages.length" class="pagination" style="cursor: pointer;">
               <li [ngClass]="{disabled:pager2.currentPage === 1}" class="page-item">
