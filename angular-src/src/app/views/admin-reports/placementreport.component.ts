@@ -12,6 +12,10 @@ import {Sort} from '@angular/material';
 export class PlacementreportComponent {
 
   busy: Subscription;
+  educationOf1: any = ['E1', 'E2', 'E3', 'E4'];
+  educationOf2: any = ['E1', 'E2', 'E3', 'E4'];
+  vacanciesDropDownDiv: boolean;
+  statusCountDiv: boolean;
 
   date: Date = new Date();
   settings = {
@@ -44,10 +48,13 @@ export class PlacementreportComponent {
 
   selectionChangedpOfficer(val)
   {
+    this.vacanciesDropDownDiv = true;
+    this.statusCountDiv = false;
   }
 
   selectionChangedVacancies(val)
   {
+    this.statusCountDiv = true;
   }
 
 }

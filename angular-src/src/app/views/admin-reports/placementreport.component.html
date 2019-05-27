@@ -15,20 +15,20 @@
               <div class="col-md-12">
                   <div class="form-group">
                       <label for="company">Placement Officer</label>
-                      <ngx-select-dropdown [multiple]="false" [(ngModel)]="education" [options]="educationOf" (change)="selectionChangedEducation($event)" [config]="config"></ngx-select-dropdown>
+                      <ngx-select-dropdown [multiple]="false" [(ngModel)]="education1" [options]="educationOf1" (change)="selectionChangedpOfficer($event)" [config]="config"></ngx-select-dropdown>
                   </div>
               </div>
           </div>
       </div>
     </div>
 
-    <div class="col-md-12 mb-1">
+    <div class="col-md-12 mb-1" *ngIf="vacanciesDropDownDiv == true">
         <div class="input-group mb-1">
             <div class="input-group col-md-4">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="company">Vacancies</label>
-                        <ngx-select-dropdown [multiple]="false" [(ngModel)]="education" [options]="educationOf" (change)="selectionChangedpOfficer($event)" [config]="config1"></ngx-select-dropdown>
+                        <ngx-select-dropdown [multiple]="false" [(ngModel)]="education2" [options]="educationOf2" (change)="selectionChangedVacancies($event)" [config]="config1"></ngx-select-dropdown>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
         </div>
       </div>
     
-    <div class="col-md-12 mb-4">
+    <div class="col-md-12 mb-4" *ngIf="statusCountDiv == true">
         <!-- Nav tabs -->
         <div class="card-body" style="border: 1px solid #707070">
           <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
