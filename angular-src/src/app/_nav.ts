@@ -88,5 +88,34 @@ export const navItems: NavData[] = [
     name: 'Occupations',
     url: '/admin-create-occupation/createoccupation',
     icon: 'fa fa-address-card'
+  },
+  {
+    name: 'Reports',
+    url: '/admin-reports',
+    icon: 'fa fa-bar-chart',
+    children: [
+      {
+        name: 'Call Center - Reports',
+        url: '/admin-reports/signupreport',
+        icon: 'fa fa-line-chart',
+        children: [
+          {
+            name: 'Signup Reports',
+            url: '/admin-reports/signupreport',
+            icon: 'icon-list'
+          },
+          {
+            name: 'Called Status Reports',
+            url: '/admin-reports/calledstatusreport',
+            icon: 'icon-list'
+          }
+        ]
+      },
+      {
+        name: 'Placement - Reports',
+        url: '/admin-reports/placementreport',
+        icon: 'fa fa-area-chart'
+      }
+    ]
   }
 ];

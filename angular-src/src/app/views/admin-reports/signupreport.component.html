@@ -1,0 +1,48 @@
+<div class="animated fadeIn">
+  <div class="row" style="margin-top: 2em;">
+    <div class="col-lg-12">
+      <label>
+          <h5>Call Center - Signup Reports</h5>
+          <hr>
+      </label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="input-group mb-4">
+        <div class="input-group col-md-8">
+          <div class="col-md-12">
+            <angular2-date-picker [(ngModel)]="date" [settings]="settings"></angular2-date-picker>
+          </div>
+        </div>
+        <div class="input-group col-md-4">
+            <div class="col-md-12">
+                <span class="btn" (click)="showReport()" style="border-radius: 50%; border: 1px solid #707070; background: #ADFFB7; cursor: pointer;"><i class="fa fa-check"></i></span>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12 mb-4">
+      <!-- Nav tabs -->
+      <div class="card-body">
+        <div [ngBusy]="{busy: busy, message: 'Loading...', backdrop: false, delay: 200, minDuration: 600}"></div>
+        <table matSort (matSortChange)="sortData($event)" class="table table-bordered table-striped table-sm table-responsive-sm">
+          <thead>
+            <tr style="background: #BFFFCE;">
+              <th mat-sort-header="name">Call Center User</th>
+              <th>Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ccUser of callCenterUsers">
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!--/.col-->
+  </div>
+</div>
