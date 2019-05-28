@@ -12,6 +12,7 @@ import {Sort} from '@angular/material';
 export class PlacementreportComponent {
 
   busy: Subscription;
+  education1: any;
   educationOf1: any = ['E1', 'E2', 'E3', 'E4'];
   educationOf2: any = ['E1', 'E2', 'E3', 'E4'];
   vacanciesDropDownDiv: boolean;

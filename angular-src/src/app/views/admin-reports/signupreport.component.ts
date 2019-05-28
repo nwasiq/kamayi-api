@@ -35,6 +35,10 @@ export class SignupreportComponent {
     
   }
 
+  showReport(){
+    
+  }
+
   sortData(sort: Sort) {
     const data = this.callCenterUsers.slice();
     if (!sort.active || sort.direction === '') {

@@ -25,6 +25,10 @@ export class CalledstatusreportComponent {
       defaultOpen: false
   }
 
+  showReport(){
+    
+  }
+
   constructor(
     private route: Router,
     private crudService: CrudService,
