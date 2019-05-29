@@ -84,41 +84,6 @@ exports.filterCandidates = async function(req, res) {
     }
 }
 
-exports.generateCCReport = async function (req, res) {
-    try {
-        let ccReport = await Candidate.aggregate([
-            {
-                $match: {
-                    'createdBy.dateCreated': { $gte: moment().subtract(13, 'h').toDate()} // the number indicates the hours
-                },
-            },
-            {
-                $group: { _id: "$createdBy.user", count: { $sum: 1 } }
-            }
-        ])
-        let ccUsers = await Candidate.populate(ccReport, {path: "_id", model: User})
-        let reportObjs = []; 
-        for(let user of ccUsers){
-            reportObjs.push({
-                name: user._id.fullName,
-                email: user._id.email,
-                candidatedCreated: user.count
-            });
-        }
-        res.send(reportObjs);
-    } catch (err) {
-        if (err.message) {
-            return res.status(500).send({
-                message: err.message
-            });
-        }
-        res.status(500).send({
-            message: "A server error occurred",
-            err: err
-        })
-    }
-}
-
 exports.getCandiesWithinArea = async function (req, res) {
     let coords = req.body.coords;
     let maxDistance = req.body.distance;

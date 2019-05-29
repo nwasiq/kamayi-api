@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('../models/User');
+const Candidate = require('../models/Candidate');
 const jwt = require('jsonwebtoken');
 const Employer = require('../models/Employer');
 const Vacancy = require('../models/Vacancy');
@@ -153,6 +154,57 @@ exports.getUsersByRole = async function(req, res){
         }
         res.send(users);
     } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.ccReportCandidatesSignedUp = async function (req, res) {
+    try {
+        let ccReport = await Candidate.aggregate([
+            {
+                $match: {
+                    'createdBy.dateCreated': { $gte: moment().subtract(13, 'h').toDate() } // the number indicates the hours
+                },
+            },
+            {
+                $group: { _id: "$createdBy.user", count: { $sum: 1 } }
+            }
+        ])
+        let ccUsers = await Candidate.populate(ccReport, { path: "_id", model: User })
+        let reportObjs = [];
+        for (let user of ccUsers) {
+            reportObjs.push({
+                name: user._id.fullName,
+                email: user._id.email,
+                candidatesCreated: user.count
+            });
+        }
+        res.send(reportObjs);
+    } catch (err) {
+        if (err.message) {
+            return res.status(500).send({
+                message: err.message
+            });
+        }
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.ccReportCallStatusCounts = async function (req, res) {
+    try {
+        
+    } catch (err) {
+        if (err.message) {
+            return res.status(500).send({
+                message: err.message
+            });
+        }
         res.status(500).send({
             message: "A server error occurred",
             err: err
