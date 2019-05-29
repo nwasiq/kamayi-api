@@ -8,7 +8,7 @@ const passport = require('passport');
 
 let userController = require('../controllers/user');
 let crudController = require('../controllers/crud');
-let candidateController = require('../controllers/candidate');
+let reportController = require('../controllers/report');
 
 function checkAuthToken() {
     return passport.authenticate('jwt', {
@@ -28,7 +28,7 @@ router.get('/role/:role', checkAuthToken(), permission.permit('admin', 'superAdm
 router.get('/placementusers/:placementId/employers', checkAuthToken(), permission.permit('admin', 'superAdmin', 'placement'), userController.getEmployersAssignedForPlacementOfficer);
 router.get('/placementusers/:placementId/vacancies', checkAuthToken(), permission.permit('admin', 'superAdmin', 'placement'), userController.getOpenVacanciesForPlacementOfficer);
 router.post('/login', userController.login);
-router.get('/report/callcenter/signups', checkAuthToken(), permission.permit('admin', 'superAdmin'), userController.ccReportCandidatesSignedUp);
-router.get('/report/callcenter/callstatus', checkAuthToken(), permission.permit('admin', 'superAdmin'), userController.ccReportCallStatusCounts);
+router.get('/report/callcenter/signups/:date', checkAuthToken(), permission.permit('admin', 'superAdmin'), reportController.getCCReportSignupsByDate);
+router.get('/report/callcenter/callstatus/:date', checkAuthToken(), permission.permit('admin', 'superAdmin'), reportController.getCCReportCallStatusByDate);
 
 module.exports = router;
