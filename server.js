@@ -20,6 +20,7 @@ var User = require('./api/models/User'),
 	BulkCandidate = require('./api/models/BulkCandidate'),
 	CandidateMatchingCriteria = require('./api/models/CandidateMatchingCriteria'),
 	Vacancy = require('./api/models/Vacancy'),
+	Report = require('./api/models/Report'),
 	Notification = require('./api/models/Notification');
 	
 mongoose.plugin(schema => {

@@ -1,9 +1,7 @@
 'use strict';
 
 const Candidate = require('../models/Candidate');
-const User = require('../models/User');
 const Criteria = require('../models/CandidateMatchingCriteria');
-const moment = require('moment')
 
 exports.create = async function (req, res) {
 
