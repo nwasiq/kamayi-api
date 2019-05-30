@@ -18,7 +18,11 @@ var ReportSchema = new schema({
         callStatus: Object
     },
     placement: {
-
+        vacancyId: {
+            type: schema.Types.ObjectId,
+            ref: 'vacancy'
+        },
+        vacancyStatus: Object
     }
 });
 

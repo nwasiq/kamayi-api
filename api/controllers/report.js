@@ -6,14 +6,15 @@ const moment = require('moment');
 const User = require('../models/User');
 const Candidate = require('../models/Candidate');
 const BulkCandidate = require('../models/BulkCandidate');
+const Vacancy = require('../models/Vacancy');
 
 /**
- * Need to schedule job 1 pm every day according to eastern time (us-east-1)
- * which means that the job will run on 10 pm every day according to PK time
+ * Need to schedule job 1pm every day according to eastern time (us-east-1)
+ * which means that the job will run on 10pm every day according to PK time
  * '13 * * *'
  */
 let dailyCCReportSignUpsJob = schedule.scheduleJob('35 06 * * *', async function () {
-    console.log('Executing Signups report');
+    console.log('Executing CC Signups report');
     try {
         let signupReport = await Candidate.aggregate([
             {
@@ -49,7 +50,7 @@ let dailyCCReportSignUpsJob = schedule.scheduleJob('35 06 * * *', async function
 });
 
 let dailyCCReportCallStatusJobs = schedule.scheduleJob('35 06 * * *', async function () {
-    console.log('Executing Call status Report');
+    console.log('Executing CC Call status Report');
     try {
         let currentCallStatusCounts = await BulkCandidate.aggregate([
             {
@@ -74,6 +75,44 @@ let dailyCCReportCallStatusJobs = schedule.scheduleJob('35 06 * * *', async func
     }
 });
 
+let dailyPlacementReport = schedule.scheduleJob('41 04 * * *', async function () {
+    console.log('Executing Placement status Report');
+    try {
+        let vacancyIdList = await Vacancy.find().distinct('_id');
+        for (let j = 0; j < vacancyIdList.length; j++) {
+            let vacancy = await Vacancy.findById(vacancyIdList[j]);
+            let vacancyStatusReport = await Candidate.aggregate([
+                {
+                    $unwind: '$vacancyStatus'
+                },
+                {
+                    $match: { 'vacancyStatus.vacancy': vacancy._id }
+                },
+                {
+                    $group: { _id: '$vacancyStatus.status', count: { $sum: 1 } }
+                }
+            ]);
+            if (vacancyStatusReport.length != 0) {
+                let vacancyStatusObj = {};
+                for (let i = 0; i < vacancyStatusReport.length; i++) {
+                    vacancyStatusObj[vacancyStatusReport[i]._id] = vacancyStatusReport[i].count;
+                }
+                let newReport = new Report({
+                    role: 'placement',
+                    date: new Date(),
+                    placement: {
+                        vacancyId: vacancy._id,
+                        vacancyStatus: vacancyStatusObj
+                    }
+                })
+                await newReport.save()
+            }
+        }
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 exports.getCCReportByDate = async function(req, res){
     let reportType = req.params.reportType;
     let start = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day));
@@ -90,7 +129,7 @@ exports.getCCReportByDate = async function(req, res){
         );
         if(reports.length == 0){
             return res.send({
-                msg: "No report for the date found"
+                message: "No report for the date found"
             })
         }
         res.send(reports)
@@ -103,9 +142,32 @@ exports.getCCReportByDate = async function(req, res){
 }
 
 exports.getPlacementReportByDate = async function(req, res){
-
+    let vacancyId = req.params.vacancyId;
+    let start = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day));
+    let end = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day) + 1);
     try{
-
+        let vacancy = await Vacancy.findById(vacancyId);
+        if(!vacancy){
+            return res.status(404).send({
+                message: "No vacancy found for provided ID"
+            })
+        }
+        let reports = await Report.find(
+            {
+                role: 'placement',
+                'placement.vacancyId': vacancy._id,
+                date: { $gte: start, $lt: end }
+            },
+            {
+                'placement.vacancyStatus': 1
+            }
+        );
+        if (reports.length == 0) {
+            return res.send({
+                message: "No report for the date found"
+            })
+        }
+        res.send(reports)
     } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
