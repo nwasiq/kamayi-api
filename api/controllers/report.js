@@ -75,7 +75,7 @@ let dailyCCReportCallStatusJobs = schedule.scheduleJob('35 06 * * *', async func
 });
 
 exports.getCCReportByDate = async function(req, res){
-    let reportType = req.body.reportType;
+    let reportType = req.params.reportType;
     let start = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day));
     let end = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day) + 1);
     try{
@@ -94,6 +94,18 @@ exports.getCCReportByDate = async function(req, res){
             })
         }
         res.send(reports)
+    } catch (err) {
+        res.status(500).send({
+            message: "A server error occurred",
+            err: err
+        })
+    }
+}
+
+exports.getPlacementReportByDate = async function(req, res){
+
+    try{
+
     } catch (err) {
         res.status(500).send({
             message: "A server error occurred",
