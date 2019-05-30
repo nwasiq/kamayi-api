@@ -28,7 +28,7 @@ router.get('/role/:role', checkAuthToken(), permission.permit('admin', 'superAdm
 router.get('/placementusers/:placementId/employers', checkAuthToken(), permission.permit('admin', 'superAdmin', 'placement'), userController.getEmployersAssignedForPlacementOfficer);
 router.get('/placementusers/:placementId/vacancies', checkAuthToken(), permission.permit('admin', 'superAdmin', 'placement'), userController.getOpenVacanciesForPlacementOfficer);
 router.post('/login', userController.login);
-router.post('/report/callcenter/signups', checkAuthToken(), permission.permit('admin', 'superAdmin'), reportController.getCCReportSignupsByDate);
-router.post('/report/callcenter/callstatus', checkAuthToken(), permission.permit('admin', 'superAdmin'), reportController.getCCReportCallStatusByDate);
+router.post('/report/callcenter/signups', checkAuthToken(), permission.permit('admin', 'superAdmin'), reportController.getCCReportByDate);
+router.post('/report/callcenter/callstatus', checkAuthToken(), permission.permit('admin', 'superAdmin'), reportController.getCCReportByDate);
 
 module.exports = router;

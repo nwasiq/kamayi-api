@@ -74,35 +74,21 @@ let dailyCCReportCallStatusJobs = schedule.scheduleJob('35 06 * * *', async func
     }
 });
 
-exports.getCCReportSignupsByDate = async function(req, res){
+exports.getCCReportByDate = async function(req, res){
+    let reportType = req.body.reportType;
     let start = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day));
     let end = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day) + 1);
     try{
+        let projection = reportType == 'signups' ? { 'callCenter.signups': 1 } : { 'callCenter.callStatus': 1 };
         let reports = await Report.find(
-            { role: 'callCenter', 'callCenter.reportType': 'signups', date: { $gte: start, $lt: end } }, 
-            { 'callCenter.signups': 1});
+            { 
+                role: 'callCenter', 
+                'callCenter.reportType': reportType, 
+                date: { $gte: start, $lt: end } 
+            }, 
+            projection
+        );
         if(reports.length == 0){
-            return res.send({
-                msg: "No report for the date found"
-            })
-        }
-        res.send(reports)
-    } catch (err) {
-        res.status(500).send({
-            message: "A server error occurred",
-            err: err
-        })
-    }
-}
-
-exports.getCCReportCallStatusByDate = async function (req, res) {
-    let start = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day));
-    let end = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day) + 1);
-    try {
-        let reports = await Report.find(
-            { role: 'callCenter', 'callCenter.reportType': 'callStatus', date: { $gte: start, $lt: end } },
-            { 'callCenter.callStatus': 1 });
-        if (reports.length == 0) {
             return res.send({
                 msg: "No report for the date found"
             })
