@@ -32,13 +32,13 @@
           <thead>
             <tr style="background: #BFFFCE;">
               <th mat-sort-header="name">Call Center User</th>
-              <th>Count</th>
+              <th>Candidates Signed up</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let ccUser of callCenterUsers">
-              <td></td>
-              <td></td>
+              <td>{{ccUser.name}}</td>
+              <td>{{ccUser.candidatesCreated}}</td>
             </tr>
           </tbody>
         </table>

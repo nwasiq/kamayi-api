@@ -69,6 +69,24 @@ export class UserService {
       .map(res => res.json());
   }
 
+  generateCallCenterReport(reportType, dateObj){
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + 'users/report/callcenter/' + reportType, dateObj, { headers: headers })
+      .map(res => res.json());
+  }
+
+  generatePlacementReport(vacancyId, dateObj) {
+    let headers = new Headers();
+    let token = localStorage.getItem('token');
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', token);
+    return this.http.post(this.localhostString + 'users/report/placement/' + vacancyId, dateObj, { headers: headers })
+      .map(res => res.json());
+  }
+
   storeUserData(token, user) {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));

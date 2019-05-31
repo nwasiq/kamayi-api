@@ -13,37 +13,39 @@ const Vacancy = require('../models/Vacancy');
  * which means that the job will run on 10pm every day according to PK time
  * '13 * * *'
  */
-let dailyCCReportSignUpsJob = schedule.scheduleJob('35 06 * * *', async function () {
+let dailyCCReportSignUpsJob = schedule.scheduleJob('44 06 * * *', async function () {
     console.log('Executing CC Signups report');
     try {
         let signupReport = await Candidate.aggregate([
             {
                 $match: {
-                    'createdBy.dateCreated': { $gte: moment().subtract(24, 'h').toDate() } // the number indicates the hours
+                    'createdBy.dateCreated': { $gte: moment().subtract(48, 'h').toDate() } // the number indicates the hours
                 },
             },
             {
                 $group: { _id: "$createdBy.user", count: { $sum: 1 } }
             }
         ])
-        let ccUsers = await Candidate.populate(signupReport, { path: "_id", model: User })
-        let reportObjs = [];
-        for (let user of ccUsers) {
-            reportObjs.push({
-                name: user._id.fullName,
-                email: user._id.email,
-                candidatesCreated: user.count
-            });
-        }
-        let newReport = new Report({
-            role: 'callCenter',
-            date: new Date(),
-            callCenter: {
-                reportType: 'signups',
-                signups: reportObjs
+        if(signupReport.length != 0){
+            let ccUsers = await Candidate.populate(signupReport, { path: "_id", model: User })
+            let reportObjs = [];
+            for (let user of ccUsers) {
+                reportObjs.push({
+                    name: user._id.fullName,
+                    email: user._id.email,
+                    candidatesCreated: user.count
+                });
             }
-        })
-        await newReport.save()
+            let newReport = new Report({
+                role: 'callCenter',
+                date: new Date(),
+                callCenter: {
+                    reportType: 'signups',
+                    signups: reportObjs
+                }
+            })
+            await newReport.save()
+        }
     } catch (err) {
         console.log(err);
     }
@@ -119,7 +121,7 @@ exports.getCCReportByDate = async function(req, res){
     let end = new Date(parseInt(req.body.year), parseInt(req.body.month), parseInt(req.body.day) + 1);
     try{
         let projection = reportType == 'signups' ? { 'callCenter.signups': 1 } : { 'callCenter.callStatus': 1 };
-        let reports = await Report.find(
+        let reports = await Report.findOne(
             { 
                 role: 'callCenter', 
                 'callCenter.reportType': reportType, 
@@ -127,7 +129,7 @@ exports.getCCReportByDate = async function(req, res){
             }, 
             projection
         );
-        if(reports.length == 0){
+        if(!reports){
             return res.send({
                 message: "No report for the date found"
             })
@@ -152,7 +154,7 @@ exports.getPlacementReportByDate = async function(req, res){
                 message: "No vacancy found for provided ID"
             })
         }
-        let reports = await Report.find(
+        let reports = await Report.findOne(
             {
                 role: 'placement',
                 'placement.vacancyId': vacancy._id,
@@ -162,7 +164,7 @@ exports.getPlacementReportByDate = async function(req, res){
                 'placement.vacancyStatus': 1
             }
         );
-        if (reports.length == 0) {
+        if (!reports) {
             return res.send({
                 message: "No report for the date found"
             })
