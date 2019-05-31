@@ -13,7 +13,7 @@ const Vacancy = require('../models/Vacancy');
  * which means that the job will run on 10pm every day according to PK time
  * '17 * * *'
  */
-let dailyCCReportSignUpsJob = schedule.scheduleJob('17 * * *', async function () {
+let dailyCCReportSignUpsJob = schedule.scheduleJob('00 17 * * *', async function () {
     console.log('Executing CC Signups report');
     try {
         let signupReport = await Candidate.aggregate([
@@ -51,7 +51,7 @@ let dailyCCReportSignUpsJob = schedule.scheduleJob('17 * * *', async function ()
     }
 });
 
-let dailyCCReportCallStatusJobs = schedule.scheduleJob('17 * * *', async function () {
+let dailyCCReportCallStatusJobs = schedule.scheduleJob('00 17 * * *', async function () {
     console.log('Executing CC Call status Report');
     try {
         let currentCallStatusCounts = await BulkCandidate.aggregate([
@@ -80,7 +80,7 @@ let dailyCCReportCallStatusJobs = schedule.scheduleJob('17 * * *', async functio
     }
 });
 
-let dailyPlacementReport = schedule.scheduleJob('17 * * *', async function () {
+let dailyPlacementReport = schedule.scheduleJob('00 17 * * *', async function () {
     console.log('Executing Placement status Report');
     try {
         let vacancyIdList = await Vacancy.find().distinct('_id');

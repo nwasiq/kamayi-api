@@ -95,6 +95,13 @@ export class PlacementreportComponent {
   }
 
   showReport(){
+    
+    if (!this.vacancy) {
+      this._flashMessagesService.show('Please choose a vacancy', { cssClass: 'alert-danger text-center', timeout: 1000 });
+      this._flashMessagesService.grayOut(true);
+      return
+    }
+
     let selectedDate = new Date(this.date);
 
     let dateObj = {
