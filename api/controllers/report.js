@@ -56,6 +56,9 @@ let dailyCCReportCallStatusJobs = schedule.scheduleJob('17 * * *', async functio
     try {
         let currentCallStatusCounts = await BulkCandidate.aggregate([
             {
+                $match: {status: false}
+            },
+            {
                 $group: { _id: '$callStatus', count: { $sum: 1 } }
             }
         ])
