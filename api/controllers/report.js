@@ -80,7 +80,7 @@ let dailyCCReportCallStatusJobs = schedule.scheduleJob('17 * * *', async functio
     }
 });
 
-let dailyPlacementReport = schedule.scheduleJob('41 04 * * *', async function () {
+let dailyPlacementReport = schedule.scheduleJob('17 * * *', async function () {
     console.log('Executing Placement status Report');
     try {
         let vacancyIdList = await Vacancy.find().distinct('_id');

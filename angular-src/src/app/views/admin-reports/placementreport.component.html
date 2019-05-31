@@ -15,7 +15,7 @@
               <div class="col-md-12">
                   <div class="form-group">
                       <label for="company">Placement Officer</label>
-                      <ngx-select-dropdown [multiple]="false" [(ngModel)]="education1" [options]="educationOf1" (change)="selectionChangedpOfficer($event)" [config]="config"></ngx-select-dropdown>
+                      <ngx-select-dropdown [multiple]="false" [(ngModel)]="placementUser" [options]="placementOfficerList" (change)="selectionChangedpOfficer($event)" [config]="placementConfig"></ngx-select-dropdown>
                   </div>
               </div>
           </div>
@@ -28,7 +28,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="company">Vacancies</label>
-                        <ngx-select-dropdown [multiple]="false" [(ngModel)]="education2" [options]="educationOf2" (change)="selectionChangedVacancies($event)" [config]="config1"></ngx-select-dropdown>
+                        <ngx-select-dropdown [multiple]="false" [(ngModel)]="vacancy" [options]="placementOfficerVacancies" (change)="selectionChangedVacancies($event)" [config]="vacancyConfig"></ngx-select-dropdown>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
               <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
                 <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
                   <div style="font-family: inherit; font-size: 35px;">Interviewed</div>
-                  <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
+                  <div class="text-value" style="font-size: 50px; font-weight: bold">{{interviewed}}</div>
                 </div>
               </div>
             </div><!--/.col-->
@@ -67,7 +67,7 @@
               <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
                 <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
                   <div style="font-family: inherit; font-size: 35px;">Rejected</div>
-                  <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
+                  <div class="text-value" style="font-size: 50px; font-weight: bold">{{rejected}}</div>
                 </div>
               </div>
             </div><!--/.col-->
@@ -75,7 +75,7 @@
               <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
                 <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
                   <div style="font-family: inherit; font-size: 35px;">Hired</div>
-                  <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
+                  <div class="text-value" style="font-size: 50px; font-weight: bold">{{hired}}</div>
                 </div>
               </div>
             </div><!--/.col-->
@@ -83,7 +83,7 @@
               <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
                 <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
                   <div style="font-family: inherit; font-size: 35px;">Joined</div>
-                  <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
+                  <div class="text-value" style="font-size: 50px; font-weight: bold">{{joined}}</div>
                 </div>
               </div>
             </div><!--/.col-->
@@ -94,7 +94,7 @@
               <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
                 <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
                   <div style="font-family: inherit; font-size: 35px;">Schedule Interview</div>
-                  <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
+                  <div class="text-value" style="font-size: 50px; font-weight: bold">{{scheduleInterview}}</div>
                 </div>
               </div>
             </div><!--/.col-->
@@ -102,7 +102,7 @@
               <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
                 <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
                   <div style="font-family: inherit; font-size: 35px;">Interview Scheduled</div>
-                  <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
+                  <div class="text-value" style="font-size: 50px; font-weight: bold">{{interviewScheduled}}</div>
                 </div>
               </div>
             </div><!--/.col-->
@@ -110,7 +110,7 @@
               <div class="card text-white" style="border-radius: 2em; border-color: #707070; margin-bottom: 0rem!important;">
                 <div class="card-body" style="border-radius: 2em; text-align: center; color: #434343; background-color: #D3D3D3;">
                   <div style="font-family: inherit; font-size: 35px;">Not Answered</div>
-                  <div class="text-value" style="font-size: 50px; font-weight: bold">N/A</div>
+                  <div class="text-value" style="font-size: 50px; font-weight: bold">{{notAnswered}}</div>
                 </div>
               </div>
             </div><!--/.col-->
