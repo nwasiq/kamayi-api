@@ -9,11 +9,11 @@ const BulkCandidate = require('../models/BulkCandidate');
 const Vacancy = require('../models/Vacancy');
 
 /**
- * Need to schedule job 1pm every day according to eastern time (us-east-1)
+ * Need to schedule job 5pm every day according to eastern time (us-east-1)
  * which means that the job will run on 10pm every day according to PK time
- * '13 * * *'
+ * '17 * * *'
  */
-let dailyCCReportSignUpsJob = schedule.scheduleJob('05 22 * * *', async function () {
+let dailyCCReportSignUpsJob = schedule.scheduleJob('12 02 * * *', async function () {
     console.log('Executing CC Signups report');
     try {
         let signupReport = await Candidate.aggregate([
@@ -51,7 +51,7 @@ let dailyCCReportSignUpsJob = schedule.scheduleJob('05 22 * * *', async function
     }
 });
 
-let dailyCCReportCallStatusJobs = schedule.scheduleJob('05 22 * * *', async function () {
+let dailyCCReportCallStatusJobs = schedule.scheduleJob('12 02 * * *', async function () {
     console.log('Executing CC Call status Report');
     try {
         let currentCallStatusCounts = await BulkCandidate.aggregate([
