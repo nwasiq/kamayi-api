@@ -83,7 +83,7 @@ let dailyCCReportCallStatusJobs = schedule.scheduleJob('00 17 * * *', async func
 let dailyPlacementReport = schedule.scheduleJob('00 17 * * *', async function () {
     console.log('Executing Placement status Report');
     try {
-        let vacancyIdList = await Vacancy.find().distinct('_id');
+        let vacancyIdList = await Vacancy.find({ $and: [{ status: { $ne: 'Completed' } }, { status: { $ne: 'Archived' } }]}).distinct('_id');
         for (let j = 0; j < vacancyIdList.length; j++) {
             let vacancy = await Vacancy.findById(vacancyIdList[j]);
             let vacancyStatusReport = await Candidate.aggregate([
