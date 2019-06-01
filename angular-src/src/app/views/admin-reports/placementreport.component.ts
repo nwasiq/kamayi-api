@@ -63,6 +63,7 @@ export class PlacementreportComponent {
 
   selectionChangedpOfficer(val)
   {
+    this.vacancy = 'Select';
     this.statusCountDiv = false;
     let placementId = val.value._id;
     this.busy = this.userService.getOpenVacanciesForPlacementUser(placementId).subscribe(data => {
@@ -95,8 +96,8 @@ export class PlacementreportComponent {
   }
 
   showReport(){
-    
-    if (!this.vacancy) {
+
+    if (!this.vacancy || this.vacancy == 'Select') {
       this._flashMessagesService.show('Please choose a vacancy', { cssClass: 'alert-danger text-center', timeout: 1000 });
       this._flashMessagesService.grayOut(true);
       return
