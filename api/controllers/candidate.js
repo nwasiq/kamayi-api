@@ -29,6 +29,10 @@ exports.create = async function (req, res) {
     }
 }
 
+/**
+ * showing safi shit
+ */
+
 exports.findCriteriaForCandidate = async function (req, res) {
     try{
         let candidate = await Candidate.findById(req.params.candidateId);
