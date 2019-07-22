@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
       <input class="form-control"
         type="search"
         [(ngModel)]="autocompleteInput"
-        #addresstext style="padding: 12px 20px; border-color: #707070; width: 400px"
+        #addresstext style="padding: 12px 20px; border-color: #707070;"
         >
     `,
 })
